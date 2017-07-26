@@ -19,7 +19,7 @@ fi
 DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
 if [ $DB_IS_RUN -ne 2 ]; then
     sh startMysql.sh
-else
+fi
 
 STOCK_IS_RUN=`docker ps --filter "name=stock" --filter "status=running" | wc -l `
 if [ STOCK_IS_RUN -ne 2 ]; then
@@ -30,4 +30,4 @@ if [ STOCK_IS_RUN -ne 2 ]; then
         -p 9999:9999 \
        github.com/pythonstock/stock/tensorflow-py3-stock:latest
     echo "starting stock ..."
-else
+fi
