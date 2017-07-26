@@ -52,17 +52,14 @@ RUN echo '#!/usr/bin/env bash \n\
 /usr/sbin/cron \n\
 jupyter notebook --allow-root --NotebookApp.token='token1234' > /notebooks/jupyter-notebook.log ' > /run_jupyter.sh
 
-
-ENV PYTHONPATH="${PYTHONPATH}:/opt"
-
-#增加python到python路径。
-#解决 pandas 数据插入问题。直接修改数据库驱动 sqlalchemy 修改：statement.replace("INSERT INTO","INSERT IGNORE INTO")
+#1.解决 pandas 数据插入问题。直接修改数据库驱动 sqlalchemy 修改：statement.replace("INSERT INTO","INSERT IGNORE INTO")
 # /usr/local/lib/python3.5/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py
 # 增加了一个 IGNORE 参数。
-RUN ls /opt/ && chmod 755 /opt/jobs/run_* &&  ln -s /opt/jobs/run_1minute /etc/cron.minutely/run_1minute && \
-    ln -s /opt/jobs/run_daily /etc/cron.daily/run_daily && \
-    ln -s /opt/libs/ /usr/lib/python3.5/libs && \
-    echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
+#2.解决torndb在python3下面的问题：
+#http://blog.csdn.net/littlethunder/article/details/8917378
+RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     sed -i -e 's/executemany(statement/executemany(statement.replace\("INSERT INTO","INSERT IGNORE INTO")/g' \
         /usr/local/lib/python3.5/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py && \
-    rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd
+    rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd && \
+    sed -i -e 's/itertools\.izip/zip_longest/g' \
+    /usr/local/lib/python3.5/dist-packages/torndb.py

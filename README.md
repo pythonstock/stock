@@ -30,3 +30,12 @@ https://www.tensorflow.org/
 > web 前端展示框架。
 
 > tf 机器学习文件夹，推测数据。
+
+### 3，应用部署
+
+需要mysql数据库启动。项目放到/data/stock 目录。
+```
+
+    CREATE DATABASE IF NOT EXISTS `stock_data` CHARACTER SET utf8 COLLATE utf8_general_ci;
+```
+使用http://docs.sqlalchemy.org/en/latest/core/reflection.html
