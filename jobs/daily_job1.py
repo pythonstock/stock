@@ -24,7 +24,7 @@ def insert_db(data, table_name, primary_keys):
     if insp.get_primary_keys(table_name) == []:
         with engine.connect() as con:
             # 执行数据库插入数据。
-            con.execute('ALTER IGNORE TABLE `%s` ADD PRIMARY KEY (%s);' % (table_name, primary_keys))
+            con.execute('ALTER TABLE `%s` ADD PRIMARY KEY (%s);' % (table_name, primary_keys))
 
 
 ####### 3.pdf 方法。宏观经济数据
