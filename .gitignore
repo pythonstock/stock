@@ -99,3 +99,13 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+.idea
+*.iml
+.DS_Store
+*.zip
+*.log
+doc
+/bin
+pkg
+*.tmp

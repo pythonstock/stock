@@ -1,0 +1,10 @@
+FROM github.com/pythonstock/stock/tensorflow-py3:latest
+
+
+ADD jobs /opt/jobs
+ADD libs /opt/libs
+#ADD tf /opt/tf
+#ADD web /opt/web
+
+#增加服务端口
+EXPOSE 9999

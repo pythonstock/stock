@@ -1,0 +1,68 @@
+FROM docker.io/tensorflow/tensorflow:latest-py3
+
+RUN echo  "deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse \n\
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse \n\
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse \n\
+deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse \n\
+deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse \n\
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse \n\
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse \n\
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse \n\
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse \n\
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse " > /etc/apt/sources.list
+
+RUN echo  "[global]\n\
+trusted-host=mirrors.aliyun.com\n\
+index-url=http://mirrors.aliyun.com/pypi/simple" > /etc/pip.conf
+
+#timezone
+RUN apt-get update && apt-get install -y tzdata  && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    apt-get clean
+
+#install other lib
+RUN apt-get update && apt-get install -y python3-dev libmysqlclient-dev libhdf5-dev && \
+    pip3 install mysqlclient  && \
+    pip3 install sqlalchemy && \
+    pip3 install requests && \
+    apt-get install -y libxml2-dev && pip3 install lxml bs4 && \
+    pip3 install tushare && \
+    apt-get clean && apt-get remove -y python3-dev libmysqlclient-dev && \
+    pip3 install unittest2 && \
+    pip3 install torndb && \
+    pip3 install bcrypt && \
+    pip3 install --upgrade tables
+
+#add cron sesrvice.
+#每分钟，每小时1分钟，每天1点1分，每月1号执行
+RUN apt-get update && apt-get install -y cron vim && \
+    mkdir -p /etc/cron.minutely && \
+    echo 'SHELL=/bin/sh \n\
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
+# min   hour    day     month   weekday command \n\
+*/1     *       *       *       *       /bin/run-parts /etc/cron.minutely \n\
+1       *       *       *       *       /bin/run-parts /etc/cron.hourly \n\
+1       1       *       *       *       /bin/run-parts /etc/cron.daily \n\
+1       1       1       *       *       /bin/run-parts /etc/cron.monthly \n' > /var/spool/cron/crontabs/root && \
+    chmod 600 /var/spool/cron/crontabs/root
+
+#add cron
+RUN echo '#!/usr/bin/env bash \n\
+/usr/sbin/cron \n\
+jupyter notebook --allow-root --NotebookApp.token='token1234' > /notebooks/jupyter-notebook.log ' > /run_jupyter.sh
+
+
+ENV PYTHONPATH="${PYTHONPATH}:/opt"
+
+#增加python到python路径。
+#解决 pandas 数据插入问题。直接修改数据库驱动 sqlalchemy 修改：statement.replace("INSERT INTO","INSERT IGNORE INTO")
+# /usr/local/lib/python3.5/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py
+# 增加了一个 IGNORE 参数。
+RUN ls /opt/ && chmod 755 /opt/jobs/run_* &&  ln -s /opt/jobs/run_1minute /etc/cron.minutely/run_1minute && \
+    ln -s /opt/jobs/run_daily /etc/cron.daily/run_daily && \
+    ln -s /opt/libs/ /usr/lib/python3.5/libs && \
+    echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
+    sed -i -e 's/executemany(statement/executemany(statement.replace\("INSERT INTO","INSERT IGNORE INTO")/g' \
+        /usr/local/lib/python3.5/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py && \
+    rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd

@@ -6,8 +6,8 @@ http://tushare.org/
 数据分析清洗使用pandas，numpy。
 http://pandas.pydata.org/
 
-数据存储到磁盘上，不使用数据库。存储PyTabe，hdf5格式。
-http://www.pytables.org/
+数据存储到磁盘上，使用Mysql数据库。存储股票数据。
+https://pypi.python.org/pypi/mysqlclient
 
 web框架使用tornado
 http://www.tornadoweb.org/en/stable/
@@ -15,8 +15,6 @@ http://www.tornadoweb.org/en/stable/
 机器学习，当然使用最流行TensorFlow啦。
 https://www.tensorflow.org/
 
-数据展示使用 echarts
-http://echarts.baidu.com/
 
 
 ### 2，架构设计
