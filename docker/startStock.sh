@@ -2,22 +2,22 @@
 
 
 HAS_TF=`docker images tensorflow/tensorflow | wc -l `
-if [ $HAS_TF -ne 2 ];then
+if [ $HAS_TF -lt 2 ];then
     docker pull tensorflow/tensorflow:latest-py3
 fi
 
 HAS_TF_BASE=`docker images github.com/pythonstock/stock/tensorflow-py3 | wc -l `
-if [ $HAS_TF -ne 2 ];then
+if [ $HAS_TF -lt 2 ];then
     sh buildBase.sh
 fi
 
 HAS_TF_BASE=`docker images github.com/pythonstock/stock/tensorflow-py3-stock | wc -l `
-if [ $HAS_TF -ne 2 ];then
+if [ $HAS_TF -lt 2 ];then
     sh buildStock.sh
 fi
 
 DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
-if [ $DB_IS_RUN -ne 2 ]; then
+if [ $DB_IS_RUN -lt 2 ]; then
     sh startMysql.sh
 fi
 
