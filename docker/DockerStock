@@ -9,8 +9,7 @@ ADD web /data/stock/web
 #增加服务端口
 EXPOSE 9999
 
-
-RUN ls /data/stock/ && chmod 755 /data/stock/jobs/run_* &&  \
+RUN mkdir -p /data/logs && ls /data/stock/ && chmod 755 /data/stock/jobs/run_* &&  \
     ln -s /data/stock/jobs/run_1minute /etc/cron.minutely/run_1minute && \
     ln -s /data/stock/jobs/run_daily /etc/cron.daily/run_daily && \
     ln -s /data/stock/libs/ /usr/lib/python3.5/libs
