@@ -62,5 +62,5 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     sed -i -e 's/executemany(statement/executemany(statement.replace\("INSERT INTO","INSERT IGNORE INTO")/g' \
         /usr/local/lib/python3.5/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py && \
     rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd && \
-    sed -i -e 's/itertools\.izip/zip_longest/g' \
+    sed -i -e 's/itertools\.izip/zip/g' \
     /usr/local/lib/python3.5/dist-packages/torndb.py
