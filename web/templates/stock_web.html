@@ -1,0 +1,75 @@
+{% extends "layout/default.html" %}
+
+
+{% block main_content %}
+
+	<h3 class="header smaller lighter blue">{{ stockWeb.name }}</h3>
+
+	<div class="clearfix">
+		<div class="pull-right tableTools-container"></div>
+	</div>
+	<div class="table-header">{{ stockWeb.name }}</div>
+
+	<!-- div.table-responsive -->
+
+	<!-- div.dataTables_borderWrap -->
+	<div>
+		<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>{% for column_name in stockWeb.column_names %}
+					<th>{{ column_name }}</th>
+				{% end %}
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+	jQuery(function($) {
+		var nameParam = $.getUrlVar('name');
+		console.log(nameParam);
+		var myTable = $('#dynamic-table').DataTable( {
+			"bFilter": false,
+			"ordering": false,
+			"processing": true,
+			"serverSide": true,
+			"language": {
+                "url": "/static/js/datatables.Chinese.json"
+            },
+			"ajax": "/stock/api_data?name="+nameParam,
+			"columns": [
+				{% for column in stockWeb.columns %}
+					{ "data": "{{ column }}" },
+				{% end %}
+        	]
+		} );
+
+		$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+		new $.fn.dataTable.Buttons( myTable, {
+			buttons: [
+			  {
+				"extend": "copy",
+				"text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+				"className": "btn btn-white btn-primary btn-bold"
+			  },
+			  {
+				"extend": "csv",
+				"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+				"className": "btn btn-white btn-primary btn-bold"
+			  },
+			  {
+				"extend": "print",
+				"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+				"className": "btn btn-white btn-primary btn-bold",
+				autoPrint: false,
+				message: 'This print was produced using the Print button for DataTables'
+			  }
+			]
+		} );
+		myTable.buttons().container().appendTo( $('.tableTools-container') );
+
+	})
+</script>
+{% end %}

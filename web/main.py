@@ -29,6 +29,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import libs.common as common
+import libs.stock_web_dic as stock_web_dic
 
 # A thread pool to be used for password hashing with bcrypt.
 executor = concurrent.futures.ThreadPoolExecutor(2)
@@ -38,7 +39,8 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", HomeHandler),
-            (r"/api/stock/get_data", GetStockDataHandler),
+            (r"/stock/api_data", GetStockDataHandler),
+            (r"/stock/data", GetStockHtmlHandler),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
@@ -66,32 +68,48 @@ class HomeHandler(BaseHandler):
     def get(self):
         self.render("index.html", entries="hello")
 
+
+# 获得页面数据。
+class GetStockHtmlHandler(BaseHandler):
+    @gen.coroutine
+    def get(self):
+        name = self.get_argument("name", default=None, strip=False)
+        stockWeb = stock_web_dic.STOCK_WEB_DATA_LIST[name]
+        #self.uri_ = ("self.request.url:", self.request.uri)
+        #print self.uri_
+        self.render("stock_web.html", stockWeb=stockWeb, menuUrl=self.request.uri)
+
+
 # 获得股票数据内容。
 class GetStockDataHandler(BaseHandler):
     def get(self):
         self.set_header('Content-Type', 'application/json;charset=UTF-8')
+        # print(self.request.arguments.items())
+        # 获得分页参数。
+        start_param = self.get_argument("start", default=0, strip=False)
+        length_param = self.get_argument("length", default=10, strip=False)
+        print("page param:", length_param, start_param)
 
-        print(self.request.arguments.items())
+        name_param = self.get_argument("name", default=None, strip=False)
+        stock_web = stock_web_dic.STOCK_WEB_DATA_LIST[name_param]
 
-        param_length = self.get_argument("length", default=None, strip=False)
-        print("param_length:",param_length)
-        param_columns = self.get_arguments("columns")
-        print("get param_columns:",param_columns)
-        array = []
-        for j in range(0, 100):
-            array.append([
-                "Charde",
-                "Marshall",
-                "Regional Director",
-                "San Francisco",
-                "16th Oct 08",
-                "$470,600" + str(j)
-            ])
+        print("stockWeb :", stock_web)
+        order_by_sql = ""
+        # 增加排序。
+        if stock_web.order_by != "":
+            order_by_sql = "  ORDER BY " + stock_web.order_by
+        # 查询数据库。
+        sql = " SELECT * FROM %s %s LIMIT %s,%s " % (stock_web.table_name, order_by_sql, start_param, length_param)
+        print("select sql :", sql)
+        stock_web_list = self.db.query(sql)
+        stock_web_size = self.db.query(" SELECT count(1) as num FROM " + stock_web.table_name)
+        print("stockWebList size :", stock_web_size)
+
         obj = {
             "draw": 0,
-            "recordsTotal": 20,
-            "recordsFiltered": 20,
-            "data": array
+            "recordsTotal": stock_web_size[0]["num"],
+            "recordsFiltered": stock_web_size[0]["num"],
+            "data": stock_web_list
         }
         self.write(json.dumps(obj))
 
