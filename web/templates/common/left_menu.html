@@ -60,22 +60,21 @@
                         <b class="arrow fa fa-angle-down"></b>
                     </a>
                     <b class="arrow"></b>
-                    <ul class="submenu">
 
-                        <li class="">
-                            <a href="/stock/data?name=ts_deposit_rate">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                存款利率
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
+                    {% for leftMenuTmp in leftMenu.leftMenuList %}
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="{{ leftMenuTmp.url }}">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    {{ leftMenuTmp.name }}
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+                    {% end %}
 
-                    </ul>
                 </li>
             </ul>
-
-
-
 
         </li>
     </ul><!-- /.nav-list -->

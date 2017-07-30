@@ -69,15 +69,26 @@ class HomeHandler(BaseHandler):
         self.render("index.html", entries="hello")
 
 
+class LeftMenu:
+    def __init__(self, url):
+        self.leftMenuList = stock_web_dic.STOCK_WEB_DATA_LIST
+        self.current_url = url
+
+
+# 获得左菜单。
+def getLeftMenu(url):
+    return LeftMenu(url)
+
+
 # 获得页面数据。
 class GetStockHtmlHandler(BaseHandler):
     @gen.coroutine
     def get(self):
         name = self.get_argument("name", default=None, strip=False)
-        stockWeb = stock_web_dic.STOCK_WEB_DATA_LIST[name]
-        #self.uri_ = ("self.request.url:", self.request.uri)
-        #print self.uri_
-        self.render("stock_web.html", stockWeb=stockWeb, menuUrl=self.request.uri)
+        stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
+        # self.uri_ = ("self.request.url:", self.request.uri)
+        # print self.uri_
+        self.render("stock_web.html", stockWeb=stockWeb, leftMenu=getLeftMenu(self.request.uri))
 
 
 # 获得股票数据内容。
@@ -91,7 +102,7 @@ class GetStockDataHandler(BaseHandler):
         print("page param:", length_param, start_param)
 
         name_param = self.get_argument("name", default=None, strip=False)
-        stock_web = stock_web_dic.STOCK_WEB_DATA_LIST[name_param]
+        stock_web = stock_web_dic.STOCK_WEB_DATA_MAP[name_param]
 
         print("stockWeb :", stock_web)
         order_by_sql = ""
