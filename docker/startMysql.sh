@@ -24,8 +24,9 @@ else
 fi
 
 ####################### 创建数据库 #######################
-sleep 1
-#检查mariadb是否启动，等待1秒钟，再次检查mariadb启动
+echo "wait 5 second , and create stock database ."
+sleep 5
+#检查mariadb是否启动，等待5秒钟，再次检查mariadb启动
 DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
 if [ $DB_IS_RUN -ne 2 ]; then
     echo "mariadb is not running !!!"
