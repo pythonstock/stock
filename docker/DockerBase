@@ -50,6 +50,8 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
 #add cron
 RUN echo '#!/usr/bin/env bash \n\
 /usr/sbin/cron \n\
+/bin/sh /data/stock/jobs/run_init.sh & \n\
+/usr/local/bin/tensorboard --logdir=/data/logs/tensorflow & \n\
 /usr/bin/python3.5 /data/stock/web/main.py --log-file-prefix=/data/logs/tornado.log --log-file-max-size=0 & \n\
 jupyter notebook --allow-root --NotebookApp.token='token1234' > /notebooks/jupyter-notebook.log ' > /run_jupyter.sh
 
