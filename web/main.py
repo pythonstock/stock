@@ -37,17 +37,17 @@ executor = concurrent.futures.ThreadPoolExecutor(2)
 
 class Application(tornado.web.Application):
     def __init__(self):
-        handlers = [
+        handlers = [  # 设置路由
             (r"/", HomeHandler),
             (r"/stock/api_data", GetStockDataHandler),
             (r"/stock/data", GetStockHtmlHandler),
         ]
-        settings = dict(
+        settings = dict(  # 配置
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             xsrf_cookies=True,
-            # RANDOM_VALUE
-            cookie_secret="fc03ad14f21cf81867cbed33109027bb1b670eddf0392cdda8709268a17b58b7",
+            # cookie加密
+            cookie_secret="027bb1b670eddf0392cdda8709268a17b58b7",
             debug=True,
         )
         super(Application, self).__init__(handlers, **settings)
@@ -66,7 +66,7 @@ class BaseHandler(tornado.web.RequestHandler):
 class HomeHandler(BaseHandler):
     @gen.coroutine
     def get(self):
-        self.render("index.html", entries="hello")
+        self.render("index.html", entries="hello", leftMenu=getLeftMenu(self.request.uri))
 
 
 class LeftMenu:

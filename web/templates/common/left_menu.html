@@ -43,7 +43,7 @@
             <b class="arrow"></b>
         </li>
 
-        <li class="">
+        <li class="active open">
             <a href="#" class="dropdown-toggle">
                 <i class="menu-icon fa fa-desktop"></i>
                 <span class="menu-text">
@@ -53,7 +53,7 @@
             </a>
             <b class="arrow"></b>
             <ul class="submenu">
-                <li class="">
+                <li class="active open">
                     <a href="#" class="dropdown-toggle">
                         <i class="menu-icon fa fa-caret-right"></i>
                         宏观经济数据
@@ -63,7 +63,7 @@
 
                     {% for leftMenuTmp in leftMenu.leftMenuList %}
                         <ul class="submenu">
-                            <li class="">
+                            <li>
                                 <a href="{{ leftMenuTmp.url }}">
                                     <i class="menu-icon fa fa-caret-right"></i>
                                     {{ leftMenuTmp.name }}
