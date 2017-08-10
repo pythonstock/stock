@@ -39,3 +39,11 @@ https://www.tensorflow.org/
     CREATE DATABASE IF NOT EXISTS `stock_data` CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 使用http://docs.sqlalchemy.org/en/latest/core/reflection.html
+
+### 3，web使用datatable显示报表
+
+显示货币供应量：
+ ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock-data-01.png)
+
+ 显示存款准备金率：
+ ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock-data-02.png)
