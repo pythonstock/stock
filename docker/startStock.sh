@@ -25,6 +25,7 @@ fi
 STOCK_IS_RUN=`docker ps --filter "name=stock" --filter "status=running" | wc -l `
 if [ $STOCK_IS_RUN -ge 2 ]; then
     docker stop stock && docker rm stock
+    echo "stop & rm stock ..."
 fi
 
 sleep 1
