@@ -46,24 +46,36 @@ def stat_all(tmp_datetime):
     data = ts.get_operation_data(year, quarter)
     # 增加季度字段。
     data = concat_quarter(year, quarter, data)
+    # 处理重复数据，保存最新一条数据。最后一步处理，否则concat有问题。
+    data = data.drop_duplicates(subset="code", keep="last")
+    # 插入数据库。
     common.insert_db(data, "ts_operation_data", False, "`quarter`,`code`")
 
     # 成长能力
     data = ts.get_growth_data(year, quarter)
     # 增加季度字段。
     data = concat_quarter(year, quarter, data)
+    # 处理重复数据，保存最新一条数据。最后一步处理，否则concat有问题。
+    data = data.drop_duplicates(subset="code", keep="last")
+    # 插入数据库。
     common.insert_db(data, "ts_growth_data", False, "`quarter`,`code`")
 
     # 偿债能力
     data = ts.get_debtpaying_data(year, quarter)
     # 增加季度字段。
     data = concat_quarter(year, quarter, data)
+    # 处理重复数据，保存最新一条数据。最后一步处理，否则concat有问题。
+    data = data.drop_duplicates(subset="code", keep="last")
+    # 插入数据库。
     common.insert_db(data, "ts_debtpaying_data", False, "`quarter`,`code`")
 
     # 现金流量
     data = ts.get_cashflow_data(year, quarter)
     # 增加季度字段。
     data = concat_quarter(year, quarter, data)
+    # 处理重复数据，保存最新一条数据。最后一步处理，否则concat有问题。
+    data = data.drop_duplicates(subset="code", keep="last")
+    # 插入数据库。
     common.insert_db(data, "ts_cashflow_data", False, "`quarter`,`code`")
 
 
