@@ -94,8 +94,13 @@ class GetStockHtmlHandler(BaseHandler):
 # 获得股票数据内容。
 class GetStockDataHandler(BaseHandler):
     def get(self):
+        # https://datatables.net/manual/server-side
         self.set_header('Content-Type', 'application/json;charset=UTF-8')
-        # print(self.request.arguments.items())
+        print()
+        for item, val in self.request.arguments.items():
+            # print("order:", item)
+            if str(item).startswith("order"):
+                print("order:", item, ",val:", val)
         # 获得分页参数。
         start_param = self.get_argument("start", default=0, strip=False)
         length_param = self.get_argument("length", default=10, strip=False)
