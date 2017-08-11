@@ -67,21 +67,76 @@ STOCK_WEB_DATA_LIST.append(
     )
 )
 
-#http://tushare.org/fundamental.html
-#参考官网网站的文档，是最全的。
+# http://tushare.org/fundamental.html
+# 参考官网网站的文档，是最全的。
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         type="基本面数据",
         name="股票列表",
         table_name="ts_stock_basics",
         columns=["code", "name", "industry", "area", "pe", "outstanding", "totals", "totalAssets", "liquidAssets",
-                 "fixedAssets", "reserved", "reservedPerShare", "esp", "bvps", "pb", "timeToMarket", "undp",
-                 "perundp", "rev", "profit", "gpr", "npr", "holders"],
-        column_names=["股票代码", "名称", "细分行业", "地区", "市盈率", "流通股本", "总股本(万)", "总资产(万)", "流动资产",
+                 "fixedAssets", "reserved", "reservedPerShare", "esp", "bvps", "pb", "timeToMarket",
+                 "undp", "perundp", "rev", "profit", "gpr", "npr", "holders"],
+        column_names=["代码", "名称", "所属行业", "地区", "市盈率", "流通股本(亿)", "总股本(亿)", "总资产(万)", "流动资产",
                       "固定资产", "公积金", "每股公积金", "每股收益", "每股净资", "市净率", "上市日期", "未分利润",
                       "每股未分配", "收入同比(%)", "利润同比(%)", "毛利率(%)", "净利润率(%)", "股东人数"
                       ],
         order_by=" code asc "
+    )
+)
+
+# 业绩报告（主表）
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        type="基本面数据",
+        name="业绩报告（主表）",
+        table_name="ts_report_data",
+        columns=['quarter', 'code', 'name', 'eps', 'eps_yoy', 'bvps', 'roe', 'epcf', 'net_profits',
+                 'profits_yoy', 'distrib', 'report_date'],
+        column_names=["季度", "代码", "名称", "每股收益", "每股收益同比(%)", "每股净资产", "净资产收益率(%)", "每股现金流量(元)", ",净利润(万元)",
+                      "净利润同比(%)", "分配方案", "发布日期"
+                      ],
+        order_by=" quarter desc "
+    )
+)
+
+# 盈利能力
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        type="基本面数据",
+        name="盈利能力",
+        table_name="ts_profit_data",
+        columns=['quarter', 'code', 'name', 'roe', 'net_profit_ratio', 'gross_profit_rate',
+                 'net_profits', 'eps', 'business_income', 'bips'],
+        column_names=["季度", "代码", "名称", "净资产收益率(%)", "净利率(%)", "毛利率(%)", "净利润(万元)",
+                      "每股收益", "营业收入(百万元)", "每股主营业务收入(元)"],
+        order_by=" quarter desc "
+    )
+)
+
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        type="基本面数据",
+        name="营运能力",
+        table_name="ts_operation_data",
+        columns=['quarter', 'code', 'name', 'arturnover', 'arturndays',
+                 'inventory_turnover', 'inventory_days', 'currentasset_turnover', 'currentasset_days'],
+        column_names=["季度", "代码", "名称", "应收账款周转率(次)", "应收账款周转天数(天)", "存货周转率(次)", "存货周转天数(天)",
+                      "流动资产周转率(次)", "流动资产周转天数(天)"
+                      ],
+        order_by=" quarter desc "
+    )
+)
+
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        type="基本面数据",
+        name="成长能力",
+        table_name="ts_growth_data",
+        columns=['quarter', 'code', 'name', 'mbrg', 'nprg', 'nav', 'targ', 'epsg', 'seg'],
+        column_names=["季度", "代码", "名称", "主营业务收入增长率(%)", "净利润增长率(%)", "净资产增长率", "总资产增长率",
+                      "每股收益增长率", "股东权益增长率"],
+        order_by=" quarter desc  "
     )
 )
 
