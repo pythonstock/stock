@@ -62,6 +62,14 @@ def stat_all(tmp_datetime):
     data = ts.get_ppi()
     common.insert_db(data, "ts_ppi", False, "`month`")
 
+    #############################基本面数据 http://tushare.org/fundamental.html
+    # 股票列表
+    data = ts.get_stock_basics()
+    print(data.index)
+    common.insert_db(data, "ts_stock_basics", True, "`code`")
+
+
+
 
 # main函数入口
 if __name__ == '__main__':

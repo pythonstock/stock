@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 class StockWebData:
-    def __init__(self, name, table_name, columns, column_names, order_by):
+    def __init__(self, type, name, table_name, columns, column_names, order_by):
+        self.type = type
         self.name = name
         self.table_name = table_name
         self.columns = columns
@@ -15,6 +16,7 @@ STOCK_WEB_DATA_LIST = []
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        type="宏观经济数据",
         name="存款利率",
         table_name="ts_deposit_rate",
         columns=["date", "deposit_type", "rate"],
@@ -25,6 +27,7 @@ STOCK_WEB_DATA_LIST.append(
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        type="宏观经济数据",
         name="贷款利率",
         table_name="ts_loan_rate",
         columns=["date", "loan_type", "rate"],
@@ -35,6 +38,7 @@ STOCK_WEB_DATA_LIST.append(
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        type="宏观经济数据",
         name="存款准备金率",
         table_name="ts_rrr",
         columns=["date", "before", "now", "changed"],
@@ -45,6 +49,7 @@ STOCK_WEB_DATA_LIST.append(
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        type="宏观经济数据",
         name="货币供应量",
         table_name="ts_money_supply",
         columns=["month", "m2", "m2_yoy", "m1", "m1_yoy", "m0", "m0_yoy", "cd", "cd_yoy", "qm", "qm_yoy", "ftd",
@@ -59,6 +64,24 @@ STOCK_WEB_DATA_LIST.append(
                       "其他存款(亿元)", "其他存款同比增长(%)"
                       ],
         order_by=" month desc "
+    )
+)
+
+#http://tushare.org/fundamental.html
+#参考官网网站的文档，是最全的。
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        type="基本面数据",
+        name="股票列表",
+        table_name="ts_stock_basics",
+        columns=["code", "name", "industry", "area", "pe", "outstanding", "totals", "totalAssets", "liquidAssets",
+                 "fixedAssets", "reserved", "reservedPerShare", "esp", "bvps", "pb", "timeToMarket", "undp",
+                 "perundp", "rev", "profit", "gpr", "npr", "holders"],
+        column_names=["股票代码", "名称", "细分行业", "地区", "市盈率", "流通股本", "总股本(万)", "总资产(万)", "流动资产",
+                      "固定资产", "公积金", "每股公积金", "每股收益", "每股净资", "市净率", "上市日期", "未分利润",
+                      "每股未分配", "收入同比(%)", "利润同比(%)", "毛利率(%)", "净利润率(%)", "股东人数"
+                      ],
+        order_by=" code asc "
     )
 )
 

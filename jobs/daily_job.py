@@ -15,10 +15,7 @@ import datetime
 ####### 使用 5.pdf，先做 基本面数据 的数据，然后在做交易数据。
 #
 def stat_all(tmp_datetime):
-    # 股票列表
-    data = ts.get_stock_basics()
-    print(data.index)
-    common.insert_db(data, "stock_basics", True, "`code`")
+    print()
 
 
 # main函数入口
