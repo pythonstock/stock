@@ -10,6 +10,8 @@ import sys
 import os
 import MySQLdb
 from sqlalchemy import create_engine
+from sqlalchemy.types import NVARCHAR
+from sqlalchemy import inspect
 
 # 使用环境变量获得数据库。兼容开发模式可docker模式。
 MYSQL_HOST = os.environ.get('MYSQL_HOST') if (os.environ.get('MYSQL_HOST') != None) else "mariadb"
@@ -33,6 +35,28 @@ def conn():
     return db
 
 
+# 定义通用方法函数，插入数据库表，并创建数据库主键，保证重跑数据的时候索引唯一。
+def insert_db(data, table_name, write_index, primary_keys):
+    # 定义engine
+    engine_mysql = engine()
+    # 使用 http://docs.sqlalchemy.org/en/latest/core/reflection.html
+    # 使用检查检查数据库表是否有主键。
+    insp = inspect(engine_mysql)
+    col_name_list = data.columns.tolist()
+    #如果有索引，把索引增加到varchar上面。
+    if write_index:
+        #插入到第一个位置：
+        col_name_list.insert(0, data.index.name)
+    print(col_name_list)
+    data.to_sql(name=table_name, con=engine_mysql, schema=MYSQL_DB, if_exists='append',
+                dtype={col_name: NVARCHAR(length=255) for col_name in col_name_list}, index=write_index)
+    # 判断是否存在主键
+    if insp.get_primary_keys(table_name) == []:
+        with engine_mysql.connect() as con:
+            # 执行数据库插入数据。
+            con.execute('ALTER TABLE `%s` ADD PRIMARY KEY (%s);' % (table_name, primary_keys))
+
+
 # 插入数据。
 def insert(sql):
     with conn() as db:
@@ -41,6 +65,7 @@ def insert(sql):
             db.execute(sql)
         except  Exception as e:
             print("error :", e)
+
 
 # 查询数据
 def select(sql):
@@ -52,6 +77,7 @@ def select(sql):
             print("error :", e)
         result = db.fetchall()
         return result
+
 
 # 计算数量
 def select_count(sql):
@@ -94,4 +120,4 @@ def run_with_args(run_fun):
         tmp_datetime = datetime.datetime.now() + datetime.timedelta(days=-1)
         run_fun(tmp_datetime)
     print("######################### finish %s , use time: %s #########################" % (
-    tmp_datetime_str, time.time() - start))
+        tmp_datetime_str, time.time() - start))
