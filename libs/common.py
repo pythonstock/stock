@@ -43,9 +43,9 @@ def insert_db(data, table_name, write_index, primary_keys):
     # 使用检查检查数据库表是否有主键。
     insp = inspect(engine_mysql)
     col_name_list = data.columns.tolist()
-    #如果有索引，把索引增加到varchar上面。
+    # 如果有索引，把索引增加到varchar上面。
     if write_index:
-        #插入到第一个位置：
+        # 插入到第一个位置：
         col_name_list.insert(0, data.index.name)
     print(col_name_list)
     data.to_sql(name=table_name, con=engine_mysql, schema=MYSQL_DB, if_exists='append',
@@ -54,7 +54,10 @@ def insert_db(data, table_name, write_index, primary_keys):
     if insp.get_primary_keys(table_name) == []:
         with engine_mysql.connect() as con:
             # 执行数据库插入数据。
-            con.execute('ALTER TABLE `%s` ADD PRIMARY KEY (%s);' % (table_name, primary_keys))
+            try:
+                con.execute('ALTER TABLE `%s` ADD PRIMARY KEY (%s);' % (table_name, primary_keys))
+            except  Exception as e:
+                print("################## ADD PRIMARY KEY ERROR :", e)
 
 
 # 插入数据。

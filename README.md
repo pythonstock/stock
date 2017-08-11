@@ -15,6 +15,8 @@ http://www.tornadoweb.org/en/stable/
 机器学习，当然使用最流行TensorFlow啦。
 https://www.tensorflow.org/
 
+tornado web系统
+http://docs.pythontab.com/tornado/introduction-to-tornado/
 
 
 ### 2，架构设计
@@ -38,7 +40,10 @@ https://www.tensorflow.org/
 
     CREATE DATABASE IF NOT EXISTS `stock_data` CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
-使用http://docs.sqlalchemy.org/en/latest/core/reflection.html
+
+使用 :
+
+http://docs.sqlalchemy.org/en/latest/core/reflection.html
 
 ### 3，web使用datatable显示报表
 
@@ -47,3 +52,14 @@ https://www.tensorflow.org/
 
  显示存款准备金率：
  ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock-data-02.png)
+
+### 4，使用pandas处理重复数据
+
+https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.drop_duplicates.html
+
+```python
+    data = ts.get_report_data(year, quarter)
+    # 处理重复数据，保存最新一条数据。
+    data.drop_duplicates(subset="code", keep="last")
+```
+
