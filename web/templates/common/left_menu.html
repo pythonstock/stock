@@ -54,14 +54,22 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="active open">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        宏观经济数据
-                        <b class="arrow fa fa-angle-down"></b>
-                    </a>
-                    <b class="arrow"></b>
 
+                    {% set loopType = "" %}
                     {% for leftMenuTmp in leftMenu.leftMenuList %}
+
+                         {% if leftMenuTmp.type != loopType %}
+
+                            {% set loopType = leftMenuTmp.type %}
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                {{ leftMenuTmp.type }}
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+
+                        {% end %}
+
                         <ul class="submenu">
                             <li>
                                 <a href="{{ leftMenuTmp.url }}">
