@@ -96,11 +96,18 @@ class GetStockDataHandler(BaseHandler):
     def get(self):
         # https://datatables.net/manual/server-side
         self.set_header('Content-Type', 'application/json;charset=UTF-8')
-        print()
+        order_by_column = []
+        order_by_dir = []
+        # 支持多排序。使用shift+鼠标左键。
         for item, val in self.request.arguments.items():
             # print("order:", item)
-            if str(item).startswith("order"):
-                print("order:", item, ",val:", val)
+            if str(item).startswith("order["):
+                print("order:", item, ",val:", val[0])
+            if str(item).startswith("order[") and str(item).endswith("[column]"):
+                order_by_column.append(int(val[0]))
+            if str(item).startswith("order[") and str(item).endswith("[dir]"):
+                order_by_dir.append(val[0].decode("utf-8"))  # bytes转换字符串
+
         # 获得分页参数。
         start_param = self.get_argument("start", default=0, strip=False)
         length_param = self.get_argument("length", default=10, strip=False)
@@ -109,11 +116,21 @@ class GetStockDataHandler(BaseHandler):
         name_param = self.get_argument("name", default=None, strip=False)
         stock_web = stock_web_dic.STOCK_WEB_DATA_MAP[name_param]
 
-        print("stockWeb :", stock_web)
+        # print("stockWeb :", stock_web)
         order_by_sql = ""
         # 增加排序。
-        if stock_web.order_by != "":
-            order_by_sql = "  ORDER BY " + stock_web.order_by
+        if len(order_by_column) != 0 and len(order_by_dir) != 0:
+            order_by_sql = "  ORDER BY "
+            idx = 0
+            for key in order_by_column:
+                # 找到排序字段和dir。
+                col_tmp = stock_web.columns[key]
+                dir_tmp = order_by_dir[idx]
+                if idx != 0:
+                    order_by_sql += " ,%s %s" % (col_tmp, dir_tmp)
+                else:
+                    order_by_sql += " %s %s" % (col_tmp, dir_tmp)
+                idx += 1
         # 查询数据库。
         sql = " SELECT * FROM %s %s LIMIT %s,%s " % (stock_web.table_name, order_by_sql, start_param, length_param)
         print("select sql :", sql)

@@ -63,3 +63,12 @@ https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.drop_dup
     data.drop_duplicates(subset="code", keep="last")
 ```
 
+### 5，增加多字段排序
+
+> 1，点击是单个字段进行排序。
+>
+> 2，按照【shift】，点击多个，即可完成多字段排序。
+> 
+> 3，服务端分页排序，
+
+ ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock-data-03.png)
