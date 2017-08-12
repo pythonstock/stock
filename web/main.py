@@ -60,6 +60,12 @@ class Application(tornado.web.Application):
 class BaseHandler(tornado.web.RequestHandler):
     @property
     def db(self):
+        try:
+            # check every time。
+            self.application.db.query("SELECT 1 ")
+        except Exception as e:
+            print(e)
+            self.application.db.reconnect()
         return self.application.db
 
 
