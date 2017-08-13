@@ -1,7 +1,6 @@
 ### 使用方法
 
-git clone https://github.com/pythonstock/stock.git
-sh stock/docker/startStock.sh
+git clone https://github.com/pythonstock/stock.git && sh stock/docker/startStock.sh
 
 首先会下载相关镜像，然后在进行构建。启动mariadb，并讲stock和mariadb链接起来。依赖 tensorflow/tensorflow:latest-py3 
 和 mariadb:latest 镜像。
