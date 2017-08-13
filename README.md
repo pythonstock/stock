@@ -1,3 +1,19 @@
+### 使用方法
+
+git clone https://github.com/pythonstock/stock.git
+sh stock/docker/startStock.sh
+
+首先会下载相关镜像，然后在进行构建。启动mariadb，并讲stock和mariadb链接起来。依赖 tensorflow/tensorflow:latest-py3 
+和 mariadb:latest 镜像。
+
+访问端口：
+
+> http://localhost:9999 web 
+>
+> http://localhost:8888 jupyter
+>
+> http://localhost:6006 tensorBoard
+
 ### 1，股票系统设计
 
 股票数据抓取框架使用TuShare。
