@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mkdir -p /data/logs
+mkdir -p /data/logs/tensorflow
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 
 echo $DATE >> /data/logs/run_init.log
