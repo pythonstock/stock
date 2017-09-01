@@ -91,8 +91,8 @@ STOCK_WEB_DATA_LIST.append(
         type="基本面数据",
         name="业绩报告（主表）",
         table_name="ts_report_data",
-        columns=['quarter', 'code', 'name', 'eps', 'eps_yoy', 'bvps', 'roe', 'epcf', 'net_profits',
-                 'profits_yoy', 'distrib', 'report_date'],
+        columns=["quarter", "code", "name", "eps", "eps_yoy", "bvps", "roe", "epcf", "net_profits",
+                 "profits_yoy", "distrib", "report_date"],
         column_names=["季度", "代码", "名称", "每股收益", "每股收益同比(%)", "每股净资产", "净资产收益率(%)", "每股现金流量(元)", ",净利润(万元)",
                       "净利润同比(%)", "分配方案", "发布日期"
                       ],
@@ -106,8 +106,8 @@ STOCK_WEB_DATA_LIST.append(
         type="基本面数据",
         name="盈利能力",
         table_name="ts_profit_data",
-        columns=['quarter', 'code', 'name', 'roe', 'net_profit_ratio', 'gross_profit_rate',
-                 'net_profits', 'eps', 'business_income', 'bips'],
+        columns=["quarter", "code", "name", "roe", "net_profit_ratio", "gross_profit_rate",
+                 "net_profits", "eps", "business_income", "bips"],
         column_names=["季度", "代码", "名称", "净资产收益率(%)", "净利率(%)", "毛利率(%)", "净利润(万元)",
                       "每股收益", "营业收入(百万元)", "每股主营业务收入(元)"],
         order_by=" quarter desc "
@@ -119,8 +119,8 @@ STOCK_WEB_DATA_LIST.append(
         type="基本面数据",
         name="营运能力",
         table_name="ts_operation_data",
-        columns=['quarter', 'code', 'name', 'arturnover', 'arturndays',
-                 'inventory_turnover', 'inventory_days', 'currentasset_turnover', 'currentasset_days'],
+        columns=["quarter", "code", "name", "arturnover", "arturndays",
+                 "inventory_turnover", "inventory_days", "currentasset_turnover", "currentasset_days"],
         column_names=["季度", "代码", "名称", "应收账款周转率(次)", "应收账款周转天数(天)", "存货周转率(次)", "存货周转天数(天)",
                       "流动资产周转率(次)", "流动资产周转天数(天)"
                       ],
@@ -133,7 +133,7 @@ STOCK_WEB_DATA_LIST.append(
         type="基本面数据",
         name="成长能力",
         table_name="ts_growth_data",
-        columns=['quarter', 'code', 'name', 'mbrg', 'nprg', 'nav', 'targ', 'epsg', 'seg'],
+        columns=["quarter", "code", "name", "mbrg", "nprg", "nav", "targ", "epsg", "seg"],
         column_names=["季度", "代码", "名称", "主营业务收入增长率(%)", "净利润增长率(%)", "净资产增长率", "总资产增长率",
                       "每股收益增长率", "股东权益增长率"],
         order_by=" quarter desc  "
