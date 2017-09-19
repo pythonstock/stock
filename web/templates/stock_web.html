@@ -5,6 +5,19 @@
 
 	<h3 class="header smaller lighter blue">{{ stockWeb.name }}</h3>
 	<div class="table-header">{{ stockWeb.name }}</div>
+
+
+	<table cellpadding="3" cellspacing="0" border="0" style="width: 67%; margin: 0 auto 2em auto;">
+		<tbody>
+			{% for index,element in enumerate(stockWeb.columns) %}
+			<tr id="filter_col{{ index+1 }}" data-column="{{ index }}">
+				<td>{{ stockWeb.column_names[index] }}</td>
+				<!-- Column - {{ stockWeb.column_names[index] }} - {{ element }} -->
+				<td align="center"><input type="text" class="column_filter" id="col{{ index }}_filter"></td>
+			</tr>
+			{% end %}
+		</tbody>
+	</table>
 	<!-- div.table-responsive -->
 	<!-- div.dataTables_borderWrap -->
 	<div>
@@ -21,11 +34,13 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
+
 	jQuery(function($) {
+
 		var nameParam = $.getUrlVar('name');
 		//console.log(nameParam);
 		var myTable = $('#dynamic-table').DataTable( {
-			"bFilter": false,
+			"bFilter": true,
 			"ordering": true,
 			"processing": true,
 			"serverSide": true,
@@ -40,6 +55,14 @@
 				{% end %}
         	]
 		} );
+
+		$('input.column_filter').on( 'keyup click', function () {
+			var i =  $(this).parents('tr').attr('data-column') ;
+			//console.log($(this).val());
+			myTable.column(i).search(
+				$(this).val()
+			).draw();
+		});
 
 		$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
 
