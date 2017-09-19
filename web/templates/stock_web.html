@@ -62,10 +62,12 @@
 
 		$('input.column_filter').on( 'keyup click', function () {
 			var i =  $(this).parents('div').attr('data-column') ;
-			console.log(i,"val:",$(this).val());
-			myTable.column(i).search(
-				$(this).val()
-			).draw();
+			//console.log(i,"val:",$(this).val());
+			if($(this).val() != ""){
+				myTable.column(i).search(
+					$(this).val()
+				).draw();
+			}
 		});
 
 		$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
