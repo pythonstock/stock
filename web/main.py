@@ -150,9 +150,9 @@ class GetStockDataHandler(BaseHandler):
             logging.info("idx: %s, column: %s, value: %s " % (search_idx, item, val))
             # 查询sql
             if search_idx == 0:
-                search_sql = " WHERE %s = '%s' " % (item, val)
+                search_sql = " WHERE `%s` = '%s' " % (item, val)
             else:
-                search_sql = search_sql + " AND %s = '%s' " % (item, val)
+                search_sql = search_sql + " AND `%s` = '%s' " % (item, val)
             search_idx = search_idx + 1
 
         # print("stockWeb :", stock_web)
@@ -171,9 +171,9 @@ class GetStockDataHandler(BaseHandler):
                     order_by_sql += " cast(%s as double) %s" % (col_tmp, dir_tmp)
                 idx += 1
         # 查询数据库。
-        sql = " SELECT * FROM %s %s %s LIMIT %s , %s " % (
+        sql = " SELECT * FROM `%s` %s %s LIMIT %s , %s " % (
             stock_web.table_name, search_sql, order_by_sql, start_param, length_param)
-        count_sql = " SELECT count(1) as num FROM %s %s " % (stock_web.table_name, search_sql)
+        count_sql = " SELECT count(1) as num FROM `%s` %s " % (stock_web.table_name, search_sql)
 
         logging.info("select sql : " + sql)
         logging.info("count sql : " + count_sql)
