@@ -52,7 +52,7 @@ RUN echo '#!/usr/bin/env bash \n\
 /usr/sbin/cron \n\
 /bin/sh /data/stock/jobs/run_init.sh & \n\
 /usr/local/bin/tensorboard --logdir=/data/logs/tensorflow & \n\
-/usr/bin/python3.5 /data/stock/web/main.py --log-file-prefix=/data/logs/tornado.log --log-file-max-size=0 & \n\
+/usr/bin/python3 /data/stock/web/main.py --log-file-prefix=/data/logs/tornado.log --log-file-max-size=0 & \n\
 jupyter notebook --allow-root --NotebookApp.token='token1234' > /notebooks/jupyter-notebook.log ' > /run_jupyter.sh
 
 #1.解决 pandas 数据插入问题。直接修改数据库驱动 sqlalchemy 修改：statement.replace("INSERT INTO","INSERT IGNORE INTO")
