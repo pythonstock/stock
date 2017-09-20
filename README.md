@@ -1,9 +1,16 @@
-### 使用方法
+### 使用方法（依赖docker）
 
 git clone https://github.com/pythonstock/stock.git && sh stock/docker/startStock.sh
 
-首先会下载相关镜像，然后在进行构建。启动mariadb，并讲stock和mariadb链接起来。依赖 tensorflow/tensorflow:latest-py3 
-和 mariadb:latest 镜像。
+
+
+首先会下载相关镜像，然后在进行构建。启动mariadb，并讲stock和mariadb链接起来。
+
+```
+依赖这两个镜像，tensorflow镜像比较大。
+docker.io/tensorflow/tensorflow:latest-py3
+docker.io/mariadb:latest
+```
 
 访问端口：
 
@@ -84,6 +91,8 @@ https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.drop_dup
 >
 > 2，按照【shift】，点击多个，即可完成多字段排序。
 > 
-> 3，服务端分页排序，
+> 3，服务端分页排序。
+>
+> 4，按照多个字段进行筛选查询。
 
- ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock-data-03.png)
+ ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock-data-04.png)
