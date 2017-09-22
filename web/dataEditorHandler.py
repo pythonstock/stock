@@ -35,7 +35,7 @@ class ImageHandler(tornado.web.RequestHandler):
         self.write(image)
 
 # 获得页面数据。
-class GetChartHtmlHandler(webBase.BaseHandler):
+class GetEditorHtmlHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
         name = self.get_argument("name", default=None, strip=False)
@@ -45,3 +45,17 @@ class GetChartHtmlHandler(webBase.BaseHandler):
         self.render("data_editor.html", stockWeb=stockWeb, leftMenu=webBase.GetLeftMenu(self.request.uri))
 
 
+# 获得页面数据。
+class SaveEditorHandler(webBase.BaseHandler):
+    @gen.coroutine
+    def post(self):
+        action = self.get_argument("action", default=None, strip=False)
+        logging.info(action)
+
+        # 支持多排序。使用shift+鼠标左键。
+        for item, val in self.request.arguments.items():
+            logging.info("item: %s, val: %s" % (item, val) )
+        #stockWeb = data_editor_dic.DATA_EDITOR_MAP[name]
+        # self.uri_ = ("self.request.url:", self.request.uri)
+        # print self.uri_
+        self.write("{\"data\":[{}]}")

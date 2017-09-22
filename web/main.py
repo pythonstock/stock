@@ -39,12 +39,13 @@ class Application(tornado.web.Application):
             (r"/stock/chart", chartHandler.GetChartHtmlHandler),
             (r"/stock/chart/image1", chartHandler.ImageHandler),
             # 数据修改dataEditor。
-            (r"/data/editor", dataEditorHandler.GetChartHtmlHandler),
+            (r"/data/editor", dataEditorHandler.GetEditorHtmlHandler),
+            (r"/data/editor/save", dataEditorHandler.SaveEditorHandler),
         ]
         settings = dict(  # 配置
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            xsrf_cookies=True,
+            xsrf_cookies=False,#True,
             # cookie加密
             cookie_secret="027bb1b670eddf0392cdda8709268a17b58b7",
             debug=True,
@@ -64,6 +65,7 @@ class HomeHandler(webBase.BaseHandler):
 
 
 def main():
+
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
     port = 9999
