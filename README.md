@@ -96,3 +96,23 @@ https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.drop_dup
 > 4，按照多个字段进行筛选查询。
 
  ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock-data-04.png)
+
+
+### 6，增加对字典表通用修改
+
+```
+CREATE TABLE `user_stock` (
+  `code` varchar(255) NOT NULL,
+  `date` varchar(8) NOT NULL,
+  `price` double DEFAULT NULL,
+  `shares` double DEFAULT NULL,
+  `commission_rate` double DEFAULT NULL,
+  `tax_rate` double DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+```
+
+```

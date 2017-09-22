@@ -18,6 +18,8 @@ import tornado.web
 import libs.common as common
 import libs.stock_web_dic as stock_web_dic
 import web.dataTableHandler as dataTableHandler
+import web.chartHandler as chartHandler
+import web.dataEditorHandler as dataEditorHandler
 import web.base as webBase
 import logging
 
@@ -33,6 +35,11 @@ class Application(tornado.web.Application):
             # 使用datatable 展示报表数据模块。
             (r"/stock/api_data", dataTableHandler.GetStockDataHandler),
             (r"/stock/data", dataTableHandler.GetStockHtmlHandler),
+            #chart 数据图
+            (r"/stock/chart", chartHandler.GetChartHtmlHandler),
+            (r"/stock/chart/image1", chartHandler.ImageHandler),
+            # 数据修改dataEditor。
+            (r"/data/editor", dataEditorHandler.GetChartHtmlHandler),
         ]
         settings = dict(  # 配置
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
