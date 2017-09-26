@@ -38,7 +38,7 @@ class ImageHandler(tornado.web.RequestHandler):
 class GetEditorHtmlHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
-        name = self.get_argument("name", default=None, strip=False)
+        name = self.get_argument("table_name", default=None, strip=False)
         stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
         # self.uri_ = ("self.request.url:", self.request.uri)
         # print self.uri_
@@ -51,6 +51,7 @@ class SaveEditorHandler(webBase.BaseHandler):
     def post(self):
         action = self.get_argument("action", default=None, strip=False)
         logging.info(action)
+        name = self.get_argument("table_name", default=None, strip=False)
 
         # 支持多排序。使用shift+鼠标左键。
         for item, val in self.request.arguments.items():
@@ -63,7 +64,7 @@ class SaveEditorHandler(webBase.BaseHandler):
 
         elif action == "edit":
             logging.info("edit")
-
+            update_sql = ""
         elif action == "remove":
             logging.info("remove")
 

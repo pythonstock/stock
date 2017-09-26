@@ -23,7 +23,7 @@ import logging
 class GetStockHtmlHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
-        name = self.get_argument("name", default=None, strip=False)
+        name = self.get_argument("table_name", default=None, strip=False)
         stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
         # self.uri_ = ("self.request.url:", self.request.uri)
         # print self.uri_

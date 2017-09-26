@@ -79,7 +79,7 @@
 				weekdays: [ '星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' ]
 			}
 		},
-        ajax: "/data/editor/save",
+        ajax: "/data/editor/save?table_name={{ stockWeb.table_name }}",
         table: "#dynamic-table",
 			fields: [
 				{% for index,element in enumerate(stockWeb.columns) %}
@@ -91,7 +91,7 @@
 			]
 		} );
 
-		var nameParam = $.getUrlVar('name');
+		var nameParam = $.getUrlVar('table_name');
 		//console.log(nameParam);
 		var myTable = $('#dynamic-table').DataTable( {
 			"dom": "Bfrtip",
