@@ -3,7 +3,7 @@
 
 
 from tornado import gen
-import libs.data_editor_dic as data_editor_dic
+import libs.stock_web_dic as stock_web_dic
 import web.base as webBase
 import logging
 import tornado.web
@@ -39,7 +39,7 @@ class GetEditorHtmlHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
         name = self.get_argument("name", default=None, strip=False)
-        stockWeb = data_editor_dic.DATA_EDITOR_MAP[name]
+        stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
         # self.uri_ = ("self.request.url:", self.request.uri)
         # print self.uri_
         self.render("data_editor.html", stockWeb=stockWeb, leftMenu=webBase.GetLeftMenu(self.request.uri))

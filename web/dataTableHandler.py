@@ -15,7 +15,6 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import libs.stock_web_dic as stock_web_dic
-import libs.data_editor_dic as data_editor_dic
 import web.base as webBase
 import logging
 
@@ -42,10 +41,8 @@ class GetStockDataHandler(webBase.BaseHandler):
 
         name_param = self.get_argument("name", default=None, strip=False)
         type_param = self.get_argument("type", default=None, strip=False)
-        if type_param == "editor":
-            stock_web = data_editor_dic.DATA_EDITOR_MAP[name_param]
-        else:
-            stock_web = stock_web_dic.STOCK_WEB_DATA_MAP[name_param]
+
+        stock_web = stock_web_dic.STOCK_WEB_DATA_MAP[name_param]
 
         # https://datatables.net/manual/server-side
         self.set_header('Content-Type', 'application/json;charset=UTF-8')

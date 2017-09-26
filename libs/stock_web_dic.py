@@ -2,20 +2,25 @@
 # -*- coding: utf-8 -*-
 
 class StockWebData:
-    def __init__(self, type, name, table_name, columns, column_names, order_by):
+    def __init__(self, mode, type, name, table_name, columns, column_names, order_by):
+        self.mode = mode  # 模式，query，editor 查询和编辑模式
         self.type = type
         self.name = name
         self.table_name = table_name
         self.columns = columns
         self.column_names = column_names
         self.order_by = order_by
-        self.url = "/stock/data?name=" + self.table_name
+        if mode == "query":
+            self.url = "/stock/data?name=" + self.table_name
+        elif mode == "editor":
+            self.url = "/data/editor?name=" + self.table_name
 
 
 STOCK_WEB_DATA_LIST = []
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        mode="query",
         type="宏观经济数据",
         name="存款利率",
         table_name="ts_deposit_rate",
@@ -27,6 +32,7 @@ STOCK_WEB_DATA_LIST.append(
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        mode="query",
         type="宏观经济数据",
         name="贷款利率",
         table_name="ts_loan_rate",
@@ -38,6 +44,7 @@ STOCK_WEB_DATA_LIST.append(
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        mode="query",
         type="宏观经济数据",
         name="存款准备金率",
         table_name="ts_rrr",
@@ -49,6 +56,7 @@ STOCK_WEB_DATA_LIST.append(
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        mode="query",
         type="宏观经济数据",
         name="货币供应量",
         table_name="ts_money_supply",
@@ -71,6 +79,7 @@ STOCK_WEB_DATA_LIST.append(
 # 参考官网网站的文档，是最全的。
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        mode="query",
         type="基本面数据",
         name="股票列表",
         table_name="ts_stock_basics",
@@ -88,6 +97,7 @@ STOCK_WEB_DATA_LIST.append(
 # 业绩报告（主表）
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        mode="query",
         type="基本面数据",
         name="业绩报告（主表）",
         table_name="ts_report_data",
@@ -103,6 +113,7 @@ STOCK_WEB_DATA_LIST.append(
 # 盈利能力
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        mode="query",
         type="基本面数据",
         name="盈利能力",
         table_name="ts_profit_data",
@@ -116,6 +127,7 @@ STOCK_WEB_DATA_LIST.append(
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        mode="query",
         type="基本面数据",
         name="营运能力",
         table_name="ts_operation_data",
@@ -130,6 +142,7 @@ STOCK_WEB_DATA_LIST.append(
 
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
+        mode="query",
         type="基本面数据",
         name="成长能力",
         table_name="ts_growth_data",
@@ -137,6 +150,19 @@ STOCK_WEB_DATA_LIST.append(
         column_names=["季度", "代码", "名称", "主营业务收入增长率(%)", "净利润增长率(%)", "净资产增长率", "总资产增长率",
                       "每股收益增长率", "股东权益增长率"],
         order_by=" quarter desc  "
+    )
+)
+
+######################### 最后是editor 配置 #########################
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="editor",
+        type="股票配置管理",
+        name="持仓管理",
+        table_name="user_stock",
+        columns=["code", "date", "price", "shares", "commission_rate", "tax_rate", "comment"],
+        column_names=["股票代码", "日期", "价格", "数量", "佣金", "税率", "备注"],
+        order_by=" code desc "
     )
 )
 
