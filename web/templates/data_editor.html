@@ -6,6 +6,22 @@
 	<h3 class="header smaller lighter blue">{{ stockWeb.name }}</h3>
 	<div class="table-header">{{ stockWeb.name }}</div>
 
+	<div class="row">&nbsp;</div>
+	<div class="row">
+		{% for index,element in enumerate(stockWeb.columns) %}
+		<div class="col-md-4" id="filter_col{{ index+1 }}" data-column="{{ index }}">
+			{{ stockWeb.column_names[index] }} &nbsp;
+			<!-- Column - {{ stockWeb.column_names[index] }} - {{ element }} -->
+			<input type="text" class="column_filter input-group-sm form-control" id="col{{ index }}_filter">
+		</div>
+		{% end %}
+	</div>
+
+	<table cellpadding="3" cellspacing="0" border="0" style="width: 67%; margin: 0 auto 2em auto;">
+		<tbody>
+
+		</tbody>
+	</table>
 	<!-- div.table-responsive -->
 	<!-- div.dataTables_borderWrap -->
 	<div>
@@ -16,7 +32,7 @@
 					<th></th>
 					{% for column_name in stockWeb.column_names %}
 					<th>{{ column_name }}</th>
-				{% end %}
+				    {% end %}
 				</tr>
 			</thead>
 		</table>
@@ -26,8 +42,43 @@
 <script type="text/javascript">
 
 	jQuery(function($) {
-
 		editor = new $.fn.dataTable.Editor( {
+		i18n: {
+			create: {
+				button: "新建",
+				title:  "创建新数据",
+				submit: "保存"
+			},
+			edit: {
+				button: "修改",
+				title:  "修改数据",
+				submit: "保存"
+			},
+			remove: {
+				button: "删除",
+				title:  "删除数据",
+				submit: "删除",
+				confirm: {
+					_: "确定删除 %d 条数据？",
+					1: "确定删除 1 条数据？"
+				}
+			},
+			error: {
+				system: "发生了一系统错误，（更多信息）"
+			},
+			"multi": {
+				"title": "Multiple values",
+				"info": "The selected items contain different values for this input. To edit and set all items for this input to the same value, click or tap here, otherwise they will retain their individual values.",
+				"restore": "Undo changes",
+				"noMulti": "This input can be edited individually, but not part of a group."
+			},
+			datetime: {
+				previous: '前一月',
+				next:     '下一月',
+				months:   [ '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月' ],
+				weekdays: [ '星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' ]
+			}
+		},
         ajax: "/data/editor/save",
         table: "#dynamic-table",
 			fields: [
@@ -55,16 +106,16 @@
 			"ajax": "/stock/api_data?type=editor&name="+nameParam,
 			"columns": [
 				{
-					"data": "DT_RowId",
+					"data": "",
 					"defaultContent": "",
 					"className": 'select-checkbox',
-					"orderable": false
+					"orderable": true
 				},
 				{% for column in stockWeb.columns %}
 					{ "data": "{{ column }}" },
 				{% end %}
         	],
-			select: {
+        	select: {
 				style:    'os',
 				selector: 'td:first-child'
 			},
@@ -75,6 +126,13 @@
 			]
 		} );
 
+		$('input.column_filter').on( 'keyup click', function () {
+			var i =  $(this).parents('div').attr('data-column') ;
+			//console.log(i,"val:",$(this).val());
+			myTable.column(i).search(
+				$(this).val()
+			).draw();
+		});
 	})
 </script>
 {% end %}

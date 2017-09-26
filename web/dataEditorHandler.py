@@ -58,4 +58,13 @@ class SaveEditorHandler(webBase.BaseHandler):
         #stockWeb = data_editor_dic.DATA_EDITOR_MAP[name]
         # self.uri_ = ("self.request.url:", self.request.uri)
         # print self.uri_
+        if action == "create" :
+            logging.info("create")
+
+        elif action == "edit":
+            logging.info("edit")
+
+        elif action == "remove":
+            logging.info("remove")
+
         self.write("{\"data\":[{}]}")

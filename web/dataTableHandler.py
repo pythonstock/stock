@@ -115,6 +115,12 @@ class GetStockDataHandler(webBase.BaseHandler):
         logging.info("select sql : " + sql)
         logging.info("count sql : " + count_sql)
         stock_web_list = self.db.query(sql)
+        for tmp_obj in (stock_web_list):
+            logging.info("####################")
+            if type_param == "editor":
+                tmp_obj["DT_RowId"] = tmp_obj[stock_web.columns[0]]
+            logging.info(tmp_obj)
+
         stock_web_size = self.db.query(count_sql)
         logging.info("stockWebList size : %s " % stock_web_size)
 
