@@ -133,6 +133,31 @@
 				$(this).val()
 			).draw();
 		});
+
+		$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+		new $.fn.dataTable.Buttons( myTable, {
+			buttons: [
+			  {
+				"extend": "copy",
+				"text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+				"className": "btn btn-white btn-primary btn-bold"
+			  },
+			  {
+				"extend": "csv",
+				"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+				"className": "btn btn-white btn-primary btn-bold"
+			  },
+			  {
+				"extend": "print",
+				"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+				"className": "btn btn-white btn-primary btn-bold",
+				autoPrint: false,
+				message: 'This print was produced using the Print button for DataTables'
+			  }
+			]
+		} );
+		myTable.buttons().container().appendTo( $('.tableTools-container') );
 	})
 </script>
 {% end %}
