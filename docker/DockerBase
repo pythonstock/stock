@@ -38,22 +38,22 @@ RUN apt-get update && apt-get install -y python3-dev libmysqlclient-dev libhdf5-
 #每分钟，每小时1分钟，每天1点1分，每月1号执行
 RUN apt-get update && apt-get install -y cron vim && \
     mkdir -p /etc/cron.minutely && \
-    echo 'SHELL=/bin/sh \n\
+    echo "SHELL=/bin/sh \n\
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
 # min   hour    day     month   weekday command \n\
 */1     *       *       *       *       /bin/run-parts /etc/cron.minutely \n\
 1       *       *       *       *       /bin/run-parts /etc/cron.hourly \n\
 1       1       *       *       *       /bin/run-parts /etc/cron.daily \n\
-1       1       1       *       *       /bin/run-parts /etc/cron.monthly \n' > /var/spool/cron/crontabs/root && \
+1       1       1       *       *       /bin/run-parts /etc/cron.monthly \n" > /var/spool/cron/crontabs/root && \
     chmod 600 /var/spool/cron/crontabs/root
 
 #add cron
-RUN echo '#!/usr/bin/env bash \n\
+RUN echo "#!/usr/bin/env bash \n\
 /usr/sbin/cron \n\
 /bin/sh /data/stock/jobs/run_init.sh & \n\
 /usr/local/bin/tensorboard --logdir=/data/logs/tensorflow & \n\
 /usr/bin/python3 /data/stock/web/main.py --log-file-prefix=/data/logs/tornado.log --log-file-max-size=0 & \n\
-jupyter notebook --allow-root --NotebookApp.token='token1234' > /notebooks/jupyter-notebook.log ' > /run_jupyter.sh
+jupyter notebook --allow-root --NotebookApp.token='token1234' > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
 
 #1.解决 pandas 数据插入问题。直接修改数据库驱动 sqlalchemy 修改：statement.replace("INSERT INTO","INSERT IGNORE INTO")
 # /usr/local/lib/python3.5/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py
