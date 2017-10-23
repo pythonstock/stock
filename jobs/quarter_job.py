@@ -15,15 +15,19 @@ import datetime
 # 增加一个新quarter列，用来存储季度信息。
 def concat_quarter(year, quarter, data_array):
     print(len(data_array))
-    quarter_str = str(year) + "-" + str(quarter)
+    quarter_str = str(year) + str("%02d" % quarter)  # 格式化季度数据。2位。
+    # 增加到列。
     quarter_col = pd.DataFrame([quarter_str for _ in range(len(data_array))], columns=["quarter"])
     return pd.concat([quarter_col, data_array], axis=1)
 
 
 #############################基本面数据 http://tushare.org/fundamental.html
 def stat_all(tmp_datetime):
-    year = 2017
-    quarter = 2
+    # 返回 31 天前的数据，做上个季度数据统计。
+    tmp_datetime_1month = tmp_datetime + datetime.timedelta(days=-31)
+    year = int((tmp_datetime_1month).strftime("%Y"))
+    quarter = int(pd.Timestamp(tmp_datetime_1month).quarter)  # 获得上个季度的数据。
+    print("############ year %d, quarter %d", year, quarter)
     # 业绩报告（主表）
     data = ts.get_report_data(year, quarter)
     # 增加季度字段。
