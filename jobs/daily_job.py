@@ -15,7 +15,24 @@ import datetime
 ####### 使用 5.pdf，先做 基本面数据 的数据，然后在做交易数据。
 #
 def stat_all(tmp_datetime):
-    print()
+    datetime_str = (tmp_datetime).strftime("%Y-%m-%d")
+    datetime_int = (tmp_datetime).strftime("%Y%m%d")
+    print("datetime_str:", datetime_str)
+    print("datetime_int:", datetime_int)
+    data = ts.top_list(datetime_str)
+    # 处理重复数据，保存最新一条数据。最后一步处理，否则concat有问题。
+    #
+    if not data is None and len(data) > 0:
+        # 插入数据库。
+        #del data["reason"]
+        data["date"] = datetime_int  # 修改时间成为int类型。
+        data = data.drop_duplicates(subset="code", keep="last")
+        data.head(n=1)
+        common.insert_db(data, "ts_top_list", False, "`date`,`code`")
+    else:
+        print("no data .")
+
+    print(datetime_str)
 
 
 # main函数入口
