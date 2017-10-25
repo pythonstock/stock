@@ -1,6 +1,5 @@
 #FROM docker.io/tensorflow/tensorflow:latest-py3
-# 降级使用python2. 为了兼容 TensorFlow-serving。
-FROM docker.io/tensorflow/tensorflow:latest-devel
+FROM docker.io/tensorflow/tensorflow:latest-devel-py3
 
 RUN echo  "deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse \n\
 deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse \n\
@@ -24,17 +23,17 @@ RUN apt-get update && apt-get install -y tzdata  && \
     apt-get clean
 
 #install other lib
-RUN apt-get update && apt-get install -y python-dev libmysqlclient-dev libhdf5-dev && \
-    pip install mysqlclient  && \
-    pip install sqlalchemy && \
-    pip install requests && \
-    apt-get install -y libxml2-dev && pip install lxml bs4 && \
-    pip install tushare && \
-    apt-get clean && apt-get remove -y python-dev libmysqlclient-dev && \
-    pip install unittest2 && \
-    pip install torndb && \
-    pip install bcrypt && \
-    pip install --upgrade tables
+RUN apt-get update && apt-get install -y python3-dev libmysqlclient-dev libhdf5-dev && \
+    pip3 install mysqlclient  && \
+    pip3 install sqlalchemy && \
+    pip3 install requests && \
+    apt-get install -y libxml2-dev && pip3 install lxml bs4 && \
+    pip3 install tushare && \
+    apt-get clean && apt-get remove -y python3-dev libmysqlclient-dev && \
+    pip3 install unittest2 && \
+    pip3 install torndb && \
+    pip3 install bcrypt && \
+    pip3 install --upgrade tables
 
 #add cron sesrvice.
 #每分钟，每小时1分钟，每天1点1分，每月1号执行
@@ -54,26 +53,26 @@ RUN echo "#!/usr/bin/env bash \n\
 /usr/sbin/cron \n\
 /bin/sh /data/stock/jobs/run_init.sh & \n\
 /usr/local/bin/tensorboard --logdir=/data/logs/tensorflow & \n\
-/usr/bin/python /data/stock/web/main.py --log-file-prefix=/data/logs/tornado.log --log-file-max-size=0 & \n\
+/usr/bin/python3 /data/stock/web/main.py --log-file-prefix=/data/logs/tornado.log --log-file-max-size=0 & \n\
 jupyter notebook --allow-root --NotebookApp.token='token1234' > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
 
 #1.解决 pandas 数据插入问题。直接修改数据库驱动 sqlalchemy 修改：statement.replace("INSERT INTO","INSERT IGNORE INTO")
-# /usr/local/lib/python2.7/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py
+# /usr/local/lib/python3.5/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py
 # 增加了一个 IGNORE 参数。
-#2.解决torndb在python下面的问题：
+#2.解决torndb在python3下面的问题：
 #http://blog.csdn.net/littlethunder/article/details/8917378
 RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     sed -i -e 's/executemany(statement/executemany(statement.replace\("INSERT INTO","INSERT IGNORE INTO")/g' \
-        /usr/local/lib/python2.7/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py && \
+        /usr/local/lib/python3.5/dist-packages/sqlalchemy/dialects/mysql/mysqldb.py && \
     rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd && \
     sed -i -e 's/itertools\.izip/zip/g' \
-    /usr/local/lib/python2.7/dist-packages/torndb.py
+    /usr/local/lib/python3.5/dist-packages/torndb.py
 
 #add tensorflow-model-server
-RUN echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt \
+RUN pip install grpcio && echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt \
     stable tensorflow-model-server tensorflow-model-server-universal" > \
     /etc/apt/sources.list.d/tensorflow-serving.list && \
     curl https://storage.googleapis.com/tensorflow-serving-apt/tensorflow-serving.release.pub.gpg |  apt-key add - && \
-    apt-get update && apt-get install -y tensorflow-model-server && \
-    pip install grpcio tensorflow-serving-client tensorflow-serving-api
+    apt-get update && apt-get install tensorflow-model-server
+
 
