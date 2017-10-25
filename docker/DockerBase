@@ -1,4 +1,5 @@
-FROM docker.io/tensorflow/tensorflow:latest-py3
+#FROM docker.io/tensorflow/tensorflow:latest-py3
+FROM docker.io/tensorflow/tensorflow:latest-devel-py3
 
 RUN echo  "deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse \n\
 deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse \n\
@@ -66,3 +67,5 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd && \
     sed -i -e 's/itertools\.izip/zip/g' \
     /usr/local/lib/python3.5/dist-packages/torndb.py
+
+#add tensorflow-model-server
