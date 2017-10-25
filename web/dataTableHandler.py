@@ -14,9 +14,6 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-import sys
-import os
-sys.path.append(os.path.abspath('/data/stock/libs'))
 import libs.stock_web_dic as stock_web_dic
 import web.base as webBase
 import logging

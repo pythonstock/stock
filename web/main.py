@@ -14,10 +14,6 @@ from tornado import gen
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
-import tornado.web
-import sys
-import os
-sys.path.append(os.path.abspath('/data/stock/libs'))
 import libs.common as common
 import libs.stock_web_dic as stock_web_dic
 import web.dataTableHandler as dataTableHandler
