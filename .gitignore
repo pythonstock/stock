@@ -105,6 +105,7 @@ ENV/
 .DS_Store
 *.zip
 *.log
+*.pyc
 doc
 /bin
 pkg
