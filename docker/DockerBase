@@ -76,6 +76,6 @@ RUN echo "#!/usr/bin/env bash \n\
 nohup /bin/sh /data/stock/jobs/run_init.sh & \n\
 nohup /usr/local/bin/tensorboard --logdir=/data/logs/tensorflow & \n\
 nohup /usr/bin/python /data/stock/web/main.py --log-file-prefix=/data/logs/tornado.log --log-file-max-size=0 & \n\
-jupyter notebook --allow-root --NotebookApp.token='token1234' > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
+jupyter notebook --allow-root --NotebookApp.token='token1234' --notebook-dir=/notebooks > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
 
 ENTRYPOINT ["/run_jupyter.sh"]
