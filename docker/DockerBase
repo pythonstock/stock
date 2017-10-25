@@ -69,3 +69,10 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     /usr/local/lib/python3.5/dist-packages/torndb.py
 
 #add tensorflow-model-server
+RUN pip install grpcio && echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt \
+    stable tensorflow-model-server tensorflow-model-server-universal" > \
+    /etc/apt/sources.list.d/tensorflow-serving.list && \
+    curl https://storage.googleapis.com/tensorflow-serving-apt/tensorflow-serving.release.pub.gpg |  apt-key add - && \
+    apt-get update && apt-get install tensorflow-model-server
+
+
