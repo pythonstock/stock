@@ -19,6 +19,7 @@ import libs.stock_web_dic as stock_web_dic
 import web.dataTableHandler as dataTableHandler
 import web.chartHandler as chartHandler
 import web.dataEditorHandler as dataEditorHandler
+import web.minstServingHandler as minstServingHandler
 import web.base as webBase
 import logging
 
@@ -40,6 +41,10 @@ class Application(tornado.web.Application):
             # 数据修改dataEditor。
             (r"/data/editor", dataEditorHandler.GetEditorHtmlHandler),
             (r"/data/editor/save", dataEditorHandler.SaveEditorHandler),
+
+            # 数据修改dataEditor。
+            (r"/minst_serving", minstServingHandler.GetMinstServingHtmlHandler),
+            (r"/minst_serving/prediction", minstServingHandler.GetPredictionDataHandler),
         ]
         settings = dict(  # 配置
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
