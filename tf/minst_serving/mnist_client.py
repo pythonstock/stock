@@ -45,7 +45,7 @@ tf.app.flags.DEFINE_integer('concurrency', 1,
                             'maximum number of concurrent inference requests')
 tf.app.flags.DEFINE_integer('num_tests', 100, 'Number of test images')
 tf.app.flags.DEFINE_string('server', '', 'PredictionService host:port')
-tf.app.flags.DEFINE_string('work_dir', '/tmp', 'Working directory. ')
+tf.app.flags.DEFINE_string('work_dir', '/data/stock/tf/minst_serving/input_data', 'Working directory. ')
 FLAGS = tf.app.flags.FLAGS
 
 

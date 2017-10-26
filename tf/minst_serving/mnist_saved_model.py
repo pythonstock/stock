@@ -37,7 +37,7 @@ import mnist_input_data
 tf.app.flags.DEFINE_integer('training_iteration', 1000,
                             'number of training iterations.')
 tf.app.flags.DEFINE_integer('model_version', 1, 'version number of the model.')
-tf.app.flags.DEFINE_string('work_dir', '/tmp', 'Working directory.')
+tf.app.flags.DEFINE_string('work_dir', '/data/stock/tf/minst_serving/input_data', 'Working directory.')
 FLAGS = tf.app.flags.FLAGS
 
 
@@ -65,7 +65,9 @@ def main(_):
   w = tf.Variable(tf.zeros([784, 10]))
   b = tf.Variable(tf.zeros([10]))
   sess.run(tf.global_variables_initializer())
-  y = tf.nn.softmax(tf.matmul(x, w) + b, name='y')
+  # 概率论登场，把softmax转换为, normalize的概率值，
+  #http://www.bigdataway.net/node/3379
+  y = tf.nn.softmax(tf.matmul(x, w) + b, name='y') #softmax 函数
   cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
   train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
   values, indices = tf.nn.top_k(y, 10)
