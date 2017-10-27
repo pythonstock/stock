@@ -9,6 +9,6 @@ fi
 
 ps -ef | grep tensorflow_model_server | awk '{print$2}' | xargs kill -9
 
-tensorflow_model_server --model_name=mnist  --model_base_path=/data/mnist_model
+nohup tensorflow_model_server --model_name=mnist  --model_base_path=/data/mnist_model &
 
 echo "start tf server "
