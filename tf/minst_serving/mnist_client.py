@@ -13,7 +13,8 @@
 # limitations under the License.
 # ==============================================================================
 
-#!/usr/bin/env python2.7
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 
 """A client that talks to tensorflow_model_server loaded with mnist model.
 

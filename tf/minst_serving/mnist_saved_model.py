@@ -13,8 +13,10 @@
 # limitations under the License.
 # ==============================================================================
 
-#!/usr/bin/env python2.7
-r"""Train and export a simple Softmax Regression TensorFlow model.
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
+"""Train and export a simple Softmax Regression TensorFlow model.
 
 The model is from the TensorFlow "MNIST For ML Beginner" tutorial. This program
 simply follows all its training instructions, and uses TensorFlow SavedModel to
@@ -65,9 +67,8 @@ def main(_):
   w = tf.Variable(tf.zeros([784, 10]))
   b = tf.Variable(tf.zeros([10]))
   sess.run(tf.global_variables_initializer())
-  # 概率论登场，把softmax转换为, normalize的概率值，
   #http://www.bigdataway.net/node/3379
-  y = tf.nn.softmax(tf.matmul(x, w) + b, name='y') #softmax 函数
+  y = tf.nn.softmax(tf.matmul(x, w) + b, name='y') #softmax
   cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
   train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
   values, indices = tf.nn.top_k(y, 10)
