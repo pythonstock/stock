@@ -4,36 +4,36 @@
 {% block main_content %}
 
 	<h3 class="header smaller lighter blue">minst serving 演示</h3>
-	<div class="row">
-		<form class="form-horizontal" role="form">
-			<div class="form-group">
-				<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Text Field </label>
-
-				<div class="col-sm-9">
-					<input type="text" id="form-field-1" placeholder="Username" class="col-xs-10 col-sm-5">
-				</div>
-			</div>
-
-			<div class="clearfix form-actions">
-				<div class="col-md-offset-3 col-md-9">
-					<button class="btn btn-info" type="button">
-						<i class="ace-icon fa fa-check bigger-110"></i>
-						Submit
-					</button>
-
-					&nbsp; &nbsp; &nbsp;
-					<button class="btn" type="reset">
-						<i class="ace-icon fa fa-undo bigger-110"></i>
-						Reset
-					</button>
-				</div>
-			</div>
-
-		</form>
+	<div class="row" style="width:400px;">
+		{% for image in image_array %}
+				  <div class="col-md-2">
+					  <img src="{{ image }}" alt="" width="50" class="minst_img" height="50" style="1px solid #e1e4e5;cursor: pointer;">
+				  </div>
+		{% end %}
 	</div>
 
+	<h3 class="header smaller lighter blue">计算结果：</h3>
+	<h2 id="prediction_text">1</h2>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
-
+jQuery(function($) {
+	$(".minst_img").click(
+		//提交数据
+		function () {
+			img_url = $(this).attr("src")
+			console.log("here",);
+			//
+			$.ajax({
+			   type: "GET",
+			   url: "/minst_serving/prediction",
+			   data: "img_url="+img_url,
+			   success: function(msg){
+				 console.log( "prediction : " + msg );
+				 $("#prediction_text").html(msg);
+			   }
+			});
+		}
+	);
+});
 </script>
 {% end %}
