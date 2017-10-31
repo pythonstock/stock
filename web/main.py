@@ -45,6 +45,7 @@ class Application(tornado.web.Application):
             # 数据修改dataEditor。
             (r"/minst_serving", minstServingHandler.GetMinstServingHtmlHandler),
             (r"/minst_serving/prediction", minstServingHandler.GetPredictionDataHandler),
+            (r"/minst_serving/prediction2", minstServingHandler.GetPrediction2DataHandler),
         ]
         settings = dict(  # 配置
             template_path=os.path.join(os.path.dirname(__file__), "templates"),

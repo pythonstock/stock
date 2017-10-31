@@ -8,7 +8,7 @@
 
 		<div class="row clearfix">
                 <div class="col-md-6 column">
-					<canvas id="the_stage" width="400" height="400">your browser don't support canvas!</canvas>
+					<canvas id="the_stage" width="280" height="280">your browser don't support canvas!</canvas>
 					<div>
 						<button type="button" class="btn btn-default butt" onclick="clearCanvas()"><strong>删除</strong></button>
 						<button type="button" class="btn btn-default butt" id="recognize" onclick="processImg()"><strong>识别</strong></button>
@@ -46,38 +46,16 @@ jQuery(function($) {
 	$("#recognize").click(
 		//提交数据
 		function () {
-			img_url = $(this).attr("src")
-			console.log("here",);
-			//
-			$.ajax({
-			   type: "GET",
-			   url: "/minst_serving/prediction",
-			   data: "img_url="+img_url,
-			   success: function(msg){
-				 console.log( "prediction : " + msg );
-				 $("#prediction_text").html(msg);
-			   }
+			$("#rec_result").html("connecting...");
+			var scribbler = document.getElementById ("the_stage");
+			var imageData =  scribbler.toDataURL('image/png');
+			var dataTemp = imageData.substr(22);
+
+			var sendPackage = {"id": "1", "txt": dataTemp};
+			$.post("/minst_serving/prediction2", sendPackage, function(msg){
+				$("#rec_result").html(msg);
 			});
 		}
-
-		document.getElementById("rec_result").innerHTML = "connecting...";
-
-		var scribbler = document.getElementById ("the_stage");
-		var imageData =  scribbler.toDataURL('image/png');
-		var dataTemp = imageData.substr(22);
-
-		var sendPackage = {"id": "1", "txt": dataTemp};
-		$.post("/process", sendPackage, function(data){
-			data = JSON.parse(data);
-			if(data["status"] == 1)
-			{
-				document.getElementById("rec_result").innerHTML = data["result"];
-			}
-			else
-			{
-				document.getElementById("rec_result").innerHTML = "failed";
-			}
-		});
 	);
 
 	$(".minst_img").click(

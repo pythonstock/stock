@@ -14,6 +14,8 @@ import web.base as webBase
 import logging
 import numpy as np
 from PIL import Image
+import base64
+import StringIO
 
 work_dir = "/data/stock/tf/minst_serving/input_data"
 out_dir = "/static/img/minst_serving/%s.bmp"
@@ -39,8 +41,31 @@ class GetPredictionDataHandler(webBase.BaseHandler):
         # 获得分页参数。
         img_url = self.get_argument("img_url", default=0, strip=False)
         print(img_url)
+        img_obj = Image.open("/data/stock/web" + img_url)
+        print("img_obj", img_obj)
         server = "0.0.0.0:8500"
-        prediction = do_inference(server, img_url)
+        prediction = do_inference(server, img_obj)
+        print('######### prediction : ', prediction)
+        self.write(json.dumps(prediction))
+
+
+# 获得股票数据内容。
+class GetPrediction2DataHandler(webBase.BaseHandler):
+    def post(self):
+        # 获得分页参数。
+        imgStr = self.get_argument("txt", default="", strip=False)
+        # imgStr.replace(" ", "+")
+        imgStr = base64.b64decode(imgStr)
+        print("imgStr:", type(imgStr))
+        image = Image.open(StringIO.StringIO(imgStr))
+        image.thumbnail((28, 28), Image.ANTIALIAS)
+        image = image.convert('L')
+        image.save(work_dir + "/web-tmp.bmp", format="BMP") #保存看看，是否
+        print(image)
+        # img_url = self.get_argument("img_url", default=0, strip=False)
+        # print(img_url)
+        server = "0.0.0.0:8500"
+        prediction = do_inference(server, image)
         print('######### prediction : ', prediction)
         self.write(json.dumps(prediction))
 
@@ -64,16 +89,14 @@ stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
 
 
 # 调用 grpc 代码，将图片转换成数组，让后放到 grpc 调用。
-def do_inference(hostport, img_file):
+def do_inference(hostport, img_obj):
     request = predict_pb2.PredictRequest()
     request.model_spec.name = 'mnist'
     request.model_spec.signature_name = 'predict_images'
     # image, label = test_data_set.next_batch(1)
     label = np.array([1], dtype=np.uint8)
 
-    img = Image.open("/data/stock/web" + img_file)
-
-    img_array = np.array(img, dtype=np.float32)
+    img_array = np.array(img_obj, dtype=np.float32)
     img_array = img_array.reshape(img_array.size)
 
     # 新方法。很接近原始数据。
