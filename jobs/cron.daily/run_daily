@@ -3,3 +3,6 @@
 mkdir -p /data/logs
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 echo $DATE >> /data/logs/daily.log
+
+#增加每日，龙虎榜数据。
+python /data/stock/jobs/daily_job.py >> /data/logs/daily.log
