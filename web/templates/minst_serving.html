@@ -23,7 +23,7 @@
 	<h3 class="header smaller lighter blue">测试图片识别演示</h3>
 	<div class="row clearfix" style="width:400px;">
 		{% for image in image_array %}
-				  <div class="col-md-2">
+				  <div class="col-md-2" style="margin-top: 15px;">
 					  <img src="{{ image }}" alt="" width="50" class="minst_img" height="50" style="1px solid #e1e4e5;cursor: pointer;">
 				  </div>
 		{% end %}
@@ -33,7 +33,7 @@
 			<h2 id="prediction_text">"-1"</h2>
     </div>
 <!-- inline scripts related to this page -->
-<script src="/static/js/draw.js"></script>
+<script src="/static/js/mnist-draw.js"></script>
 <style>
 	#the_stage {
     border: 1px solid #999;

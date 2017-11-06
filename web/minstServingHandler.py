@@ -61,7 +61,7 @@ class GetPrediction2DataHandler(webBase.BaseHandler):
         image = Image.open(StringIO.StringIO(imgStr))
         image.thumbnail((28, 28), Image.ANTIALIAS)
         image = image.convert('L')
-        #image = ImageOps.invert(image)
+        image = ImageOps.invert(image)
         image.save(work_dir + "/web-tmp.bmp", format="BMP") #保存看看，是否
         #print(image)
         # img_url = self.get_argument("img_url", default=0, strip=False)
