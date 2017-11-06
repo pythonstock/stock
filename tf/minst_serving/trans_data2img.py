@@ -12,7 +12,8 @@ out_dir = "/data/stock/web/static/img/minst_serving/%s.bmp"
 # https://pillow.readthedocs.io/en/3.0.0/reference/Image.html
 def trans_image(idx, img_arr):
     # https://docs.scipy.org/doc/numpy/reference/routines.math.html
-    img_arr = np.add(np.multiply(255.0, img_arr), 255.0)
+    #img_arr = np.add(np.multiply(255.0, img_arr), 255.0)
+    img_arr = np.multiply(255.0, img_arr)  # 图像化，直接乘以255
     img_arr = np.array(img_arr, dtype=np.uint8)  # 转换成0-255的区间数据
     img_arr = img_arr.reshape(28, 28)  # 转换成28*28的灰度图形。
     # print(img_arr)

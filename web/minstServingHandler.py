@@ -14,6 +14,7 @@ import web.base as webBase
 import logging
 import numpy as np
 from PIL import Image
+from PIL import ImageOps
 import base64
 import StringIO
 
@@ -60,8 +61,9 @@ class GetPrediction2DataHandler(webBase.BaseHandler):
         image = Image.open(StringIO.StringIO(imgStr))
         image.thumbnail((28, 28), Image.ANTIALIAS)
         image = image.convert('L')
+        #image = ImageOps.invert(image)
         image.save(work_dir + "/web-tmp.bmp", format="BMP") #保存看看，是否
-        print(image)
+        #print(image)
         # img_url = self.get_argument("img_url", default=0, strip=False)
         # print(img_url)
         server = "0.0.0.0:8500"
@@ -100,7 +102,7 @@ def do_inference(hostport, img_obj):
     img_array = img_array.reshape(img_array.size)
 
     # 新方法。很接近原始数据。
-    img_new_arr = np.divide(np.mod(img_array, 255), 255.0)
+    img_new_arr = np.divide(img_array, 255.0)
     # img_new_arr = np.divide(np.subtract(255.0, img_array), 255.0)
     # print(img_new_arr)
 
