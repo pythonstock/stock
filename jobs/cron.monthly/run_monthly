@@ -1,0 +1,6 @@
+#!/bin/sh
+
+mkdir -p /data/logs
+DATE=`date +%Y-%m-%d:%H:%M:%S`
+echo $DATE >> /data/logs/monthly.log
+
