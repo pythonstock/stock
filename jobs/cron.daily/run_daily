@@ -6,3 +6,6 @@ echo $DATE >> /data/logs/daily.log
 
 #增加每日，龙虎榜数据。
 python /data/stock/jobs/daily_job.py >> /data/logs/daily.log
+
+#增加获得今日全部数据和大盘数据
+python /data/stock/jobs/18h_daily_job.py >> /data/logs/daily.log

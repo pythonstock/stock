@@ -180,6 +180,34 @@ STOCK_WEB_DATA_LIST.append(
         order_by=" date desc  "
     )
 )
+#实时行情
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="每日数据",
+        name="每日股票数据",
+        table_name="ts_today_all",
+        columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
+                 "turnoverratio", "amount", "per", "pb", "mktcap", "nmc"],
+        column_names=["日期", "代码", "名称", "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
+                      "换手率", "成交金额", "市盈率", "市净率", "总市值", "流通市值"],
+        primary_key=[],
+        order_by=" date desc  "
+    )
+)
+#大盘指数行情列表
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="每日数据",
+        name="每日大盘指数行情",
+        table_name="ts_index_all",
+        columns=["date", "code", "name", "change", "open", "preclose", "close", "high", "low", "volume", "amount"],
+        column_names=["日期", "代码", "名称", "涨跌幅", "开盘点位", "昨日收盘点位", "收盘点位", "最高点位", "最低点位", "成交量(手)", "成交金额（亿元）"],
+        primary_key=[],
+        order_by=" date desc  "
+    )
+)
 
 ######################### 最后是editor 配置 #########################
 STOCK_WEB_DATA_LIST.append(
