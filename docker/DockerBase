@@ -65,9 +65,9 @@ RUN apt-get update && apt-get install -y cron vim && \
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
 # min   hour    day     month   weekday command \n\
 */1     *       *       *       *       /bin/run-parts /etc/cron.minutely \n\
-1       *       *       *       *       /bin/run-parts /etc/cron.hourly \n\
-1       1       *       *       *       /bin/run-parts /etc/cron.daily \n\
-1       1       1       *       *       /bin/run-parts /etc/cron.monthly \n" > /var/spool/cron/crontabs/root && \
+10       *       *       *       *       /bin/run-parts /etc/cron.hourly \n\
+20       16       *       *       *       /bin/run-parts /etc/cron.daily \n\
+30       17       1,10,20       *       *       /bin/run-parts /etc/cron.monthly \n" > /var/spool/cron/crontabs/root && \
     chmod 600 /var/spool/cron/crontabs/root
 
 #add cron
