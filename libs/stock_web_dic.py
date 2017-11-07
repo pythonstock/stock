@@ -196,8 +196,17 @@ STOCK_WEB_DATA_LIST.append(
 )
 
 STOCK_WEB_DATA_MAP = {}
+WEB_EASTMONEY_URL = "http://quote.eastmoney.com/%s.html"
 # 再拼接成Map使用。
 for tmp in STOCK_WEB_DATA_LIST:
+    try:
+        # 增加columns 字段中的【东方财富】
+        tmp_idx = tmp.columns.index("code")
+        tmp.column_names.insert(tmp_idx + 1, "东方财富")
+    except  Exception as e:
+        print("error :", e)
+
     STOCK_WEB_DATA_MAP[tmp.table_name] = tmp
+
     if len(tmp.columns) != len(tmp.column_names):
         print(u"error:", tmp.table_name, ",columns:", len(tmp.columns), ",column_names:", len(tmp.column_names))

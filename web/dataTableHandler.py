@@ -18,6 +18,11 @@ import libs.stock_web_dic as stock_web_dic
 import web.base as webBase
 import logging
 
+WEB_EASTMONEY_URL = u"<a class='btn btn-info btn-xs' href='http://quote.eastmoney.com/%s.html' target='_blank'>查看</a>"
+
+
+# WEB_EASTMONEY_URL = "http://quote.eastmoney.com/%s.html"
+
 
 # 获得页面数据。
 class GetStockHtmlHandler(webBase.BaseHandler):
@@ -27,6 +32,19 @@ class GetStockHtmlHandler(webBase.BaseHandler):
         stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
         # self.uri_ = ("self.request.url:", self.request.uri)
         # print self.uri_
+        try:
+            # 增加columns 字段中的【东方财富】
+            tmp_idx = stockWeb.column_names.index("东方财富")
+            logging.info(tmp_idx)
+            try:
+                # 防止重复插入数据。可能会报错。
+                stockWeb.columns.remove("eastmoney_url")
+            except Exception as e:
+                print("error :", e)
+            stockWeb.columns.insert(tmp_idx, "eastmoney_url")
+        except Exception as e:
+            print("error :", e)
+        logging.info("####################GetStockHtmlHandlerEnd")
         self.render("stock_web.html", stockWeb=stockWeb, leftMenu=webBase.GetLeftMenu(self.request.uri))
 
 
@@ -112,11 +130,23 @@ class GetStockDataHandler(webBase.BaseHandler):
         logging.info("select sql : " + sql)
         logging.info("count sql : " + count_sql)
         stock_web_list = self.db.query(sql)
+
         for tmp_obj in (stock_web_list):
             logging.info("####################")
             if type_param == "editor":
                 tmp_obj["DT_RowId"] = tmp_obj[stock_web.columns[0]]
-            logging.info(tmp_obj)
+            # logging.info(tmp_obj)
+            try:
+                # 增加columns 字段中的【东方财富】
+                tmp_idx = stock_web.column_names.index("东方财富")
+                tmp_url = WEB_EASTMONEY_URL % tmp_obj["code"]
+                tmp_obj["eastmoney_url"] = tmp_url
+                logging.info(tmp_idx)
+                logging.info(tmp_obj["eastmoney_url"])
+                # logging.info(type(tmp_obj))
+                # tmp.column_names.insert(tmp_idx, "东方财富")
+            except Exception as e:
+                print("error :", e)
 
         stock_web_size = self.db.query(count_sql)
         logging.info("stockWebList size : %s " % stock_web_size)
@@ -127,6 +157,6 @@ class GetStockDataHandler(webBase.BaseHandler):
             "recordsFiltered": stock_web_size[0]["num"],
             "data": stock_web_list
         }
-        #logging.info("####################")
-        #logging.info(obj)
+        # logging.info("####################")
+        # logging.info(obj)
         self.write(json.dumps(obj))
