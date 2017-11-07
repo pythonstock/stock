@@ -100,7 +100,7 @@ def select_count(sql):
 
 # 通用函数。获得日期参数。
 def run_with_args(run_fun):
-    tmp_datetime_show = datetime.datetime.now() + datetime.timedelta(days=-1)
+    tmp_datetime_show = datetime.datetime.now()  # 修改成默认是当日执行 + datetime.timedelta()
     tmp_datetime_str = tmp_datetime_show.strftime("%Y-%m-%d %H:%M:%S.%f")
     print("\n\n######################### begin run %s  #########################" % tmp_datetime_str)
     start = time.time()
