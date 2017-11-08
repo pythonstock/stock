@@ -120,7 +120,7 @@ def run_with_args(run_fun):
         tmp_datetime = datetime.datetime(int(tmp_year), int(tmp_month), int(tmp_day))
         run_fun(tmp_datetime)
     else:
-        tmp_datetime = datetime.datetime.now() + datetime.timedelta(days=-1)
-        run_fun(tmp_datetime)
+        # tmp_datetime = datetime.datetime.now() + datetime.timedelta(days=-1)
+        run_fun(tmp_datetime_show)  # 使用当前时间
     print("######################### finish %s , use time: %s #########################" % (
         tmp_datetime_str, time.time() - start))
