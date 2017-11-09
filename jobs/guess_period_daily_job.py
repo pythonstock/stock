@@ -51,6 +51,7 @@ def stat_index_all(tmp_datetime):
     stock_guess = stock_guess.apply(apply_guess, axis=1)  # , axis=1)
     # stock_guess.astype('float32', copy=False)
     stock_guess.drop('date', axis=1, inplace=True)  # 删除日期字段，然后和原始数据合并。
+    stock_guess = stock_guess.round(2)  # 数据保留2位小数
     print(stock_guess["wave_base"])
 
     data_new = pd.merge(data, stock_guess, on=['code'], how='left')
@@ -58,6 +59,7 @@ def stat_index_all(tmp_datetime):
 
     # 使用pandas 函数 ： https://pandas.pydata.org/pandas-docs/stable/api.html#id4
     data_new["up_rate"] = (data_new["trade"].sub(data_new["wave_mean"])).div(data_new["wave_crest"]).mul(100)
+    data_new["up_rate"] = data_new["up_rate"].round(2)  # 数据保留2位小数
     print(data_new.head())
     # data_new["down_rate"] = (data_new["trade"] - data_new["wave_mean"]) / data_new["wave_base"]
     common.insert_db(data_new, "guess_period_daily", False, "`date`,`code`")
