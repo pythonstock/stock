@@ -9,3 +9,6 @@ python /data/stock/jobs/daily_job.py >> /data/logs/daily.log
 
 #增加获得今日全部数据和大盘数据
 python /data/stock/jobs/18h_daily_job.py >> /data/logs/daily.log
+
+#使用波峰波谷方法猜想股票涨跌
+python /data/stock/jobs/guess_period_daily_job.py >> /data/logs/daily.log

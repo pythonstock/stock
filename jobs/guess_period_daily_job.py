@@ -96,10 +96,10 @@ def apply_guess(tmp):
     wave_base = heapq.nsmallest(5, enumerate(arr), key=lambda x: x[1])
     wave_base_mean = pd.DataFrame(wave_base).mean()
     # 输出数据
-    print("##############")
+    #print("##############")
     tmp = {"code": code, "wave_mean": wave_mean,
            "wave_crest": wave_crest_mean[1], "wave_base": wave_base_mean[1]}
-    print(tmp)
+    #print(tmp)
     #     code      date wave_base wave_crest wave_mean 顺序必须一致。返回的是行数据，然后填充。
     return list([code, date, wave_base_mean[1], wave_crest_mean[1], wave_mean])
 
