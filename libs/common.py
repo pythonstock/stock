@@ -113,14 +113,23 @@ def run_with_args(run_fun):
         for i in range(0, loop):
             # 循环插入多次数据，重复跑历史数据使用。
             tmp_datetime_new = tmp_datetime + datetime.timedelta(days=i)
-            run_fun(tmp_datetime_new)
+            try:
+                run_fun(tmp_datetime_new)
+            except Exception as e:
+                print("error :", e)
     elif len(sys.argv) == 2:
         # python xxx.py 2017-07-01
         tmp_year, tmp_month, tmp_day = sys.argv[1].split("-")
         tmp_datetime = datetime.datetime(int(tmp_year), int(tmp_month), int(tmp_day))
-        run_fun(tmp_datetime)
+        try:
+            run_fun(tmp_datetime)
+        except Exception as e:
+            print("error :", e)
     else:
         # tmp_datetime = datetime.datetime.now() + datetime.timedelta(days=-1)
-        run_fun(tmp_datetime_show)  # 使用当前时间
+        try:
+            run_fun(tmp_datetime_show)  # 使用当前时间
+        except Exception as e:
+            print("error :", e)
     print("######################### finish %s , use time: %s #########################" % (
         tmp_datetime_str, time.time() - start))
