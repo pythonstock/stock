@@ -33,12 +33,13 @@ def stat_index_all(tmp_datetime):
             SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
                 `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`, `nmc` 
             FROM stock_data.ts_today_all WHERE `date` = %s and `trade` > 0 and `open` > 0 and trade <= 20 
-                and `code` not like %s and `code` not like %s and `name` not like %s 
+                and `code` not like %s and `code` not like %s and `name` not like %s limit 1
             """
     print(sql_1)
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, '002%', '300%', '%st%'])
     data = data.drop_duplicates(subset="code", keep="last")
-    data["trade"] = data["trade"].astype('float32', copy=False)
+    print(data["trade"])
+    data["trade_float32"] = data["trade"].astype('float32', copy=False)
     print(len(data))
     print("########data[trade]########:")
     print(data["trade"])
@@ -58,9 +59,10 @@ def stat_index_all(tmp_datetime):
     print("#############")
 
     # 使用pandas 函数 ： https://pandas.pydata.org/pandas-docs/stable/api.html#id4
-    data_new["up_rate"] = (data_new["trade"].sub(data_new["wave_mean"])).div(data_new["wave_crest"]).mul(100)
+    data_new["up_rate"] = (data_new["trade_float32"].sub(data_new["wave_mean"])).div(data_new["wave_crest"]).mul(100)
     data_new["up_rate"] = data_new["up_rate"].round(2)  # 数据保留2位小数
-    data_new["trade"] = data_new["trade"].round(2)  # 数据保留2位小数
+    data_new.drop('trade_float32', axis=1, inplace=True)  # 删除计算字段。
+
     print(data_new.head())
     # data_new["down_rate"] = (data_new["trade"] - data_new["wave_mean"]) / data_new["wave_base"]
     common.insert_db(data_new, "guess_period_daily", False, "`date`,`code`")
