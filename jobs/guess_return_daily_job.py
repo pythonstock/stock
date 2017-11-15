@@ -35,7 +35,7 @@ def stat_index_all(tmp_datetime):
             SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
                 `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`, `nmc` 
             FROM stock_data.ts_today_all WHERE `date` = %s and `trade` > 0 and `open` > 0 and trade <= 20 
-                and `code` not like %s and `code` not like %s and `name` not like %s limit 1
+                and `code` not like %s and `code` not like %s and `name` not like %s
             """
     print(sql_1)
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, '002%', '300%', '%st%'])
