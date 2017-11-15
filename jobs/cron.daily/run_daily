@@ -12,3 +12,5 @@ python /data/stock/jobs/18h_daily_job.py >> /data/logs/daily.log
 
 #使用波峰波谷方法猜想股票涨跌
 python /data/stock/jobs/guess_period_daily_job.py >> /data/logs/daily.log
+#使用 回归的方法预测。
+python /data/stock/jobs/guess_return_daily_job.py >> /data/logs/daily.log
