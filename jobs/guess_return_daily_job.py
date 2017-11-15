@@ -93,8 +93,8 @@ def apply_guess(tmp):
     stock["20d"] = stock["close"].rolling(window=20).mean()  # 月线
     stock["60d"] = stock["close"].rolling(window=60).mean()  # 季度线
     # 计算日期差。
-    stock["5-10d"] = stock["5d"] - stock["10d"]  # 周-半月线差
-    stock["5-20d"] = stock["5d"] - stock["10d"]  # 周-月线差
+    stock["5-10d"] = (stock["5d"] - stock["10d"]) / stock["10d"]  # 周-半月线差
+    stock["5-20d"] = (stock["5d"] - stock["20d"]) / stock["20d"]  # 周-月线差
     # 计算股票的收益价格
     stock["return"] = np.log(stock["close"] / stock["close"].shift(1))
 
