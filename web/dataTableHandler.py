@@ -123,8 +123,11 @@ class GetStockDataHandler(webBase.BaseHandler):
                     order_by_sql += " cast(`%s` as double) %s" % (col_tmp, dir_tmp)
                 idx += 1
         # 查询数据库。
-        sql = " SELECT * FROM `%s` %s %s LIMIT %s , %s " % (
-            stock_web.table_name, search_sql, order_by_sql, start_param, length_param)
+        limit_sql = ""
+        if int(length_param) > 0:
+            limit_sql = " LIMIT %s , %s " % (start_param, length_param)
+        sql = " SELECT * FROM `%s` %s %s %s " % (
+            stock_web.table_name, search_sql, order_by_sql, limit_sql)
         count_sql = " SELECT count(1) as num FROM `%s` %s " % (stock_web.table_name, search_sql)
 
         logging.info("select sql : " + sql)
