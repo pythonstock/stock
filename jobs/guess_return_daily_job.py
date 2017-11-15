@@ -35,7 +35,7 @@ def stat_index_all(tmp_datetime):
             SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
                 `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`, `nmc` 
             FROM stock_data.ts_today_all WHERE `date` = %s and `trade` > 0 and `open` > 0 and trade <= 20 
-                and `code` not like %s and `code` not like %s and `name` not like %s
+                and `code` not like %s and `code` not like %s and `name` not like %s limit 10
             """
     print(sql_1)
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, '002%', '300%', '%st%'])
@@ -66,6 +66,10 @@ def stat_index_all(tmp_datetime):
 
     data_new = data_new.round(2)  # 数据保留2位小数
 
+    # 删除老数据。
+    del_sql = " DELETE FROM `stock_data`.`guess_return_daily` WHERE `date`= %s " % datetime_int
+    common.insert(del_sql)
+
     print(data_new.head())
     # data_new["down_rate"] = (data_new["trade"] - data_new["wave_mean"]) / data_new["wave_base"]
     common.insert_db(data_new, "guess_return_daily", False, "`date`,`code`")
@@ -93,8 +97,8 @@ def apply_guess(tmp):
     stock["20d"] = stock["close"].rolling(window=20).mean()  # 月线
     stock["60d"] = stock["close"].rolling(window=60).mean()  # 季度线
     # 计算日期差。
-    stock["5-10d"] = (stock["5d"] - stock["10d"]) / stock["10d"]  # 周-半月线差
-    stock["5-20d"] = (stock["5d"] - stock["20d"]) / stock["20d"]  # 周-月线差
+    stock["5-10d"] = (stock["5d"] - stock["10d"]) * 100 / stock["10d"]  # 周-半月线差
+    stock["5-20d"] = (stock["5d"] - stock["20d"]) * 100 / stock["20d"]  # 周-月线差
     # 计算股票的收益价格
     stock["return"] = np.log(stock["close"] / stock["close"].shift(1))
 

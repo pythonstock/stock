@@ -33,7 +33,7 @@ def stat_index_all(tmp_datetime):
             SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
                 `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`, `nmc` 
             FROM stock_data.ts_today_all WHERE `date` = %s and `trade` > 0 and `open` > 0 and trade <= 20 
-                and `code` not like %s and `code` not like %s and `name` not like %s
+                and `code` not like %s and `code` not like %s and `name` not like %s 
             """
     print(sql_1)
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, '002%', '300%', '%st%'])
@@ -63,6 +63,9 @@ def stat_index_all(tmp_datetime):
     data_new["up_rate"] = data_new["up_rate"].round(2)  # 数据保留2位小数
     data_new.drop('trade_float32', axis=1, inplace=True)  # 删除计算字段。
 
+    # 删除老数据。
+    del_sql = " DELETE FROM `stock_data`.`guess_period_daily` WHERE `date`= %s " % datetime_int
+    common.insert(del_sql)
     print(data_new.head())
     # data_new["down_rate"] = (data_new["trade"] - data_new["wave_mean"]) / data_new["wave_base"]
     common.insert_db(data_new, "guess_period_daily", False, "`date`,`code`")
@@ -96,10 +99,10 @@ def apply_guess(tmp):
     wave_base = heapq.nsmallest(5, enumerate(arr), key=lambda x: x[1])
     wave_base_mean = pd.DataFrame(wave_base).mean()
     # 输出数据
-    #print("##############")
+    # print("##############")
     tmp = {"code": code, "wave_mean": wave_mean,
            "wave_crest": wave_crest_mean[1], "wave_base": wave_base_mean[1]}
-    #print(tmp)
+    # print(tmp)
     #     code      date wave_base wave_crest wave_mean 顺序必须一致。返回的是行数据，然后填充。
     return list([code, date, wave_base_mean[1], wave_crest_mean[1], wave_mean])
 
