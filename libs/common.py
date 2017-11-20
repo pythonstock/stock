@@ -12,6 +12,8 @@ import MySQLdb
 from sqlalchemy import create_engine
 from sqlalchemy.types import NVARCHAR
 from sqlalchemy import inspect
+import tushare as ts
+import pandas as pd
 
 # 使用环境变量获得数据库。兼容开发模式可docker模式。
 MYSQL_HOST = os.environ.get('MYSQL_HOST') if (os.environ.get('MYSQL_HOST') != None) else "mariadb"
@@ -133,3 +135,24 @@ def run_with_args(run_fun):
             print("error :", e)
     print("######################### finish %s , use time: %s #########################" % (
         tmp_datetime_str, time.time() - start))
+
+
+# 设置基础目录，每次加载使用。
+bash_stock_tmp = "/tmp/stock/hist_data_cache/"
+if not os.path.exists(bash_stock_tmp):
+    os.makedirs(bash_stock_tmp)  # 创建多个文件夹结构。
+    print("######################### init tmp dir #########################")
+
+
+# 增加读取股票缓存方法。加快处理速度。
+def get_hist_data_cache(code, date_start, date_end):
+    cache_file = bash_stock_tmp + "%s^%s.gzip.pickle" % (date_end, code)
+    # 如果缓存存在就直接返回缓存数据。压缩方式。
+    if os.path.isfile(cache_file):
+        print("######### read from cache #########", cache_file)
+        return pd.read_pickle(cache_file, compression="gzip")
+    else:
+        stock = ts.get_hist_data(code, start=date_start, end=date_end)
+        stock = stock.sort_index(0)  # 将数据按照日期排序下。
+        stock.to_pickle(cache_file, compression="gzip")
+        return stock
