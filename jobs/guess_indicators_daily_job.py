@@ -94,6 +94,7 @@ def apply_guess(tmp):
     # open, high, close, low, volume, price_change, p_change, ma5, ma10, ma20, v_ma5, v_ma10, v_ma20, turnover
     # 使用缓存方法。加快计算速度。
     stock = common.get_hist_data_cache(code, date_start, date_end)
+
     stock = pd.DataFrame({"close": stock["close"]}, index=stock.index.values)
     stock = stock.sort_index(0)  # 将数据按照日期排序下。
 
@@ -110,11 +111,11 @@ def apply_guess(tmp):
     # print(stock["return"].tail())
     # print("stock[10d].tail(1)", stock["10d"].tail(1).values[0])
     # 10d    20d  5-10d  5-20d     5d    60d    code      date  mov_vol  return
-    tmp = list([stock["10d"].tail(1).values[0], stock["20d"].tail(1).values[0], stock["5-10d"].tail(1).values[0],
-                stock["5-20d"].tail(1).values[0], stock["5d"].tail(1).values[0], stock["60d"].tail(1).values[0],
-                code, date, stock["mov_vol"].tail(1).values[0], stock["return"].tail(1).values[0]])
-    # print(tmp)
-    return tmp
+    # tmp = list([stock["10d"].tail(1).values[0], stock["20d"].tail(1).values[0], stock["5-10d"].tail(1).values[0],
+    #             stock["5-20d"].tail(1).values[0], stock["5d"].tail(1).values[0], stock["60d"].tail(1).values[0],
+    #             code, date, stock["mov_vol"].tail(1).values[0], stock["return"].tail(1).values[0]])
+    # # print(tmp)
+    # return tmp
 
 
 # main函数入口

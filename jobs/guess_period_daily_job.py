@@ -83,7 +83,9 @@ def apply_guess(tmp):
     print(code, date_start, date_end)
 
     # open, high, close, low, volume, price_change, p_change, ma5, ma10, ma20, v_ma5, v_ma10, v_ma20, turnover
-    stock = ts.get_hist_data(code, start=date_start, end=date_end)
+    # 使用缓存方法。加快计算速度。
+    stock = common.get_hist_data_cache(code, date_start, date_end)
+
     stock = pd.DataFrame({"close": stock["close"]}, index=stock.index.values)
     stock = stock.sort_index(0)  # 将数据按照日期排序下。
 
