@@ -63,21 +63,21 @@ def insert_db(data, table_name, write_index, primary_keys):
 
 
 # 插入数据。
-def insert(sql):
+def insert(sql, params=()):
     with conn() as db:
         print("insert sql:" + sql)
         try:
-            db.execute(sql)
+            db.execute(sql, params)
         except  Exception as e:
             print("error :", e)
 
 
 # 查询数据
-def select(sql):
+def select(sql, params=()):
     with conn() as db:
         print("select sql:" + sql)
         try:
-            db.execute(sql)
+            db.execute(sql, params)
         except  Exception as e:
             print("error :", e)
         result = db.fetchall()
@@ -85,11 +85,11 @@ def select(sql):
 
 
 # 计算数量
-def select_count(sql):
+def select_count(sql, params=()):
     with conn() as db:
         print("select sql:" + sql)
         try:
-            db.execute(sql)
+            db.execute(sql, params)
         except  Exception as e:
             print("error :", e)
         result = db.fetchall()
@@ -114,6 +114,7 @@ def run_with_args(run_fun):
         tmp_datetime = datetime.datetime(int(tmp_year), int(tmp_month), int(tmp_day))
         for i in range(0, loop):
             # 循环插入多次数据，重复跑历史数据使用。
+            # time.sleep(5)
             tmp_datetime_new = tmp_datetime + datetime.timedelta(days=i)
             try:
                 run_fun(tmp_datetime_new)
