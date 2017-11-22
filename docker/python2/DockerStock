@@ -1,4 +1,4 @@
-FROM github.com/pythonstock/stock/tensorflow-py3:latest
+FROM github.com/pythonstock/stock/tensorflow-py2:latest
 
 #安装其他依赖包。
 RUN pip install -U stockstats
@@ -19,5 +19,5 @@ EXPOSE 9999
 RUN mkdir -p /data/logs && ls /data/stock/ && chmod 755 /data/stock/jobs/run_* &&  \
     chmod 755 /etc/cron.minutely/* && chmod 755 /etc/cron.hourly/* && \
     chmod 755 /etc/cron.daily/* && chmod 755 /etc/cron.monthly/* && \
-    ln -s /data/stock/libs/ /usr/lib/python3.5/libs && \
-    ln -s /data/stock/web/ /usr/lib/python3.5/web
+    ln -s /data/stock/libs/ /usr/lib/python2.7/libs && \
+    ln -s /data/stock/web/ /usr/lib/python2.7/web

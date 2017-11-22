@@ -6,12 +6,12 @@ if [ $HAS_TF -lt 2 ];then
     docker pull tensorflow/tensorflow:latest-devel
 fi
 
-HAS_TF_BASE=`docker images github.com/pythonstock/stock/tensorflow-py2 | wc -l `
+HAS_TF_BASE=`docker images github.com/pythonstock/stock/tensorflow-py3 | wc -l `
 if [ $HAS_TF -lt 2 ];then
     sh buildBase.sh
 fi
 
-HAS_TF_BASE=`docker images github.com/pythonstock/stock/tensorflow-py2-stock | wc -l `
+HAS_TF_BASE=`docker images github.com/pythonstock/stock/tensorflow-py3-stock | wc -l `
 if [ $HAS_TF -lt 2 ];then
     sh buildStock.sh
 fi
@@ -37,4 +37,4 @@ docker run -itd --link=mariadb --name stock  \
     -p 6006:6006 \
     -p 9999:9999 \
     -p 8500:8500 \
-   github.com/pythonstock/stock/tensorflow-py2-stock:latest
+   github.com/pythonstock/stock/tensorflow-py3-stock:latest
