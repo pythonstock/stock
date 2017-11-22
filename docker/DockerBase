@@ -85,6 +85,6 @@ fi \n\
 jupyter notebook --allow-root --NotebookApp.token='token1234' --notebook-dir=/notebooks > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
 
 #增加 statsmodels lib。
-RUN pip install -U statsmodels
+RUN pip3 install -U statsmodels
 
 ENTRYPOINT ["/run_jupyter.sh"]
