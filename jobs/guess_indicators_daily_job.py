@@ -3,26 +3,11 @@
 
 
 import libs.common as common
-import sys
-import time
 import pandas as pd
 import numpy as np
 import math
-import tushare as ts
-from sqlalchemy.types import NVARCHAR
-from sqlalchemy import inspect
 import datetime
-import heapq
 import stockstats
-
-"""
-SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
-                `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`, `nmc` 
-    FROM stock_data.ts_today_all where `date` = 20171106 and trade > 0 and trade <= 20
-and `code` not like '002%' and `code` not like '300%'  and `name` not like '%st%'
-
-"""
-
 
 ### 对每日指标数据，进行筛选。将符合条件的。二次筛选出来。
 def stat_all_lite(tmp_datetime):
