@@ -24,15 +24,51 @@ and `code` not like '002%' and `code` not like '300%'  and `name` not like '%st%
 """
 
 
+### 对每日指标数据，进行筛选。将符合条件的。二次筛选出来。
+def stat_all_lite(tmp_datetime):
+    datetime_str = (tmp_datetime).strftime("%Y-%m-%d")
+    datetime_int = (tmp_datetime).strftime("%Y%m%d")
+    print("datetime_str:", datetime_str)
+    print("datetime_int:", datetime_int)
+
+    sql_1 = """
+            SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
+                            `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`,
+                             `nmc` ,`kdjj`,`rsi_6`,`cci`
+                        FROM stock_data.guess_indicators_daily WHERE `date` = %s 
+                        and kdjj > 100 and rsi_6 > 80  and cci > 100
+    """
+
+    try:
+        # 删除老数据。
+        del_sql = " DELETE FROM `stock_data`.`guess_indicators_lite_daily` WHERE `date`= %s " % datetime_int
+        common.insert(del_sql)
+    except Exception as e:
+        print("error :", e)
+
+    data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int])
+    data = data.drop_duplicates(subset="code", keep="last")
+    print("######## len data ########:", len(data))
+
+    try:
+        common.insert_db(data, "guess_indicators_lite_daily", False, "`date`,`code`")
+    except Exception as e:
+        print("error :", e)
+
+
+# 批处理数据。
 def stat_all_batch(tmp_datetime):
     datetime_str = (tmp_datetime).strftime("%Y-%m-%d")
     datetime_int = (tmp_datetime).strftime("%Y%m%d")
     print("datetime_str:", datetime_str)
     print("datetime_int:", datetime_int)
 
-    # 删除老数据。
-    del_sql = " DELETE FROM `stock_data`.`guess_indicators_daily` WHERE `date`= %s " % datetime_int
-    common.insert(del_sql)
+    try:
+        # 删除老数据。
+        del_sql = " DELETE FROM `stock_data`.`guess_indicators_daily` WHERE `date`= %s " % datetime_int
+        common.insert(del_sql)
+    except Exception as e:
+        print("error :", e)
 
     sql_count = """
     SELECT count(1) FROM stock_data.ts_today_all WHERE `date` = %s and `trade` > 0 and `open` > 0 and trade <= 20 
@@ -253,6 +289,9 @@ def apply_guess(tmp, stock_column):
 if __name__ == '__main__':
     # 使用方法传递。
     tmp_datetime = common.run_with_args(stat_all_batch)
+    # 二次筛选数据。
+    tmp_datetime = common.run_with_args(stat_all_lite)
+
 
 ####################### 老方法，弃用了。#######################
 def stat_index_all_no_use(tmp_datetime):
