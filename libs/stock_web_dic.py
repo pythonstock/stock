@@ -235,13 +235,38 @@ STOCK_WEB_DATA_LIST.append(
         name="每日收益率猜想",
         table_name="guess_return_daily",
         columns=["date", "code", "name",
-                "5d" ,"10d" ,"20d" ,"60d" ,"5-10d" ,"5-20d" ,"mov_vol" ,"return",
-                "changepercent", "trade", "open", "high", "low", "settlement", "volume",
-                "turnoverratio", "amount", "per", "pb", "mktcap", "nmc"],
+                 "5d", "10d", "20d", "60d", "5-10d", "5-20d", "mov_vol", "return",
+                 "changepercent", "trade", "open", "high", "low", "settlement", "volume",
+                 "turnoverratio", "amount", "per", "pb", "mktcap", "nmc"],
         column_names=["日期", "代码", "名称",
-                      "5周线", "10半月线", "20月线", "60季度线","5-10日差%","5-20日差%","收益","收益率移动标准差",
+                      "5周线", "10半月线", "20月线", "60季度线", "5-10日差%", "5-20日差%", "收益", "收益率移动标准差",
                       "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
                       "换手率", "成交金额", "市盈率", "市净率", "总市值", "流通市值"],
+        primary_key=[],
+        order_by=" date desc  "
+    )
+)
+
+# 每日收益率猜想。
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="每日数据",
+        name="每日股票指标猜想",
+        table_name="guess_indicators_daily",
+        columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
+                 "turnoverratio", "amount", "per", "pb", "mktcap", "nmc",
+                 'adx', 'adxr', 'boll', 'boll_lb', 'boll_ub', 'cci', 'cci_20', 'close_-1_r',
+                 'close_-2_r', 'code', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3', 'date', 'dma', 'dx',
+                 'kdjd', 'kdjj', 'kdjk', 'macd', 'macdh', 'macds', 'mdi', 'pdi',
+                 'rsi_12', 'rsi_6', 'trix', 'trix_9_sma', 'vr', 'vr_6_sma', 'wr_10', 'wr_6'],
+        column_names=["日期", "代码", "名称",
+                      "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
+                      "换手率", "成交金额", "市盈率", "市净率", "总市值", "流通市值",
+                      'adx', 'adxr', 'boll', 'boll_lb', 'boll_ub', 'cci', 'cci_20', 'close_-1_r',
+                      'close_-2_r', 'code', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3', 'date', 'dma', 'dx',
+                      'kdjd', 'kdjj', 'kdjk', 'macd', 'macdh', 'macds', 'mdi', 'pdi',
+                      'rsi_12', 'rsi_6', 'trix', 'trix_9_sma', 'vr', 'vr_6_sma', 'wr_10', 'wr_6'],
         primary_key=[],
         order_by=" date desc  "
     )
