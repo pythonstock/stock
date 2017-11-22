@@ -5,17 +5,17 @@ DATE=`date +%Y-%m-%d:%H:%M:%S`
 echo $DATE >> /data/logs/daily.log
 
 #增加每日，龙虎榜数据。
-python /data/stock/jobs/daily_job.py >> /data/logs/daily.log
+/usr/bin/python3 /data/stock/jobs/daily_job.py >> /data/logs/daily.log
 
 #增加获得今日全部数据和大盘数据
-python /data/stock/jobs/18h_daily_job.py >> /data/logs/daily.log
+/usr/bin/python3 /data/stock/jobs/18h_daily_job.py >> /data/logs/daily.log
 
 #使用波峰波谷方法猜想股票涨跌
-python /data/stock/jobs/guess_period_daily_job.py >> /data/logs/daily.log
+/usr/bin/python3 /data/stock/jobs/guess_period_daily_job.py >> /data/logs/daily.log
 #使用 回归的方法预测。
-python /data/stock/jobs/guess_return_daily_job.py >> /data/logs/daily.log
+/usr/bin/python3 /data/stock/jobs/guess_return_daily_job.py >> /data/logs/daily.log
 #使用股票指标预测。
-python /data/stock/jobs/guess_indicators_daily_job.py >> /data/logs/daily.log
+/usr/bin/python3 /data/stock/jobs/guess_indicators_daily_job.py >> /data/logs/daily.log
 
 #清除前3天数据。
 DATE_3=`date -d '-3 days' +%Y-%m-%d`
