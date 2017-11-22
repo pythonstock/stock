@@ -1,27 +1,16 @@
-#!/usr/local/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import bcrypt
-import MySQLdb
-import markdown
-import os.path
 import json
-import subprocess
-import torndb
-import tornado.escape
 from tornado import gen
-import tornado.httpserver
-import tornado.ioloop
-import tornado.options
-import tornado.web
 import libs.stock_web_dic as stock_web_dic
 import web.base as webBase
 import logging
 
-WEB_EASTMONEY_URL = u"<a class='btn btn-info btn-xs' href='http://quote.eastmoney.com/%s.html' target='_blank'>查看</a>"
-
-
-# WEB_EASTMONEY_URL = "http://quote.eastmoney.com/%s.html"
+WEB_EASTMONEY_URL = u"""
+    <a class='btn btn-info btn-xs' href='http://quote.eastmoney.com/%s.html' target='_blank'>查看</a>
+    <a class='btn btn-danger btn-xs' href='/data/indicators?code=%s' target='_blank'>指标</a>
+    """
 
 
 # 获得页面数据。
@@ -142,7 +131,7 @@ class GetStockDataHandler(webBase.BaseHandler):
             try:
                 # 增加columns 字段中的【东方财富】
                 tmp_idx = stock_web.column_names.index("东方财富")
-                tmp_url = WEB_EASTMONEY_URL % tmp_obj["code"]
+                tmp_url = WEB_EASTMONEY_URL % (tmp_obj["code"], tmp_obj["code"])
                 tmp_obj["eastmoney_url"] = tmp_url
                 logging.info(tmp_idx)
                 logging.info(tmp_obj["eastmoney_url"])

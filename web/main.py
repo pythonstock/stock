@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 import bcrypt
@@ -19,6 +19,7 @@ import libs.stock_web_dic as stock_web_dic
 import web.dataTableHandler as dataTableHandler
 import web.chartHandler as chartHandler
 import web.dataEditorHandler as dataEditorHandler
+import web.dataIndicatorsHandler as dataIndicatorsHandler
 import web.minstServingHandler as minstServingHandler
 import web.base as webBase
 import logging
@@ -35,12 +36,14 @@ class Application(tornado.web.Application):
             # 使用datatable 展示报表数据模块。
             (r"/stock/api_data", dataTableHandler.GetStockDataHandler),
             (r"/stock/data", dataTableHandler.GetStockHtmlHandler),
-            #chart 数据图
+            # chart 数据图
             (r"/stock/chart", chartHandler.GetChartHtmlHandler),
             (r"/stock/chart/image1", chartHandler.ImageHandler),
             # 数据修改dataEditor。
             (r"/data/editor", dataEditorHandler.GetEditorHtmlHandler),
             (r"/data/editor/save", dataEditorHandler.SaveEditorHandler),
+            # 获得股票指标数据。
+            (r"/data/indicators", dataIndicatorsHandler.GetDataIndicatorsHandler),
 
             # 数据修改dataEditor。
             (r"/minst_serving", minstServingHandler.GetMinstServingHtmlHandler),
@@ -50,7 +53,7 @@ class Application(tornado.web.Application):
         settings = dict(  # 配置
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            xsrf_cookies=False,#True,
+            xsrf_cookies=False,  # True,
             # cookie加密
             cookie_secret="027bb1b670eddf0392cdda8709268a17b58b7",
             debug=True,
@@ -70,7 +73,6 @@ class HomeHandler(webBase.BaseHandler):
 
 
 def main():
-
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
     port = 9999
