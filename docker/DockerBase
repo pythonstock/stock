@@ -47,12 +47,6 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     sed -i -e 's/itertools\.izip/zip/g' \
     /usr/local/lib/python3.5/dist-packages/torndb.py
 
-# tensorflow-serving-api
-# https://github.com/tensorflow/tensorflow/issues/12159
-# serving-api not support !!!
-RUN pip3 install grpcio tensorflow-serving-client tensorflow-serving-api
-
-
 #add cron sesrvice.
 #每分钟，每小时1分钟，每天1点1分，每月1号执行
 RUN apt-get update && apt-get install -y cron vim && \
@@ -77,7 +71,11 @@ if [ ! -d "/notebooks" ]; then \n\
 fi \n\
 jupyter notebook --allow-root --NotebookApp.token='token1234' --notebook-dir=/notebooks > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
 
+
+# tensorflow-serving-api
+# https://github.com/tensorflow/tensorflow/issues/12159
+# serving-api not support !!!
 #增加 statsmodels lib。
-RUN pip3 install -U statsmodels
+RUN pip3 install grpcio tensorflow-serving-client statsmodels
 
 ENTRYPOINT ["/run_jupyter.sh"]
