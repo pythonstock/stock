@@ -12,6 +12,8 @@ WEB_EASTMONEY_URL = u"""
     <a class='btn btn-danger btn-xs' href='/data/indicators?code=%s' target='_blank'>指标</a>
     """
 
+eastmoney_name = u"东方财富"
+
 
 # 获得页面数据。
 class GetStockHtmlHandler(webBase.BaseHandler):
@@ -23,14 +25,16 @@ class GetStockHtmlHandler(webBase.BaseHandler):
         # print self.uri_
         try:
             # 增加columns 字段中的【东方财富】
-            tmp_idx = stockWeb.column_names.index("东方财富")
-            logging.info(tmp_idx)
-            try:
-                # 防止重复插入数据。可能会报错。
-                stockWeb.columns.remove("eastmoney_url")
-            except Exception as e:
-                print("error :", e)
-            stockWeb.columns.insert(tmp_idx, "eastmoney_url")
+            logging.info(eastmoney_name in stockWeb.column_names)
+            if eastmoney_name in stockWeb.column_names:
+                tmp_idx = stockWeb.column_names.index(eastmoney_name)
+                logging.info(tmp_idx)
+                try:
+                    # 防止重复插入数据。可能会报错。
+                    stockWeb.columns.remove("eastmoney_url")
+                except Exception as e:
+                    print("error :", e)
+                stockWeb.columns.insert(tmp_idx, "eastmoney_url")
         except Exception as e:
             print("error :", e)
         logging.info("####################GetStockHtmlHandlerEnd")
@@ -130,13 +134,14 @@ class GetStockDataHandler(webBase.BaseHandler):
             # logging.info(tmp_obj)
             try:
                 # 增加columns 字段中的【东方财富】
-                tmp_idx = stock_web.column_names.index("东方财富")
-                tmp_url = WEB_EASTMONEY_URL % (tmp_obj["code"], tmp_obj["code"])
-                tmp_obj["eastmoney_url"] = tmp_url
-                logging.info(tmp_idx)
-                logging.info(tmp_obj["eastmoney_url"])
-                # logging.info(type(tmp_obj))
-                # tmp.column_names.insert(tmp_idx, "东方财富")
+                if eastmoney_name in stock_web.column_names:
+                    tmp_idx = stock_web.column_names.index("东方财富")
+                    tmp_url = WEB_EASTMONEY_URL % (tmp_obj["code"], tmp_obj["code"])
+                    tmp_obj["eastmoney_url"] = tmp_url
+                    logging.info(tmp_idx)
+                    logging.info(tmp_obj["eastmoney_url"])
+                    # logging.info(type(tmp_obj))
+                    # tmp.column_names.insert(tmp_idx, "东方财富")
             except Exception as e:
                 print("error :", e)
 
