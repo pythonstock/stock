@@ -69,13 +69,13 @@ nohup /usr/bin/python3 /data/stock/web/main.py --log-file-prefix=/data/logs/torn
 if [ ! -d "/notebooks" ]; then \n\
     mkdir -p /notebooks \n\
 fi \n\
-jupyter notebook --allow-root --NotebookApp.token='token1234' --notebook-dir=/notebooks > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
+jupyter notebook --allow-root --NotebookApp.token='' --notebook-dir=/notebooks > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
 
 
 # tensorflow-serving-api
 # https://github.com/tensorflow/tensorflow/issues/12159
 # serving-api not support !!!
 #增加 statsmodels lib。
-RUN pip3 install grpcio tensorflow-serving-client statsmodels
+RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh
 
 ENTRYPOINT ["/run_jupyter.sh"]
