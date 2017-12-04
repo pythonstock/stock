@@ -64,7 +64,7 @@ def stat_index_all(tmp_datetime):
     data_new.drop('trade_float32', axis=1, inplace=True)  # 删除计算字段。
 
     # 删除老数据。
-    del_sql = " DELETE FROM `stock_data`.`guess_period_daily` WHERE `date`= %s " % datetime_int
+    del_sql = " DELETE FROM `stock_data`.`guess_period_daily` WHERE `date`= '%s' " % datetime_int
     common.insert(del_sql)
     print(data_new.head())
     # data_new["down_rate"] = (data_new["trade"] - data_new["wave_mean"]) / data_new["wave_base"]

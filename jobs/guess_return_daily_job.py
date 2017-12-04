@@ -67,7 +67,7 @@ def stat_index_all(tmp_datetime):
     data_new = data_new.round(2)  # 数据保留2位小数
 
     # 删除老数据。
-    del_sql = " DELETE FROM `stock_data`.`guess_return_daily` WHERE `date`= %s " % datetime_int
+    del_sql = " DELETE FROM `stock_data`.`guess_return_daily` WHERE `date`= '%s' " % datetime_int
     common.insert(del_sql)
 
     print(data_new.head())
