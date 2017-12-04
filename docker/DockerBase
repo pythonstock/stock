@@ -76,6 +76,6 @@ jupyter notebook --allow-root --NotebookApp.token='' --notebook-dir=/notebooks >
 # https://github.com/tensorflow/tensorflow/issues/12159
 # serving-api not support !!!
 #增加 statsmodels lib。
-RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh
+RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats
 
 ENTRYPOINT ["/run_jupyter.sh"]
