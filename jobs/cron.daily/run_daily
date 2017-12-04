@@ -18,5 +18,5 @@ echo $DATE >> /data/logs/daily.log
 /usr/bin/python3 /data/stock/jobs/guess_indicators_daily_job.py >> /data/logs/daily.log
 
 #清除前3天数据。
-DATE_3=`date -d '-3 days' +%Y-%m-%d`
+DATE_3=`date -d '-20 days' +%Y-%m-%d`
 rm -f /tmp/stock/hist_data_cache/$DATE_3*

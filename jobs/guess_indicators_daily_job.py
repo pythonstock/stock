@@ -177,7 +177,7 @@ def stat_index_all(data, idx):
 
     data_new = data_new.round(2)  # 数据保留2位小数
 
-    print(data_new.head())
+    # print(data_new.head())
     print("########insert db guess_indicators_daily idx :########:", idx)
     try:
         common.insert_db(data_new, "guess_indicators_daily", False, "`date`,`code`")
@@ -199,12 +199,12 @@ def concat_guess_data(stock_column, data):
         else:
             tmp_dic[col] = data["trade"]
     # print("##########tmp_dic: ", tmp_dic)
-    print("########################## 实际数据列 BEGIN ##########################")
+    print("########################## BEGIN ##########################")
     stock_guess = pd.DataFrame(tmp_dic, index=data.index.values)
     print(stock_guess.columns.values)
-    print(stock_guess.head())
+    # print(stock_guess.head())
     stock_guess = stock_guess.apply(apply_guess, stock_column=stock_column, axis=1)  # , axis=1)
-    print(stock_guess.head())
+    # print(stock_guess.head())
     # stock_guess.astype('float32', copy=False)
     stock_guess.drop('date', axis=1, inplace=True)  # 删除日期字段，然后和原始数据合并。
     # print(stock_guess["5d"])
@@ -227,7 +227,7 @@ def apply_guess(tmp, stock_column):
     # 使用缓存方法。加快计算速度。
     stock = common.get_hist_data_cache(code, date_start, date_end)
 
-    print(stock.head(1))
+    # print(stock.head())
     # open  high  close   low     volume
     # stock = pd.DataFrame({"close": stock["close"]}, index=stock.index.values)
     stock = stock.sort_index(0)  # 将数据按照日期排序下。
@@ -240,7 +240,7 @@ def apply_guess(tmp, stock_column):
     stockStat = stockstats.StockDataFrame.retype(stock)
     # 设置返回数组。
     stock_data_list = []
-    print("########################## 计算结果 ##########################")
+    print("########################## print result ##########################")
     for col in stock_column:
         if col == 'date':
             stock_data_list.append(date)
@@ -412,7 +412,7 @@ def stat_index_all_no_use(tmp_datetime):
     del_sql = " DELETE FROM `stock_data`.`guess_indicators_daily` WHERE `date`= %s " % datetime_int
     common.insert(del_sql)
 
-    print(data_new.head())
+    # print(data_new.head())
     # data_new["down_rate"] = (data_new["trade"] - data_new["wave_mean"]) / data_new["wave_base"]
     common.insert_db(data_new, "guess_indicators_daily", False, "`date`,`code`")
 

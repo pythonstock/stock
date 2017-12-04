@@ -51,7 +51,7 @@ def stat_index_all(tmp_datetime):
     }, index=data.index.values)
 
     stock_guess = stock_guess.apply(apply_guess, axis=1)  # , axis=1)
-    print(stock_guess.head())
+    # print(stock_guess.head())
     # stock_guess.astype('float32', copy=False)
     stock_guess.drop('date', axis=1, inplace=True)  # 删除日期字段，然后和原始数据合并。
 
