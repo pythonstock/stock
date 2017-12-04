@@ -78,4 +78,6 @@ jupyter notebook --allow-root --NotebookApp.token='' --notebook-dir=/notebooks >
 #增加 statsmodels lib。
 RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats
 
+ENV LANG=C.UTF-8
+
 ENTRYPOINT ["/run_jupyter.sh"]
