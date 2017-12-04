@@ -70,7 +70,7 @@ def stat_index_all(tmp_datetime):
     del_sql = " DELETE FROM `stock_data`.`guess_return_daily` WHERE `date`= '%s' " % datetime_int
     common.insert(del_sql)
 
-    print(data_new.head())
+    # print(data_new.head())
     # data_new["down_rate"] = (data_new["trade"] - data_new["wave_mean"]) / data_new["wave_base"]
     common.insert_db(data_new, "guess_return_daily", False, "`date`,`code`")
 
