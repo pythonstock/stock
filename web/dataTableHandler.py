@@ -11,8 +11,8 @@ WEB_EASTMONEY_URL = u"""
     <a class='btn btn-info btn-xs' href='http://quote.eastmoney.com/%s.html' target='_blank'>查看</a>
     <a class='btn btn-danger btn-xs' href='/data/indicators?code=%s' target='_blank'>指标</a>
     """
-
-eastmoney_name = u"东方财富"
+#和在dic中的字符串一致。字符串前面都不特别声明是u""
+eastmoney_name = "东方财富"
 
 
 # 获得页面数据。
@@ -134,6 +134,7 @@ class GetStockDataHandler(webBase.BaseHandler):
             # logging.info(tmp_obj)
             try:
                 # 增加columns 字段中的【东方财富】
+                logging.info("eastmoney_name : %s " % eastmoney_name)
                 if eastmoney_name in stock_web.column_names:
                     tmp_idx = stock_web.column_names.index(eastmoney_name)
                     tmp_url = WEB_EASTMONEY_URL % (tmp_obj["code"], tmp_obj["code"])
