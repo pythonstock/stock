@@ -135,13 +135,13 @@ class GetStockDataHandler(webBase.BaseHandler):
             try:
                 # 增加columns 字段中的【东方财富】
                 if eastmoney_name in stock_web.column_names:
-                    tmp_idx = stock_web.column_names.index("东方财富")
+                    tmp_idx = stock_web.column_names.index(eastmoney_name)
                     tmp_url = WEB_EASTMONEY_URL % (tmp_obj["code"], tmp_obj["code"])
                     tmp_obj["eastmoney_url"] = tmp_url
                     logging.info(tmp_idx)
                     logging.info(tmp_obj["eastmoney_url"])
                     # logging.info(type(tmp_obj))
-                    # tmp.column_names.insert(tmp_idx, "东方财富")
+                    # tmp.column_names.insert(tmp_idx, eastmoney_name)
             except Exception as e:
                 print("error :", e)
 
