@@ -14,17 +14,18 @@
 <script type="text/javascript" src="/static/js/bokeh-gl.min.js"></script>
 <script type="text/javascript">
     Bokeh.set_log_level("info");
+
 </script>
 
+<h3 class="header smaller lighter blue">股票数据详细指标分析</h3>
 
-<h3 class="header smaller lighter blue">数据详细展示</h3>
-<div class="table-header">1.</div>
-
-    {% for index,element in enumerate(comp_list) %}
-            <div class="row" id="_col_{{ index+1 }}" data-column="{{ index }}">
-                {% raw element[0] %}
-                {% raw element[1] %}
-            </div>
-    {% end %}
+{% for index,element in enumerate(comp_list) %}
+<h4 class="header smaller lighter blue">{{ element["title"] }}</h4>
+<div class="row">{{ element["desc"] }}</div>
+<div class="row" id="_col_{{ index+1 }}" data-column="{{ index }}">
+    {% raw element["div"] %}
+    {% raw element["script"] %}
+</div>
+{% end %}
 
 {% end %}
