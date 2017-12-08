@@ -78,7 +78,7 @@ def apply_guess(tmp):
     date = tmp["date"]
     code = tmp["code"]
     date_end = datetime.datetime.strptime(date, "%Y%m%d")
-    date_start = (date_end + datetime.timedelta(days=-50)).strftime("%Y-%m-%d")
+    date_start = (date_end + datetime.timedelta(days=-300)).strftime("%Y-%m-%d")
     date_end = date_end.strftime("%Y-%m-%d")
     print(code, date_start, date_end)
 
