@@ -80,6 +80,6 @@ RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats
 
 ENV LANG=en_US.UTF-8
 
-#WORKDIR /data/stock
+WORKDIR /data/stock
 
 ENTRYPOINT ["/run_jupyter.sh"]
