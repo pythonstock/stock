@@ -9,6 +9,7 @@
 	<div class="row">&nbsp;</div>
 	<div class="row">
 		{% for index,element in enumerate(stockWeb.columns) %}
+		{% if index < 15 %}
 		<div class="col-md-4" id="filter_col{{ index+1 }}" data-column="{{ index }}">
 			{{ stockWeb.column_names[index] }} &nbsp;
 			<!-- Column - {{ stockWeb.column_names[index] }} - {{ element }} -->
@@ -16,7 +17,7 @@
 				   {% if element == 'date' %} value="{{ date_now }}" {% end %}
 				   id="col{{ index }}_filter">
 		</div>
-		{% end %}
+		{% end %}{% end %}
 	</div>
 
 	<table cellpadding="3" cellspacing="0" border="0" style="width: 67%; margin: 0 auto 2em auto;">
