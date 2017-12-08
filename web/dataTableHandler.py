@@ -6,12 +6,13 @@ from tornado import gen
 import libs.stock_web_dic as stock_web_dic
 import web.base as webBase
 import logging
+import datetime
 
 WEB_EASTMONEY_URL = u"""
     <a class='btn btn-info btn-xs' href='http://quote.eastmoney.com/%s.html' target='_blank'>查看</a>
     <a class='btn btn-danger btn-xs' href='/data/indicators?code=%s' target='_blank'>指标</a>
     """
-#和在dic中的字符串一致。字符串前面都不特别声明是u""
+# 和在dic中的字符串一致。字符串前面都不特别声明是u""
 eastmoney_name = "东方财富"
 
 
@@ -23,6 +24,8 @@ class GetStockHtmlHandler(webBase.BaseHandler):
         stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
         # self.uri_ = ("self.request.url:", self.request.uri)
         # print self.uri_
+        date_now = datetime.datetime.now()
+        date_now_str = date_now.strftime("%Y%m%d")
         try:
             # 增加columns 字段中的【东方财富】
             logging.info(eastmoney_name in stockWeb.column_names)
@@ -38,7 +41,8 @@ class GetStockHtmlHandler(webBase.BaseHandler):
         except Exception as e:
             print("error :", e)
         logging.info("####################GetStockHtmlHandlerEnd")
-        self.render("stock_web.html", stockWeb=stockWeb, leftMenu=webBase.GetLeftMenu(self.request.uri))
+        self.render("stock_web.html", stockWeb=stockWeb, date_now=date_now_str,
+                    leftMenu=webBase.GetLeftMenu(self.request.uri))
 
 
 # 获得股票数据内容。
