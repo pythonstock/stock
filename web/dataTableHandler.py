@@ -26,6 +26,10 @@ class GetStockHtmlHandler(webBase.BaseHandler):
         # print self.uri_
         date_now = datetime.datetime.now()
         date_now_str = date_now.strftime("%Y%m%d")
+        # 每天的 16 点前显示昨天数据。
+        if date_now.hour < 16:
+            date_now_str = (date_now + datetime.timedelta(days=-1)).strftime("%Y%m%d")
+
         try:
             # 增加columns 字段中的【东方财富】
             logging.info(eastmoney_name in stockWeb.column_names)
