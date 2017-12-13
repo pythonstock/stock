@@ -47,6 +47,13 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     sed -i -e 's/itertools\.izip/zip/g' \
     /usr/local/lib/python3.5/dist-packages/torndb.py
 
+# tensorflow-serving-api
+# https://github.com/tensorflow/tensorflow/issues/12159
+# serving-api not support !!!
+#增加 statsmodels lib。
+RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats
+
+
 #add cron sesrvice.
 #每分钟，每小时1分钟，每天1点1分，每月1号执行
 RUN apt-get update && apt-get install -y cron vim && \
@@ -56,7 +63,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
 # min   hour    day     month   weekday command \n\
 */1     *       *       *       *       /bin/run-parts /etc/cron.minutely \n\
 10       *       *       *       *       /bin/run-parts /etc/cron.hourly \n\
-20       15       *       *       *       /bin/run-parts /etc/cron.daily \n\
+30       18       *       *       *       /bin/run-parts /etc/cron.daily \n\
 30       15       1,10,20       *       *       /bin/run-parts /etc/cron.monthly \n" > /var/spool/cron/crontabs/root && \
     chmod 600 /var/spool/cron/crontabs/root
 
@@ -72,11 +79,6 @@ fi \n\
 jupyter notebook --allow-root --NotebookApp.token='' --notebook-dir=/notebooks > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
 
 
-# tensorflow-serving-api
-# https://github.com/tensorflow/tensorflow/issues/12159
-# serving-api not support !!!
-#增加 statsmodels lib。
-RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats
 
 ENV LANG=en_US.UTF-8
 
