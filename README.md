@@ -1,6 +1,6 @@
 ### 使用方法（依赖docker）
 
-git clone https://github.com/pythonstock/stock.git && sh stock/docker/startStock.sh
+git clone https://github.com/pythonstock/stock.git && cd stock/docker && sh startStock.sh
 
 
 
