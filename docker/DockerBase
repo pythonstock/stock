@@ -51,7 +51,7 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
 # https://github.com/tensorflow/tensorflow/issues/12159
 # serving-api not support !!!
 #增加 statsmodels lib。
-RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats
+RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats apscheduler
 
 
 #add cron sesrvice.
