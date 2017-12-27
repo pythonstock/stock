@@ -70,9 +70,14 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
 #add cron
 RUN echo "#!/usr/bin/env bash \n\
 /usr/sbin/cron \n\
-nohup /bin/sh /data/stock/jobs/run_init.sh & \n\
-nohup /usr/local/bin/tensorboard --logdir=/data/logs/tensorflow & \n\
-nohup /usr/bin/python3 /data/stock/web/main.py >> /data/logs/tornado.log & \n\
+nohup /bin/sh /data/stock/jobs/run_init.sh 2>&1 & \n\
+sleep 1  \n\
+nohup /usr/local/bin/tensorboard --logdir=/data/logs/tensorflow 2>&1 & \n\
+sleep 1  \n\
+nohup /usr/bin/python3 /data/jobs/aps_job.py >> /data/logs/aps_job.log 2>&1 & \n\
+sleep 1  \n\
+nohup /usr/bin/python3 /data/stock/web/main.py >> /data/logs/tornado.log 2>&1 & \n\
+sleep 1  \n\
 if [ ! -d "/notebooks" ]; then \n\
     mkdir -p /notebooks \n\
 fi \n\

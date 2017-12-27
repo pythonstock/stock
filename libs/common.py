@@ -21,12 +21,14 @@ MYSQL_USER = os.environ.get('MYSQL_USER') if (os.environ.get('MYSQL_USER') != No
 MYSQL_PWD = os.environ.get('MYSQL_PWD') if (os.environ.get('MYSQL_PWD') != None) else "mariadb"
 MYSQL_DB = os.environ.get('MYSQL_DB') if (os.environ.get('MYSQL_DB') != None) else "stock_data"
 
-print("MYSQL_HOST:", MYSQL_HOST, ",MYSQL_USER:", MYSQL_USER, ",MYSQL_DB:", MYSQL_DB)
+print("MYSQL_HOST :", MYSQL_HOST, ",MYSQL_USER :", MYSQL_USER, ",MYSQL_DB :", MYSQL_DB)
+MYSQL_CONN_URL = "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL_HOST + "/" + MYSQL_DB + "?charset=utf8"
+print("MYSQL_CONN_URL :", MYSQL_CONN_URL)
 
 
 def engine():
     engine = create_engine(
-        "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL_HOST + "/" + MYSQL_DB + "?charset=utf8",
+        MYSQL_CONN_URL,
         encoding='utf8', convert_unicode=True)
     return engine
 
