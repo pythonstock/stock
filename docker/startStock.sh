@@ -7,12 +7,12 @@ if [ $HAS_TF -lt 2 ];then
 fi
 
 HAS_TF_BASE=`docker images github.com/pythonstock/stock/tensorflow-py3 | wc -l `
-if [ $HAS_TF -lt 2 ];then
+if [ $HAS_TF_BASE -lt 2 ];then
     sh buildBase.sh
 fi
 
-HAS_TF_BASE=`docker images github.com/pythonstock/stock/tensorflow-py3-stock | wc -l `
-if [ $HAS_TF -lt 2 ];then
+HAS_TF_STOCK=`docker images github.com/pythonstock/stock/tensorflow-py3-stock | wc -l `
+if [ $HAS_TF_STOCK -lt 2 ];then
     sh buildStock.sh
 fi
 
