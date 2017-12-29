@@ -247,7 +247,7 @@ STOCK_WEB_DATA_LIST.append(
     )
 )
 
-# 每日收益率猜想。
+# 每日股票指标lite猜想。
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
@@ -266,7 +266,24 @@ STOCK_WEB_DATA_LIST.append(
     )
 )
 
-# 每日收益率猜想。
+# 每日股票指标lite猜想购买。
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="每日数据",
+        name="每日股票指标lite猜想购买",
+        table_name="guess_indicators_lite_buy_daily",
+        columns=["buy_date", "code", "name", "changepercent", "trade", "turnoverratio", "pb",
+                 "kdjj", "rsi_6", "cci", "wave_base", "wave_crest", "wave_mean", "up_rate", "buy", "sell",
+                 "today_trade", "income"],
+        column_names=["购买日期", "代码", "名称", "涨跌幅", "现价", "换手率%", "市净率%",
+                      "kdjj", "rsi_6", "cci", "波谷", "波峰", "波平均", "上涨率%", "购买", "卖出", "今日价格", "收益"],
+        primary_key=[],
+        order_by=" buy_date desc  "
+    )
+)
+
+# 每日股票指标猜想。
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
