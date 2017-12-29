@@ -74,7 +74,7 @@ nohup /bin/sh /data/stock/jobs/run_init.sh 2>&1 & \n\
 sleep 1  \n\
 nohup /usr/local/bin/tensorboard --logdir=/data/logs/tensorflow 2>&1 & \n\
 sleep 1  \n\
-nohup /usr/bin/python3 /data/jobs/aps_job.py >> /data/logs/aps_job.log 2>&1 & \n\
+nohup /usr/bin/python3 /data/stock/jobs/aps_job.py >> /data/logs/aps_job.log 2>&1 & \n\
 sleep 1  \n\
 nohup /usr/bin/python3 /data/stock/web/main.py >> /data/logs/tornado.log 2>&1 & \n\
 sleep 1  \n\
