@@ -27,6 +27,10 @@ echo "###################"$DATE"###################" >> /data/logs/daily.5.log
 #使用股票指标预测购买。
 /usr/bin/python3 /data/stock/jobs/guess_indicators_lite_buy_daily_job.py >> /data/logs/daily.5.log
 
+echo "###################"$DATE"###################" >> /data/logs/daily.6.log
+#使用股票指标预测卖出。
+/usr/bin/python3 /data/stock/jobs/guess_indicators_lite_sell_daily_job.py >> /data/logs/daily.6.log
+
 #清除前3天数据。
 DATE_3=`date -d '-20 days' +%Y-%m-%d`
 rm -f /tmp/stock/hist_data_cache/$DATE_3*
