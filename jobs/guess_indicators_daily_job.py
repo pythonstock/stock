@@ -22,8 +22,8 @@ def stat_all_lite(tmp_datetime):
                             `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`,
                              `nmc` ,`kdjj`,`rsi_6`,`cci`
                         FROM stock_data.guess_indicators_daily WHERE `date` = %s 
-                        and kdjj > 100 and rsi_6 > 80  and cci > 100
-    """
+                        and kdjj > 80 and rsi_6 > 55  and cci > 100
+    """ # and kdjj > 100 and rsi_6 > 80  and cci > 100 # 调整参数，提前获得股票增长。
 
     try:
         # 删除老数据。
