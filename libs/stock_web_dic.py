@@ -266,18 +266,36 @@ STOCK_WEB_DATA_LIST.append(
     )
 )
 
-# 每日股票指标lite猜想购买。
+# 每日股票指标lite猜想买入。
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
         type="每日数据",
-        name="每日股票指标lite猜想购买",
+        name="每日股票指标lite猜想买入",
         table_name="guess_indicators_lite_buy_daily",
         columns=["buy_date", "code", "name", "changepercent", "trade", "turnoverratio", "pb",
                  "kdjj", "rsi_6", "cci", "wave_base", "wave_crest", "wave_mean", "up_rate", "buy", "sell",
                  "today_trade", "income"],
         column_names=["购买日期", "代码", "名称", "涨跌幅", "现价", "换手率%", "市净率%",
-                      "kdjj", "rsi_6", "cci", "波谷", "波峰", "波平均", "上涨率%", "购买", "卖出", "今日价格", "收益"],
+                      "买入kdjj", "买入rsi_6", "买入cci", "波谷", "波峰", "波平均", "上涨率%", "买入", "卖出", "今日价格", "收益"],
+        primary_key=[],
+        order_by=" buy_date desc  "
+    )
+)
+
+# 每日股票指标lite猜想卖出。
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="每日数据",
+        name="每日股票指标lite猜想卖出",
+        table_name="guess_indicators_lite_sell_daily",
+        columns=["date", "buy_date", "code", "name", "changepercent", "trade", "turnoverratio", "pb",
+                 "kdjj", "rsi_6", "cci", "wave_base", "wave_crest", "wave_mean", "up_rate", "buy", "sell",
+                 "today_trade", "income", "sell_cci", "sell_kdjj", "sell_rsi_6"],
+        column_names=["日期", "购买日期", "代码", "名称", "涨跌幅", "现价", "换手率%", "市净率%",
+                      "买入kdjj", "买入rsi_6", "买入cci", "波谷", "波峰", "波平均", "上涨率%", "买入", "卖出", "今日价格", "收益",
+                      "卖出kdjj", "卖出rsi_6", "卖出cci", ],
         primary_key=[],
         order_by=" buy_date desc  "
     )
