@@ -90,6 +90,7 @@ def stat_index_calculate(tmp_datetime):
     # 合并数据
     data_new = pd.merge(data, stock_merge, on=['code'], how='left')
     data_new["income"] = (data_new["today_trade"] - data_new["trade_float32"]) * 100
+    data_new["income"] = data_new["income"].round(4)  # 保留4位小数。
     data_new["buy"] = 0
 
     # 增加售出列。看看是否需要卖出。
