@@ -71,7 +71,7 @@ def stat_index_calculate(tmp_datetime):
     sql_1 = """ 
                 SELECT `buy_date`, `code`, `name`, `changepercent`, `trade`, `turnoverratio`, `pb`, `kdjj`, `rsi_6`, 
                 `cci`, `wave_base`, `wave_crest`, `wave_mean`, `up_rate`
-                FROM guess_indicators_lite_buy_daily """
+                FROM guess_indicators_lite_buy_daily where `buy_date` <= """ + datetime_int
     print(sql_1)
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[])
     data = data.drop_duplicates(subset="code", keep="last")
