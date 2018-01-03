@@ -19,20 +19,20 @@ def stat_all_lite(tmp_datetime):
     print("datetime_str:", datetime_str)
     print("datetime_int:", datetime_int)
 
-    sql_1 = """
-            SELECT `date`, `code`, `name`, `changepercent`, `trade`,`turnoverratio`, `pb` ,`kdjj`,`rsi_6`,`cci`
-                        FROM stock_data.guess_indicators_lite_daily WHERE `date` = %s 
-                        and `changepercent` > 2 and `pb` > 0 and `turnoverratio` > 5
-    """
-
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM `stock_data`.`` WHERE `date`= '%s' " % (table_name, datetime_int)
-        # common.insert(del_sql)
+        del_sql = " DELETE FROM `stock_data`.`%s` WHERE `date`= '%s' " % (table_name, datetime_int)
+        print("del_sql:", del_sql)
+        common.insert(del_sql)
         print("del_sql")
     except Exception as e:
         print("error :", e)
 
+    sql_1 = """
+                SELECT `date`, `code`, `name`, `changepercent`, `trade`,`turnoverratio`, `pb` ,`kdjj`,`rsi_6`,`cci`
+                            FROM stock_data.guess_indicators_lite_daily WHERE `date` = %s 
+                            and `changepercent` > 2 and `pb` > 0 and `turnoverratio` > 5
+        """
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int])
     data = data.drop_duplicates(subset="code", keep="last")
     print("######## len data ########:", len(data))
