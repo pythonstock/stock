@@ -26,7 +26,7 @@ def stat_all_lite(tmp_datetime):
                              `nmc` ,`kdjj`,`rsi_6`,`cci`
                         FROM stock_data.guess_indicators_daily WHERE `date` = %s 
                         and kdjk >= 80 and kdjd >= 70 and kdjj >= 90  and rsi_6 >= 50  and cci >= 100
-    """ # and kdjj > 100 and rsi_6 > 80  and cci > 100 # 调整参数，提前获得股票增长。
+    """  # and kdjj > 100 and rsi_6 > 80  and cci > 100 # 调整参数，提前获得股票增长。
 
     try:
         # 删除老数据。
@@ -61,9 +61,11 @@ def stat_all_batch(tmp_datetime):
 
     sql_count = """
     SELECT count(1) FROM stock_data.ts_today_all WHERE `date` = %s and `trade` > 0 and `open` > 0 and trade <= 20 
-                and `code` not like %s and `code` not like %s and `name` not like %s
+                 and `code` not like %s and `name` not like %s
     """
-    count = common.select_count(sql_count, params=[datetime_int, '002%', '300%', '%st%'])
+    # 修改逻辑，增加中小板块计算。 中小板：002，创业板：300 。and `code` not like %s and `code` not like %s and `name` not like %s
+    # count = common.select_count(sql_count, params=[datetime_int, '002%', '300%', '%st%'])
+    count = common.select_count(sql_count, params=[datetime_int, '300%', '%st%'])
     print("count :", count)
     batch_size = 100
     end = int(math.ceil(float(count) / batch_size) * batch_size)
