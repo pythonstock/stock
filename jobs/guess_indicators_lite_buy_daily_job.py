@@ -59,7 +59,7 @@ def stat_all_lite(tmp_datetime):
     data_new["wave_crest"] = data_new["wave_crest"].round(2)  # 数据保留2位小数
     data_new["wave_mean"] = data_new["wave_mean"].round(2)  # 数据保留2位小数
 
-    data_new["up_rate"] = (data_new["trade_float32"].sub(data_new["wave_mean"])).div(data_new["wave_crest"]).mul(100)
+    data_new["up_rate"] = (data_new["wave_mean"].sub(data_new["trade_float32"])).div(data_new["wave_crest"]).mul(100)
     data_new["up_rate"] = data_new["up_rate"].round(2)  # 数据保留2位小数
 
     data_new["buy"] = 1
