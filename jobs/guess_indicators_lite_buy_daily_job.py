@@ -31,7 +31,7 @@ def stat_all_lite(tmp_datetime):
     sql_1 = """
                 SELECT `date`, `code`, `name`, `changepercent`, `trade`,`turnoverratio`, `pb` ,`kdjj`,`rsi_6`,`cci`
                             FROM stock_data.guess_indicators_lite_daily WHERE `date` = %s 
-                            and `changepercent` > 1 and `pb` > 0 
+                            and `changepercent` > 2 and `pb` > 0 
         """
     # and `changepercent` > 2 and `pb` > 0 and `turnoverratio` > 5 去除掉换手率参数。
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int])
