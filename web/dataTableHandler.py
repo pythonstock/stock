@@ -119,9 +119,9 @@ class GetStockDataHandler(webBase.BaseHandler):
                 col_tmp = stock_web.columns[key]
                 dir_tmp = order_by_dir[idx]
                 if idx != 0:
-                    order_by_sql += " ,cast(`%s` as double) %s" % (col_tmp, dir_tmp)
+                    order_by_sql += " ,cast(`%s` as decimal) %s" % (col_tmp, dir_tmp)
                 else:
-                    order_by_sql += " cast(`%s` as double) %s" % (col_tmp, dir_tmp)
+                    order_by_sql += " cast(`%s` as decimal) %s" % (col_tmp, dir_tmp)
                 idx += 1
         # 查询数据库。
         limit_sql = ""
