@@ -19,14 +19,14 @@ def stat_all_lite(tmp_datetime):
     print("datetime_str:", datetime_str)
     print("datetime_int:", datetime_int)
 
-    try:
-        # 删除老数据。
-        del_sql = " DELETE FROM `stock_data`.`%s` WHERE `date`= '%s' " % (table_name, datetime_int)
-        print("del_sql:", del_sql)
-        common.insert(del_sql)
-        print("del_sql")
-    except Exception as e:
-        print("error :", e)
+    # try:
+    #     # 删除老数据。guess_indicators_lite_buy_daily 是一张单表，没有日期字段。
+    #     del_sql = " DELETE FROM `stock_data`.`%s` WHERE `date`= '%s' " % (table_name, datetime_int)
+    #     print("del_sql:", del_sql)
+    #     common.insert(del_sql)
+    #     print("del_sql")
+    # except Exception as e:
+    #     print("error :", e)
 
     sql_1 = """
                 SELECT `date`, `code`, `name`, `changepercent`, `trade`,`turnoverratio`, `pb` ,`kdjj`,`rsi_6`,`cci`
