@@ -53,7 +53,9 @@ def apply_merge_sell(tmp):
     rsi_6 = int(stockStat["rsi_6"].tail(1).values[0])
     cci = int(stockStat["cci"].tail(1).values[0])
     print("kdjj:", kdjj, "rsi_6:", rsi_6, "cci:", cci)
-    if kdjj <= 10 and rsi_6 <= 50 and cci <= 100:
+    # and kdjj > 80 and rsi_6 > 55  and cci > 100 判断卖出时刻。也就是买入时刻的反面。发现有波动就卖了。
+    # if kdjj <= 10 and rsi_6 <= 50 and cci <= 100: old
+    if kdjj <= 80 or rsi_6 <= 55 or cci <= 100:
         return list([code, date, 1, cci, kdjj, rsi_6])
     else:
         return list([code, date, 0, cci, kdjj, rsi_6])
