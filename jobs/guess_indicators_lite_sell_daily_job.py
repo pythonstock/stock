@@ -114,7 +114,7 @@ def stat_index_calculate(tmp_datetime):
         print("error :", e)
     del data_new["trade_float32"]
     try:
-        common.insert_db(data_new, table_name, False, "`code`")
+        common.insert_db(data_new, table_name, False, "`date`,`code`")
         print("insert_db")
     except Exception as e:
         print("error :", e)
