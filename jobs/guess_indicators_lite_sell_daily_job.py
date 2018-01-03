@@ -31,7 +31,7 @@ def apply_merge(tmp):
     return list([code, date, close])
 
 
-# code      date  sell  sell_cci  sell_kdjj  sell_rsi_6
+#    buy    code      date  sell  sell_cci  sell_kdjj  sell_rsi_6
 def apply_merge_sell(tmp):
     date = tmp["date"]
     code = tmp["code"]
@@ -56,9 +56,9 @@ def apply_merge_sell(tmp):
     # and kdjj > 80 and rsi_6 > 55  and cci > 100 判断卖出时刻。也就是买入时刻的反面。发现有波动就卖了。
     # if kdjj <= 10 and rsi_6 <= 50 and cci <= 100: old
     if kdjj <= 80 or rsi_6 <= 55 or cci <= 100:
-        return list([code, date, 1, cci, kdjj, rsi_6])
+        return list([0, code, date, 1, cci, kdjj, rsi_6])
     else:
-        return list([code, date, 0, cci, kdjj, rsi_6])
+        return list([1, code, date, 0, cci, kdjj, rsi_6])
 
 
 # 增加 收益计算。
@@ -93,11 +93,11 @@ def stat_index_calculate(tmp_datetime):
     data_new = pd.merge(data, stock_merge, on=['code'], how='left')
     data_new["income"] = (data_new["today_trade"] - data_new["trade_float32"]) * 100
     data_new["income"] = data_new["income"].round(4)  # 保留4位小数。
-    data_new["buy"] = 0
 
     # 增加售出列。看看是否需要卖出。
     stock_sell_merge = pd.DataFrame({
-        "date": data["date"], "code": data["code"], "sell": 0, "sell_kdjj": 0, "sell_rsi_6": 0, "sell_cci": 0},
+        "date": data["date"], "code": data["code"], "sell": 0, "buy": 0, "sell_kdjj": 0, "sell_rsi_6": 0,
+        "sell_cci": 0},
         index=data.index.values)
     print(stock_sell_merge.head(1))
 
