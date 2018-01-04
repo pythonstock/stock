@@ -141,7 +141,7 @@ def run_with_args(run_fun):
 
 
 # 设置基础目录，每次加载使用。
-bash_stock_tmp = "/tmp/stock/hist_data_cache/"
+bash_stock_tmp = "/tmp/stock/hist_data_cache/%s/%s"
 if not os.path.exists(bash_stock_tmp):
     os.makedirs(bash_stock_tmp)  # 创建多个文件夹结构。
     print("######################### init tmp dir #########################")
@@ -149,7 +149,11 @@ if not os.path.exists(bash_stock_tmp):
 
 # 增加读取股票缓存方法。加快处理速度。
 def get_hist_data_cache(code, date_start, date_end):
-    cache_file = bash_stock_tmp + "%s^%s.gzip.pickle" % (date_end, code)
+    cache_dir = bash_stock_tmp % (date_end[0:7], date_end)
+    # 如果没有文件夹创建一个。月文件夹和日文件夹。方便删除。
+    if not os.path.exists(cache_dir):
+        os.makedirs(cache_dir)
+    cache_file = cache_dir + "%s^%s.gzip.pickle" % (date_end, code)
     # 如果缓存存在就直接返回缓存数据。压缩方式。
     if os.path.isfile(cache_file):
         print("######### read from cache #########", cache_file)

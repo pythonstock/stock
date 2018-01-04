@@ -10,6 +10,7 @@ import tushare as ts
 from sqlalchemy.types import NVARCHAR
 from sqlalchemy import inspect
 import datetime
+import shutil
 
 
 ####### 使用 5.pdf，先做 基本面数据 的数据，然后在做交易数据。
@@ -17,6 +18,11 @@ import datetime
 def stat_all(tmp_datetime):
     datetime_str = (tmp_datetime).strftime("%Y-%m-%d")
     datetime_int = (tmp_datetime).strftime("%Y%m%d")
+
+    cache_dir = common.bash_stock_tmp % (datetime_str[0:7], datetime_str)
+    shutil.rmtree(cache_dir)
+    print("remove cache dir force :", cache_dir)
+
     print("datetime_str:", datetime_str)
     print("datetime_int:", datetime_int)
     data = ts.top_list(datetime_str)
@@ -24,7 +30,7 @@ def stat_all(tmp_datetime):
     #
     if not data is None and len(data) > 0:
         # 插入数据库。
-        #del data["reason"]
+        # del data["reason"]
         data["date"] = datetime_int  # 修改时间成为int类型。
         data = data.drop_duplicates(subset="code", keep="last")
         data.head(n=1)
