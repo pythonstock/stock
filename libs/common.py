@@ -141,7 +141,7 @@ def run_with_args(run_fun):
 
 
 # 设置基础目录，每次加载使用。
-bash_stock_tmp = "/tmp/stock/hist_data_cache/%s/%s"
+bash_stock_tmp = "/tmp/stock/hist_data_cache/%s/%s/"
 if not os.path.exists(bash_stock_tmp):
     os.makedirs(bash_stock_tmp)  # 创建多个文件夹结构。
     print("######################### init tmp dir #########################")
