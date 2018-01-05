@@ -14,7 +14,7 @@ from sklearn import datasets, linear_model
 from sklearn.model_selection import train_test_split, cross_val_score
 
 # 要操作的数据库表名称。
-table_name = "guess_sklearn_daily"
+table_name = "guess_sklearn_ma_daily"
 
 
 # 批处理数据。

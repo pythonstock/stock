@@ -213,7 +213,7 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="每日数据",
+        type="每日数据猜想",
         name="每日波峰波谷猜想",
         table_name="guess_period_daily",
         columns=["date", "code", "name", "wave_base", "wave_crest", "wave_mean", "up_rate",
@@ -231,7 +231,7 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="每日数据",
+        type="每日数据猜想",
         name="每日收益率猜想",
         table_name="guess_return_daily",
         columns=["date", "code", "name",
@@ -251,7 +251,7 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="每日数据",
+        type="每日数据猜想",
         name="每日股票指标lite猜想",
         table_name="guess_indicators_lite_daily",
         columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
@@ -270,7 +270,7 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="每日数据",
+        type="每日数据猜想",
         name="每日股票指标lite猜想买入",
         table_name="guess_indicators_lite_buy_daily",
         columns=["buy_date", "code", "name", "changepercent", "trade", "turnoverratio", "pb",
@@ -287,7 +287,7 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="每日数据",
+        type="每日数据猜想",
         name="每日股票指标lite猜想卖出",
         table_name="guess_indicators_lite_sell_daily",
         columns=["date", "buy_date", "code", "name", "changepercent", "trade", "turnoverratio", "pb",
@@ -305,7 +305,7 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="每日数据",
+        type="每日数据猜想",
         name="每日股票指标All猜想",
         table_name="guess_indicators_daily",
         columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
@@ -321,6 +321,21 @@ STOCK_WEB_DATA_LIST.append(
                       'close_-2_r', 'code', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3', 'date', 'dma', 'dx',
                       'kdjd', 'kdjj', 'kdjk', 'macd', 'macdh', 'macds', 'mdi', 'pdi',
                       'rsi_12', 'rsi_6', 'trix', 'trix_9_sma', 'vr', 'vr_6_sma', 'wr_10', 'wr_6'],
+        primary_key=[],
+        order_by=" date desc  "
+    )
+)
+
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="每日数据sklearn猜想",
+        name="每日股票数据sklearn ma猜想",
+        table_name="guess_sklearn_ma_daily",
+        columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
+                 "turnoverratio", "next_close", "sklearn_score", "up_rate"],
+        column_names=["日期", "代码", "名称", "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
+                      "换手率", "预测收盘价", "sk概率", "预测上涨率"],
         primary_key=[],
         order_by=" date desc  "
     )
