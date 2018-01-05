@@ -73,7 +73,6 @@ def stat_all_batch(tmp_datetime):
         # for index, row in data.iterrows():
         #     next_stock, score = stat_index_all(row, i)
         #     print(next_stock, score)
-        data_new["today_trade"] = 0
         data_new["next_close"] = data_new["next_close"].round(2)  # 数据保留4位小数
         data_new["sklearn_score"] = data_new["sklearn_score"].round(2)  # 数据保留2位小数
 
@@ -110,26 +109,22 @@ def apply_sklearn(data):
     stock_y = pd.Series(stock_X["close"].values)  # 标签
 
     stock_X_next = stock_X.iloc[len(stock_X) - 1]
+    print("########################### stock_X_next date:", stock_X_next)
     # 使用今天的交易价格，13 个指标预测明天的价格。偏移股票数据，今天的数据，目标是明天的价格。
     stock_X = stock_X.drop(stock_X.index[len(stock_X) - 1])  # 删除最后一条数据
     stock_y = stock_y.drop(stock_y.index[0])  # 删除第一条数据
+    # print("########################### stock_X date:", stock_X)
+
     # 删除掉close 也就是收盘价格。
     del stock_X["close"]
     del stock_X_next["close"]
 
-    print("###########################")
-    print(len(stock_X), ",", len(stock_y))
-
-    print("###########################")
-    print(stock_X_next.values)
-
     model = linear_model.LinearRegression()
     model.fit(stock_X.values, stock_y)
-    print("############## test & target #############")
-
-    print("############## coef_ & intercept_ #############")
-    print(model.coef_)  # 系数
-    print(model.intercept_)  # 截断
+    # print("############## test & target #############")
+    # print("############## coef_ & intercept_ #############")
+    # print(model.coef_)  # 系数
+    # print(model.intercept_)  # 截断
     next_close = model.predict([stock_X_next.values])
     if len(next_close) == 1:
         next_close = next_close[0]
