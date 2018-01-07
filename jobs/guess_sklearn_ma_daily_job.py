@@ -12,6 +12,7 @@ from sklearn import datasets, linear_model
 # https://github.com/udacity/machine-learning/issues/202
 # sklearn.cross_validation 这个包不推荐使用了。
 from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.neighbors import KNeighborsClassifier
 
 # 要操作的数据库表名称。
 table_name = "guess_sklearn_ma_daily"
@@ -119,7 +120,9 @@ def apply_sklearn(data):
     del stock_X["close"]
     del stock_X_next["close"]
 
-    model = linear_model.LinearRegression()
+    # model = linear_model.LinearRegression()
+    model = KNeighborsClassifier()
+
     model.fit(stock_X.values, stock_y)
     # print("############## test & target #############")
     # print("############## coef_ & intercept_ #############")
