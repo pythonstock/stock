@@ -53,6 +53,12 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
 #增加 statsmodels lib。
 RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats apscheduler
 
+RUN cd /root && curl -o QuantLib-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib/tar.gz/QuantLib-v1.11 && \
+    curl -o QuantLib-SWIG-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib-SWIG/tar.gz/QuantLib-SWIG-v1.11 && \
+    apt-get update && apt-get install -y python-dev swig automake autoconf libtool libboost-all-dev && \
+    tar -zxvf QuantLib-1.11.tar.gz && tar -zxvf QuantLib-SWIG-1.11.tar.gz && cd QuantLib-1.11 && ./configure && \
+    make && make install && cd ../QuantLib-SWIG-1.11 && ./configure PYTHON=/usr/local/bin/python3 && \
+    make -C Python && make -C Python install && apt-get remove -y python-dev swig automake autoconf libtool
 
 #add cron sesrvice.
 #每分钟，每小时1分钟，每天1点1分，每月1号执行
@@ -74,7 +80,7 @@ nohup /bin/sh /data/stock/jobs/run_init.sh 2>&1 & \n\
 sleep 1  \n\
 nohup /usr/local/bin/tensorboard --logdir=/data/logs/tensorflow 2>&1 & \n\
 sleep 1  \n\
-nohup /usr/bin/python3 /data/jobs/aps_job.py >> /data/logs/aps_job.log 2>&1 & \n\
+nohup /usr/bin/python3 /data/stock/jobs/aps_job.py >> /data/logs/aps_job.log 2>&1 & \n\
 sleep 1  \n\
 nohup /usr/bin/python3 /data/stock/web/main.py >> /data/logs/tornado.log 2>&1 & \n\
 sleep 1  \n\
