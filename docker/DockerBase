@@ -56,8 +56,8 @@ RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats a
 RUN cd /root && curl -o QuantLib-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib/tar.gz/QuantLib-v1.11 && \
     curl -o QuantLib-SWIG-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib-SWIG/tar.gz/QuantLib-SWIG-v1.11 && \
     apt-get update && apt-get install -y python-dev swig automake autoconf libtool libboost-all-dev && \
-    tar -zxvf QuantLib-1.11.tar.gz && tar -zxvf QuantLib-SWIG-1.11.tar.gz && cd QuantLib-1.11 && ./configure && \
-    make && make install && cd ../QuantLib-SWIG-1.11 && ./configure PYTHON=/usr/local/bin/python3 && \
+    tar -zxvf QuantLib-1.11.tar.gz && tar -zxvf QuantLib-SWIG-1.11.tar.gz && cd QuantLib-QuantLib-v1.11 && ./configure && \
+    make && make install && cd ../QuantLib-SWIG-QuantLib-SWIG-v1.11 && ./configure PYTHON=/usr/local/bin/python3 && \
     make -C Python && make -C Python install && apt-get remove -y python-dev swig automake autoconf libtool
 
 #add cron sesrvice.
