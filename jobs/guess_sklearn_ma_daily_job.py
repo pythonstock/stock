@@ -120,8 +120,8 @@ def apply_sklearn(data):
     del stock_X["close"]
     del stock_X_next["close"]
 
-    # model = linear_model.LinearRegression()
-    model = KNeighborsClassifier()
+    model = linear_model.LinearRegression()
+    # model = KNeighborsClassifier()
 
     model.fit(stock_X.values, stock_y)
     # print("############## test & target #############")
