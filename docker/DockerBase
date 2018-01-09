@@ -53,13 +53,15 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
 #增加 statsmodels lib。apscheduler
 RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats alphalens pyfolio
 
+#需要编译数个小时，慢慢等待。
 RUN cd /root && curl -o QuantLib-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib/tar.gz/QuantLib-v1.11 && \
     curl -o QuantLib-SWIG-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib-SWIG/tar.gz/QuantLib-SWIG-v1.11 && \
     apt-get update && apt-get install -y python-dev swig automake autoconf libtool libboost-all-dev && \
     tar -zxvf QuantLib-1.11.tar.gz && tar -zxvf QuantLib-SWIG-1.11.tar.gz && \
     cd QuantLib-QuantLib-v1.11 && ./autogen.sh && ./configure && make && make install && ldconfig && \
     cd ../QuantLib-SWIG-QuantLib-SWIG-v1.11 && ./autogen.sh && ./configure PYTHON=/usr/local/bin/python3 && \
-    make -C Python && make -C Python install && apt-get remove -y python-dev swig automake autoconf libtool
+    make -C Python && make -C Python install && apt-get remove -y python-dev swig automake autoconf libtool && \
+    rm -rf /root/QuantLib-QuantLib-v1.11 && rm -rf /root/QuantLib-SWIG-QuantLib-SWIG-v1.11
 
 #add cron sesrvice.
 #每分钟，每小时1分钟，每天1点1分，每月1号执行
@@ -91,7 +93,9 @@ fi \n\
 jupyter notebook --allow-root --NotebookApp.token='' --notebook-dir=/notebooks > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
 
 
-
+#增加语言utf-8
+ENV LC_CTYPE=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
 WORKDIR /data/stock
