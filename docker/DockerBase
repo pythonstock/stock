@@ -50,14 +50,15 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
 # tensorflow-serving-api
 # https://github.com/tensorflow/tensorflow/issues/12159
 # serving-api not support !!!
-#增加 statsmodels lib。
-RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats apscheduler
+#增加 statsmodels lib。apscheduler
+RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats pyfolio
 
 RUN cd /root && curl -o QuantLib-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib/tar.gz/QuantLib-v1.11 && \
     curl -o QuantLib-SWIG-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib-SWIG/tar.gz/QuantLib-SWIG-v1.11 && \
     apt-get update && apt-get install -y python-dev swig automake autoconf libtool libboost-all-dev && \
-    tar -zxvf QuantLib-1.11.tar.gz && tar -zxvf QuantLib-SWIG-1.11.tar.gz && cd QuantLib-QuantLib-v1.11 && ./autogen.sh && \
-    ./configure && make && make install && ldconfig && cd ../QuantLib-SWIG-QuantLib-SWIG-v1.11 && ./configure PYTHON=/usr/local/bin/python3 && \
+    tar -zxvf QuantLib-1.11.tar.gz && tar -zxvf QuantLib-SWIG-1.11.tar.gz && \
+    cd QuantLib-QuantLib-v1.11 && ./autogen.sh && ./configure && make && make install && ldconfig && \
+    cd ../QuantLib-SWIG-QuantLib-SWIG-v1.11 && ./autogen.sh && ./configure PYTHON=/usr/local/bin/python3 && \
     make -C Python && make -C Python install && apt-get remove -y python-dev swig automake autoconf libtool
 
 #add cron sesrvice.
