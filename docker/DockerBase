@@ -51,7 +51,7 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
 # https://github.com/tensorflow/tensorflow/issues/12159
 # serving-api not support !!!
 #增加 statsmodels lib。apscheduler
-RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats pyfolio
+RUN pip3 install grpcio tensorflow-serving-client statsmodels bokeh stockstats alphalens pyfolio
 
 RUN cd /root && curl -o QuantLib-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib/tar.gz/QuantLib-v1.11 && \
     curl -o QuantLib-SWIG-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib-SWIG/tar.gz/QuantLib-SWIG-v1.11 && \
