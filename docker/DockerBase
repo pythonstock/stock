@@ -58,8 +58,9 @@ RUN cd /root && curl -o QuantLib-1.11.tar.gz https://codeload.github.com/lballab
     curl -o QuantLib-SWIG-1.11.tar.gz https://codeload.github.com/lballabio/QuantLib-SWIG/tar.gz/QuantLib-SWIG-v1.11 && \
     apt-get update && apt-get install -y python-dev swig automake autoconf libtool libboost-all-dev && \
     tar -zxvf QuantLib-1.11.tar.gz && tar -zxvf QuantLib-SWIG-1.11.tar.gz && \
-    cd QuantLib-QuantLib-v1.11 && ./autogen.sh && ./configure && make && make install && ldconfig && \
-    cd ../QuantLib-SWIG-QuantLib-SWIG-v1.11 && ./autogen.sh && ./configure PYTHON=/usr/local/bin/python3 && \
+    cd QuantLib-QuantLib-v1.11 && ./autogen.sh && ./configure && make && make install && ldconfig
+
+RUN cd /root/QuantLib-SWIG-QuantLib-SWIG-v1.11 && ./autogen.sh && ./configure PYTHON=/usr/bin/python3 && \
     make -C Python && make -C Python install && apt-get remove -y python-dev swig automake autoconf libtool && \
     rm -rf /root/QuantLib-QuantLib-v1.11 && rm -rf /root/QuantLib-SWIG-QuantLib-SWIG-v1.11
 
