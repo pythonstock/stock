@@ -95,9 +95,9 @@ jupyter notebook --allow-root --NotebookApp.token='' --notebook-dir=/notebooks >
 
 
 #增加语言utf-8
-ENV LC_CTYPE=en_US.UTF-8
-ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
+ENV LC_CTYPE=en_US.UTF-8
+#ENV LC_ALL=en_US.UTF-8
 
 WORKDIR /data/stock
 
