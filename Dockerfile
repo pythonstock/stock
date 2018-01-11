@@ -61,14 +61,37 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
 30       17       1,10,20       *       *       /bin/run-parts /etc/cron.monthly \n" > /var/spool/cron/crontabs/root && \
     chmod 600 /var/spool/cron/crontabs/root
 
+#增加服务端口
+EXPOSE 9999
+
 #增加语言utf-8
 ENV LANG=en_US.UTF-8
 ENV LC_CTYPE=en_US.UTF-8
 ENV LC_ALL=C
 
-WORKDIR /data/stock
+WORKDIR /data
 
-RUN pip install supervisor
+RUN pip install grpcio tensorflow-serving-client statsmodels bokeh stockstats alphalens pyfolio supervisor && \
+    apt-get update && apt-get install -y mariadb-server quantlib-python net-tools
+
+RUN sed -i 's/= \/var\/lib\/mysql/= \/data\/mariadb/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+
+#经常修改放到最后：
+ADD jobs /data/stock/jobs
+ADD libs /data/stock/libs
+ADD tf /data/stock/tf
+ADD web /data/stock/web
 ADD supervisor /etc/supervisor
+
+ADD jobs/cron.minutely /etc/cron.minutely
+ADD jobs/cron.hourly /etc/cron.hourly
+ADD jobs/cron.daily /etc/cron.daily
+ADD jobs/cron.monthly /etc/cron.monthly
+
+RUN mkdir -p /data/logs && ls /data/stock/ && chmod 755 /data/stock/jobs/run_* &&  \
+    chmod 755 /etc/cron.minutely/* && chmod 755 /etc/cron.hourly/* && \
+    chmod 755 /etc/cron.daily/* && chmod 755 /etc/cron.monthly/* && \
+    ln -s /data/stock/libs/ /usr/lib/python3.5/libs && \
+    ln -s /data/stock/web/ /usr/lib/python3.5/web
 
 ENTRYPOINT ["supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
