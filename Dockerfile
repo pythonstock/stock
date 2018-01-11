@@ -1,6 +1,5 @@
-#FROM docker.io/tensorflow/tensorflow:latest-py3
 # 降级使用python2. 为了兼容 TensorFlow-serving。
-FROM docker.io/tensorflow/tensorflow:latest-devel
+FROM docker.io/tensorflow/tensorflow:latest
 
 RUN echo  "deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse \n\
 deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse \n\
@@ -48,14 +47,6 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     sed -i -e 's/itertools\.izip/zip/g' \
     /usr/local/lib/python2.7/dist-packages/torndb.py
 
-#add tensorflow-model-server
-RUN echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt \
-    stable tensorflow-model-server tensorflow-model-server-universal" > \
-    /etc/apt/sources.list.d/tensorflow-serving.list && \
-    curl https://storage.googleapis.com/tensorflow-serving-apt/tensorflow-serving.release.pub.gpg |  apt-key add - && \
-    apt-get update && apt-get install -y tensorflow-model-server && \
-    pip install grpcio tensorflow-serving-client tensorflow-serving-api
-
 
 #add cron sesrvice.
 #每分钟，每小时1分钟，每天1点1分，每月1号执行
@@ -70,15 +61,14 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
 30       17       1,10,20       *       *       /bin/run-parts /etc/cron.monthly \n" > /var/spool/cron/crontabs/root && \
     chmod 600 /var/spool/cron/crontabs/root
 
-#add cron
-RUN echo "#!/usr/bin/env bash \n\
-/usr/sbin/cron \n\
-nohup /bin/sh /data/stock/jobs/run_init.sh & \n\
-nohup /usr/local/bin/tensorboard --logdir=/data/logs/tensorflow & \n\
-nohup /usr/bin/python /data/stock/web/main.py --log-file-prefix=/data/logs/tornado.log --log-file-max-size=0 & \n\
-jupyter notebook --allow-root --NotebookApp.token='token1234' --notebook-dir=/notebooks > /notebooks/jupyter-notebook.log " > /run_jupyter.sh
+#增加语言utf-8
+ENV LANG=en_US.UTF-8
+ENV LC_CTYPE=en_US.UTF-8
+ENV LC_ALL=C
 
-#增加 statsmodels lib。
-RUN pip install -U statsmodels
+WORKDIR /data/stock
 
-ENTRYPOINT ["/run_jupyter.sh"]
+RUN pip install supervisor
+ADD supervisor /etc/supervisor
+
+ENTRYPOINT ["supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
