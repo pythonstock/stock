@@ -15,6 +15,7 @@ docker run -itd --link=mariadb --name stock  \
     -p 6006:6006 \
     -p 9999:9999 \
     -p 8500:8500 \
+    -p 9001:9001 \
     pythonstock/pythonstock:latest
 
 ```
