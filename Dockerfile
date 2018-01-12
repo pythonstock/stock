@@ -71,10 +71,8 @@ ENV LC_ALL=C
 
 WORKDIR /data
 
-RUN pip install grpcio tensorflow-serving-client statsmodels bokeh stockstats alphalens pyfolio supervisor && \
-    apt-get update && apt-get install -y mariadb-server quantlib-python net-tools
-
-RUN sed -i 's/= \/var\/lib\/mysql/= \/data\/mariadb/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+RUN pip install statsmodels bokeh stockstats alphalens pyfolio supervisor && \
+    apt-get update && apt-get install -y quantlib-python net-tools
 
 #经常修改放到最后：
 ADD jobs /data/stock/jobs
@@ -91,7 +89,7 @@ ADD jobs/cron.monthly /etc/cron.monthly
 RUN mkdir -p /data/logs && ls /data/stock/ && chmod 755 /data/stock/jobs/run_* &&  \
     chmod 755 /etc/cron.minutely/* && chmod 755 /etc/cron.hourly/* && \
     chmod 755 /etc/cron.daily/* && chmod 755 /etc/cron.monthly/* && \
-    ln -s /data/stock/libs/ /usr/lib/python3.5/libs && \
-    ln -s /data/stock/web/ /usr/lib/python3.5/web
+    ln -s /data/stock/libs/ /usr/lib/python2.7/libs && \
+    ln -s /data/stock/web/ /usr/lib/python2.7/web
 
 ENTRYPOINT ["supervisord","-n","-c","/etc/supervisor/supervisord.conf"]

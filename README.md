@@ -1,14 +1,32 @@
 ### 使用方法（依赖docker）
 
-git clone https://github.com/pythonstock/stock.git && cd stock/docker && sh startStock.sh
+已经放到docker hub上了
 
+```
+mkdir -p /data/mariadb/data
+docker pull pythonstock/pythonstock
+docker pull mariadb
+
+docker run --name mariadb -v /data/mariadb/data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=mariadb -p 3306:3306 -d mariadb:latest
+
+docker run -itd --link=mariadb --name stock  \
+    -p 8888:8888 \
+    -p 6006:6006 \
+    -p 9999:9999 \
+    -p 8500:8500 \
+    pythonstock/pythonstock:latest
+
+```
+
+其中构建文件参考 Dockerfile
 
 
 首先会下载相关镜像，然后在进行构建。启动mariadb，并讲stock和mariadb链接起来。
 
 ```
 依赖这两个镜像，tensorflow镜像比较大。
-docker.io/tensorflow/tensorflow:latest-py3
+docker.io/tensorflow/tensorflow:latest
 docker.io/mariadb:latest
 ```
 
