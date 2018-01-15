@@ -36,5 +36,7 @@ echo "###################"$DATE"###################" >> /data/logs/daily.7.log
 /usr/bin/python /data/stock/jobs/guess_sklearn_ma_daily_job.py >> /data/logs/daily.7.log
 
 #清除前3天数据。
-DATE_3=`date -d '-20 days' +%Y-%m-%d`
-rm -f /tmp/stock/hist_data_cache/$DATE_3*
+DATE_20=`date -d '-20 days' +%Y-%m-%d`
+MONTH_20=`date -d '-20 days' +%Y-%m`
+echo "rm -f /data/cache/hist_data_cache/$MONTH_20/$DATE_20"
+rm -f /data/cache/hist_data_cache/$MONTH_20/$DATE_20
