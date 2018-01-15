@@ -14,6 +14,7 @@ from sqlalchemy.types import NVARCHAR
 from sqlalchemy import inspect
 import tushare as ts
 import pandas as pd
+import traceback
 
 # 使用环境变量获得数据库。兼容开发模式可docker模式。
 MYSQL_HOST = os.environ.get('MYSQL_HOST') if (os.environ.get('MYSQL_HOST') != None) else "mariadb"
@@ -122,6 +123,7 @@ def run_with_args(run_fun):
                 run_fun(tmp_datetime_new)
             except Exception as e:
                 print("error :", e)
+                traceback.print_exc()
     elif len(sys.argv) == 2:
         # python xxx.py 2017-07-01
         tmp_year, tmp_month, tmp_day = sys.argv[1].split("-")
@@ -130,18 +132,20 @@ def run_with_args(run_fun):
             run_fun(tmp_datetime)
         except Exception as e:
             print("error :", e)
+            traceback.print_exc()
     else:
         # tmp_datetime = datetime.datetime.now() + datetime.timedelta(days=-1)
         try:
             run_fun(tmp_datetime_show)  # 使用当前时间
         except Exception as e:
             print("error :", e)
+            traceback.print_exc()
     print("######################### finish %s , use time: %s #########################" % (
         tmp_datetime_str, time.time() - start))
 
 
 # 设置基础目录，每次加载使用。
-bash_stock_tmp = "/tmp/stock/hist_data_cache/%s/%s/"
+bash_stock_tmp = "/data/cache/hist_data_cache/%s/%s/"
 if not os.path.exists(bash_stock_tmp):
     os.makedirs(bash_stock_tmp)  # 创建多个文件夹结构。
     print("######################### init tmp dir #########################")
@@ -151,6 +155,7 @@ if not os.path.exists(bash_stock_tmp):
 def get_hist_data_cache(code, date_start, date_end):
     cache_dir = bash_stock_tmp % (date_end[0:7], date_end)
     # 如果没有文件夹创建一个。月文件夹和日文件夹。方便删除。
+    # print("cache_dir:", cache_dir)
     if not os.path.exists(cache_dir):
         os.makedirs(cache_dir)
     cache_file = cache_dir + "%s^%s.gzip.pickle" % (date_end, code)

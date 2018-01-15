@@ -4,6 +4,7 @@
 
 import libs.common as common
 import sys
+import os
 import time
 import pandas as pd
 import tushare as ts
@@ -20,8 +21,9 @@ def stat_all(tmp_datetime):
     datetime_int = (tmp_datetime).strftime("%Y%m%d")
 
     cache_dir = common.bash_stock_tmp % (datetime_str[0:7], datetime_str)
-    shutil.rmtree(cache_dir)
-    print("remove cache dir force :", cache_dir)
+    if os.path.exists(cache_dir):
+        shutil.rmtree(cache_dir)
+        print("remove cache dir force :", cache_dir)
 
     print("datetime_str:", datetime_str)
     print("datetime_int:", datetime_int)
