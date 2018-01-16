@@ -1,6 +1,10 @@
 # 降级使用python2. 为了兼容 TensorFlow-serving。
 FROM docker.io/tensorflow/tensorflow:latest
 
+# https://mirrors.aliyun.com/help/debian
+# https://mirrors.aliyun.com/help/ubuntu
+# https://mirrors.aliyun.com/help/centos
+
 RUN echo  "deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse \n\
 deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse \n\
 deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse \n\
