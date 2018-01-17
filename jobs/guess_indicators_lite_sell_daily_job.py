@@ -23,6 +23,9 @@ def apply_merge(tmp):
     # open, high, close, low, volume, price_change, p_change, ma5, ma10, ma20, v_ma5, v_ma10, v_ma20, turnover
     # 使用缓存方法。加快计算速度。
     stock = common.get_hist_data_cache(code, date_start, date_end)
+    # 增加空判断，如果是空返回 0 数据。
+    if stock == None:
+        return list([code, date, 0.0])
     print("########")
     # print(stock.tail(1))
     close = stock.tail(1)["close"].values[0]
@@ -43,6 +46,9 @@ def apply_merge_sell(tmp):
     # open, high, close, low, volume, price_change, p_change, ma5, ma10, ma20, v_ma5, v_ma10, v_ma20, turnover
     # 使用缓存方法。加快计算速度。
     stock = common.get_hist_data_cache(code, date_start, date_end)
+    # 增加空判断，如果是空返回 0 数据。
+    if stock == None:
+        return list([1, code, date, 0, 0, 0, 0])
     print("########")
     # J大于100时为超买，小于10时为超卖。
     # 强弱指标保持高于50表示为强势市场，反之低于50表示为弱势市场。

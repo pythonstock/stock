@@ -232,6 +232,18 @@ def apply_guess(tmp, stock_column):
     # open, high, close, low, volume, price_change, p_change, ma5, ma10, ma20, v_ma5, v_ma10, v_ma20, turnover
     # 使用缓存方法。加快计算速度。
     stock = common.get_hist_data_cache(code, date_start, date_end)
+    # 设置返回数组。
+    stock_data_list = []
+    # 增加空判断，如果是空返回 0 数据。
+    if stock == None:
+        for col in stock_column:
+            if col == 'date':
+                stock_data_list.append(date)
+            elif col == 'code':
+                stock_data_list.append(code)
+            else:
+                stock_data_list.append(0)
+        return list(stock_data_list)
 
     # print(stock.head())
     # open  high  close   low     volume
@@ -244,8 +256,7 @@ def apply_guess(tmp, stock_column):
     # 初始化统计类
     # stockStat = stockstats.StockDataFrame.retype(pd.read_csv('002032.csv'))
     stockStat = stockstats.StockDataFrame.retype(stock)
-    # 设置返回数组。
-    stock_data_list = []
+
     print("########################## print result ##########################")
     for col in stock_column:
         if col == 'date':
