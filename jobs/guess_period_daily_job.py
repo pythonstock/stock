@@ -86,7 +86,7 @@ def apply_guess(tmp):
     # 使用缓存方法。加快计算速度。
     stock = common.get_hist_data_cache(code, date_start, date_end)
     # 增加空判断，如果是空返回 0 数据。
-    if stock == None:
+    if stock is None:
         return list([code, date, 0.0, 0.0, 0.0])
 
     stock = pd.DataFrame({"close": stock["close"]}, index=stock.index.values)

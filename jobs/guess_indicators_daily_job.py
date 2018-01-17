@@ -235,7 +235,7 @@ def apply_guess(tmp, stock_column):
     # 设置返回数组。
     stock_data_list = []
     # 增加空判断，如果是空返回 0 数据。
-    if stock == None:
+    if stock is None:
         for col in stock_column:
             if col == 'date':
                 stock_data_list.append(date)

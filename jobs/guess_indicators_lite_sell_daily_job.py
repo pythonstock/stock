@@ -24,7 +24,7 @@ def apply_merge(tmp):
     # 使用缓存方法。加快计算速度。
     stock = common.get_hist_data_cache(code, date_start, date_end)
     # 增加空判断，如果是空返回 0 数据。
-    if stock == None:
+    if stock is None:
         return list([code, date, 0.0])
     print("########")
     # print(stock.tail(1))
@@ -47,7 +47,7 @@ def apply_merge_sell(tmp):
     # 使用缓存方法。加快计算速度。
     stock = common.get_hist_data_cache(code, date_start, date_end)
     # 增加空判断，如果是空返回 0 数据。
-    if stock == None:
+    if stock is None:
         return list([1, code, date, 0, 0, 0, 0])
     print("########")
     # J大于100时为超买，小于10时为超卖。

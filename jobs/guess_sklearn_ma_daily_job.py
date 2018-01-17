@@ -107,7 +107,7 @@ def apply_sklearn(data):
     # open high close low volume price_change p_change ma5 ma10 ma20 v_ma5 v_ma10 v_ma20 turnover
     stock_X = common.get_hist_data_cache(code, date_start, date_end)
     # 增加空判断，如果是空返回 0 数据。
-    if stock_X == None:
+    if stock_X is None:
         return list([code, date, 0.0, 0.0])
 
     stock_X = stock_X.sort_index(0)  # 将数据按照日期排序下。

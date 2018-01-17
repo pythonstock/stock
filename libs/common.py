@@ -166,7 +166,7 @@ def get_hist_data_cache(code, date_start, date_end):
     else:
         print("######### get data, write cache #########", code, date_start, date_end)
         stock = ts.get_hist_data(code, start=date_start, end=date_end)
-        if stock == None:
+        if stock is None:
             return None
         stock = stock.sort_index(0)  # 将数据按照日期排序下。
         stock.to_pickle(cache_file, compression="gzip")
