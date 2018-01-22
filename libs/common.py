@@ -107,7 +107,9 @@ def select_count(sql, params=()):
 def run_with_args(run_fun):
     tmp_datetime_show = datetime.datetime.now()  # 修改成默认是当日执行 + datetime.timedelta()
     tmp_datetime_str = tmp_datetime_show.strftime("%Y-%m-%d %H:%M:%S.%f")
-    print("\n\n######################### begin run %s %s  #########################" % (run_fun, tmp_datetime_str))
+    str_db = "MYSQL_HOST :" + MYSQL_HOST + ", MYSQL_USER :" + MYSQL_USER + ", MYSQL_DB :" + MYSQL_DB
+    print("\n######################### " + str_db + "  ######################### ")
+    print("\n######################### begin run %s %s  #########################" % (run_fun, tmp_datetime_str))
     start = time.time()
     # 要支持数据重跑机制，将日期传入。循环次数
     if len(sys.argv) == 3:
