@@ -52,22 +52,6 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     /usr/local/lib/python2.7/dist-packages/torndb.py
 
 
-#add cron sesrvice.
-#每分钟，每小时1分钟，每天1点1分，每月1号执行
-RUN apt-get update && apt-get install -y cron vim && \
-    mkdir -p /etc/cron.minutely && \
-    echo "SHELL=/bin/sh \n\
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
-# min   hour    day     month   weekday command \n\
-*/1     *       *       *       *       /bin/run-parts /etc/cron.minutely \n\
-10       *       *       *       *       /bin/run-parts /etc/cron.hourly \n\
-20       16       *       *       *       /bin/run-parts /etc/cron.daily \n\
-30       17       1,10,20       *       *       /bin/run-parts /etc/cron.monthly \n" > /var/spool/cron/crontabs/root && \
-    chmod 600 /var/spool/cron/crontabs/root
-
-#增加服务端口
-EXPOSE 9999
-
 #增加语言utf-8
 ENV LANG=en_US.UTF-8
 ENV LC_CTYPE=en_US.UTF-8
@@ -77,6 +61,24 @@ WORKDIR /data
 
 RUN pip install statsmodels bokeh stockstats alphalens pyfolio supervisor && \
     apt-get update && apt-get install -y quantlib-python net-tools
+
+
+#add cron sesrvice.
+#每分钟，每小时1分钟，每天1点1分，每月1号执行
+RUN apt-get update && apt-get install -y cron vim && \
+    mkdir -p /etc/cron.minutely && \
+    echo "SHELL=/bin/sh \n\
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
+# min   hour    day     month   weekday command \n\
+*/1     *       *       *       *       /bin/run-parts /etc/cron.minutely \n\
+10       *       *       *       *       /bin/run-parts /etc/cron.hourly \n\
+30       16       *       *       *       /bin/run-parts /etc/cron.daily \n\
+30       17       1,10,20       *       *       /bin/run-parts /etc/cron.monthly \n" > /var/spool/cron/crontabs/root && \
+    chmod 600 /var/spool/cron/crontabs/root
+
+
+#增加服务端口
+EXPOSE 8888 9999 6006 8500 9001
 
 #经常修改放到最后：
 ADD jobs /data/stock/jobs
