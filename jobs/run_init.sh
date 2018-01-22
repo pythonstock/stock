@@ -9,5 +9,9 @@ echo $DATE >> /data/logs/run_init.log
 
 /usr/bin/python /data/stock/jobs/basic_job.py  >> /data/logs/run_init.log
 
+# https://stackoverflow.com/questions/27771781/how-can-i-access-docker-set-environment-variables-from-a-cron-job
+# 解决环境变量输出问题。
+printenv | grep -v "no_proxy" >> /etc/environment
+
 #启动cron服务。在前台
 /usr/sbin/cron -f
