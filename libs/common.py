@@ -34,6 +34,14 @@ def engine():
     return engine
 
 
+def engine(to_db):
+    MYSQL_CONN_URL_NEW = "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL_HOST + "/" + to_db + "?charset=utf8"
+    engine = create_engine(
+        MYSQL_CONN_URL_NEW,
+        encoding='utf8', convert_unicode=True)
+    return engine
+
+
 def conn():
     db = MySQLdb.connect(MYSQL_HOST, MYSQL_USER, MYSQL_PWD, MYSQL_DB, charset="utf8")
     # db.autocommit(on=True)
@@ -42,8 +50,14 @@ def conn():
 
 # 定义通用方法函数，插入数据库表，并创建数据库主键，保证重跑数据的时候索引唯一。
 def insert_db(data, table_name, write_index, primary_keys):
+    # 插入默认的数据库。
+    insert_other_db(MYSQL_DB, data, table_name, write_index, primary_keys)
+
+
+# 增加一个插入到其他数据库的方法。
+def insert_other_db(to_db, data, table_name, write_index, primary_keys):
     # 定义engine
-    engine_mysql = engine()
+    engine_mysql = engine(to_db)
     # 使用 http://docs.sqlalchemy.org/en/latest/core/reflection.html
     # 使用检查检查数据库表是否有主键。
     insp = inspect(engine_mysql)
@@ -53,7 +67,7 @@ def insert_db(data, table_name, write_index, primary_keys):
         # 插入到第一个位置：
         col_name_list.insert(0, data.index.name)
     print(col_name_list)
-    data.to_sql(name=table_name, con=engine_mysql, schema=MYSQL_DB, if_exists='append',
+    data.to_sql(name=table_name, con=engine_mysql, schema=to_db, if_exists='append',
                 dtype={col_name: NVARCHAR(length=255) for col_name in col_name_list}, index=write_index)
     # 判断是否存在主键
     if insp.get_primary_keys(table_name) == []:
