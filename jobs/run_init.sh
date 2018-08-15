@@ -7,7 +7,7 @@ DATE=`date +%Y-%m-%d:%H:%M:%S`
 
 echo $DATE >> /data/logs/run_init.log
 
-/usr/bin/python /data/stock/jobs/basic_job.py  >> /data/logs/run_init.log
+/usr/local/bin/python3 /data/stock/jobs/basic_job.py  >> /data/logs/run_init.log
 
 # https://stackoverflow.com/questions/27771781/how-can-i-access-docker-set-environment-variables-from-a-cron-job
 # 解决环境变量输出问题。

@@ -26,8 +26,6 @@ RUN apt-get update && apt-get install -y gcc make axel python3-dev default-libmy
     pip3 install lxml bs4 && \
     pip3 install numpy pandas  && \
     pip3 install tushare && \
-    pip3 install tensorflow && \
-    pip3 install keras && \
     pip3 install tornado torndb && \
     pip3 install bokeh stockstats && \
     cd /tmp && axel https://nchc.dl.sourceforge.net/project/ta-lib/ta-lib/0.4.0/ta-lib-0.4.0-src.tar.gz && \
@@ -55,6 +53,7 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
 ENV LANG=en_US.UTF-8
 ENV LC_CTYPE=en_US.UTF-8
 ENV LC_ALL=C
+ENV PYTHONPATH=/data/stock/libs:/data/stock/web
 
 WORKDIR /data
 
@@ -77,7 +76,6 @@ EXPOSE 8888 9999 6006 8500 9001
 #经常修改放到最后：
 ADD jobs /data/stock/jobs
 ADD libs /data/stock/libs
-ADD tf /data/stock/tf
 ADD web /data/stock/web
 ADD supervisor /etc/supervisor
 
@@ -88,8 +86,6 @@ ADD jobs/cron.monthly /etc/cron.monthly
 
 RUN mkdir -p /data/logs && ls /data/stock/ && chmod 755 /data/stock/jobs/run_* &&  \
     chmod 755 /etc/cron.minutely/* && chmod 755 /etc/cron.hourly/* && \
-    chmod 755 /etc/cron.daily/* && chmod 755 /etc/cron.monthly/* && \
-    ln -s /data/stock/libs/ /usr/local/lib/python3.6/libs && \
-    ln -s /data/stock/web/ /usr/local/lib/python3.6/web
+    chmod 755 /etc/cron.daily/* && chmod 755 /etc/cron.monthly/*
 
 ENTRYPOINT ["supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
