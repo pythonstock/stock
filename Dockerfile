@@ -50,8 +50,8 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     /usr/local/lib/python3.6/site-packages/torndb.py
 
 #增加语言utf-8
-ENV LANG=en_US.UTF-8
-ENV LC_CTYPE=en_US.UTF-8
+ENV LANG=zh_CN.UTF-8
+ENV LC_CTYPE=zh_CN.UTF-8
 ENV LC_ALL=C
 ENV PYTHONPATH=/data/stock/libs:/data/stock/web
 
