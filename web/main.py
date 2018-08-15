@@ -1,13 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import bcrypt
-import concurrent.futures
-import MySQLdb
-import markdown
 import os.path
-import json
-import subprocess
 import torndb
 import tornado.escape
 from tornado import gen
@@ -22,11 +16,6 @@ import web.dataEditorHandler as dataEditorHandler
 import web.dataIndicatorsHandler as dataIndicatorsHandler
 import web.minstServingHandler as minstServingHandler
 import web.base as webBase
-import logging
-
-# A thread pool to be used for password hashing with bcrypt.
-executor = concurrent.futures.ThreadPoolExecutor(2)
-
 
 class Application(tornado.web.Application):
     def __init__(self):
