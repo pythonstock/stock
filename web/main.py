@@ -11,10 +11,8 @@ import tornado.options
 import libs.common as common
 import libs.stock_web_dic as stock_web_dic
 import web.dataTableHandler as dataTableHandler
-import web.chartHandler as chartHandler
 import web.dataEditorHandler as dataEditorHandler
 import web.dataIndicatorsHandler as dataIndicatorsHandler
-import web.minstServingHandler as minstServingHandler
 import web.base as webBase
 
 class Application(tornado.web.Application):
@@ -25,19 +23,11 @@ class Application(tornado.web.Application):
             # 使用datatable 展示报表数据模块。
             (r"/stock/api_data", dataTableHandler.GetStockDataHandler),
             (r"/stock/data", dataTableHandler.GetStockHtmlHandler),
-            # chart 数据图
-            (r"/stock/chart", chartHandler.GetChartHtmlHandler),
-            (r"/stock/chart/image1", chartHandler.ImageHandler),
             # 数据修改dataEditor。
             (r"/data/editor", dataEditorHandler.GetEditorHtmlHandler),
             (r"/data/editor/save", dataEditorHandler.SaveEditorHandler),
             # 获得股票指标数据。
             (r"/data/indicators", dataIndicatorsHandler.GetDataIndicatorsHandler),
-
-            # 数据修改dataEditor。
-            (r"/minst_serving", minstServingHandler.GetMinstServingHtmlHandler),
-            (r"/minst_serving/prediction", minstServingHandler.GetPredictionDataHandler),
-            (r"/minst_serving/prediction2", minstServingHandler.GetPrediction2DataHandler),
         ]
         settings = dict(  # 配置
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
