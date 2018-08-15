@@ -34,7 +34,7 @@ def engine():
     return engine
 
 
-def engine(to_db):
+def engine_to_db(to_db):
     MYSQL_CONN_URL_NEW = "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL_HOST + "/" + to_db + "?charset=utf8"
     engine = create_engine(
         MYSQL_CONN_URL_NEW,
@@ -57,7 +57,7 @@ def insert_db(data, table_name, write_index, primary_keys):
 # 增加一个插入到其他数据库的方法。
 def insert_other_db(to_db, data, table_name, write_index, primary_keys):
     # 定义engine
-    engine_mysql = engine(to_db)
+    engine_mysql = engine_to_db(to_db)
     # 使用 http://docs.sqlalchemy.org/en/latest/core/reflection.html
     # 使用检查检查数据库表是否有主键。
     insp = inspect(engine_mysql)
