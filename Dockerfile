@@ -53,7 +53,7 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
 ENV LANG=zh_CN.UTF-8
 ENV LC_CTYPE=zh_CN.UTF-8
 ENV LC_ALL=C
-ENV PYTHONPATH=/data/stock/libs:/data/stock/web
+ENV PYTHONPATH=/data/stock
 
 WORKDIR /data
 

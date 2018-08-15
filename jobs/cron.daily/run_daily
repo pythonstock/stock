@@ -31,10 +31,6 @@ echo "###################"$DATE"###################" >> /data/logs/daily.6.log
 #使用股票指标预测卖出。
 /usr/local/bin/python3 /data/stock/jobs/guess_indicators_lite_sell_daily_job.py >> /data/logs/daily.6.log
 
-echo "###################"$DATE"###################" >> /data/logs/daily.7.log
-#使用sklearn_ma预测。
-/usr/local/bin/python3 /data/stock/jobs/guess_sklearn_ma_daily_job.py >> /data/logs/daily.7.log
-
 #清除前3天数据。
 DATE_20=`date -d '-20 days' +%Y-%m-%d`
 MONTH_20=`date -d '-20 days' +%Y-%m`
