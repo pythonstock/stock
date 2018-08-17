@@ -70,7 +70,6 @@ def stat_index_all(tmp_datetime):
     del_sql = " DELETE FROM `stock_data`.`guess_return_daily` WHERE `date`= '%s' " % datetime_int
     common.insert(del_sql)
 
-    # print(data_new.head())
     # data_new["down_rate"] = (data_new["trade"] - data_new["wave_mean"]) / data_new["wave_base"]
     common.insert_db(data_new, "guess_return_daily", False, "`date`,`code`")
 
@@ -90,7 +89,8 @@ def apply_guess(tmp):
     stock = common.get_hist_data_cache(code, date_start, date_end)
     # 增加空判断，如果是空返回 0 数据。
     if stock is None:
-        return list([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, code, date, 0.0, 0.0])
+        return pd.Series([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, code, date, 0.0, 0.0],
+                         index=['10d', '20d', '5-10d', '5-20d', '5d', '60d', 'code', 'date', 'mov_vol', 'return'])
 
     stock = pd.DataFrame({"close": stock["close"]}, index=stock.index.values)
     stock = stock.sort_index(0)  # 将数据按照日期排序下。
@@ -116,9 +116,10 @@ def apply_guess(tmp):
     # print(stock["return"].tail())
     # print("stock[10d].tail(1)", stock["10d"].tail(1).values[0])
     # 10d    20d  5-10d  5-20d     5d    60d    code      date  mov_vol  return
-    tmp = list([stock["10d"].tail(1).values[0], stock["20d"].tail(1).values[0], stock["5-10d"].tail(1).values[0],
+    tmp = pd.Series([stock["10d"].tail(1).values[0], stock["20d"].tail(1).values[0], stock["5-10d"].tail(1).values[0],
                 stock["5-20d"].tail(1).values[0], stock["5d"].tail(1).values[0], stock["60d"].tail(1).values[0],
-                code, date, stock["mov_vol"].tail(1).values[0], stock["return"].tail(1).values[0]])
+                code, date, stock["mov_vol"].tail(1).values[0], stock["return"].tail(1).values[0]],
+                    index=['10d', '20d', '5-10d', '5-20d', '5d', '60d', 'code', 'date', 'mov_vol', 'return'])
     # print(tmp)
     return tmp
 

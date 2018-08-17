@@ -33,10 +33,11 @@ def stat_index_all(tmp_datetime):
             SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
                 `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`, `nmc` 
             FROM stock_data.ts_today_all WHERE `date` = %s and `trade` > 0 and `open` > 0 and trade <= 20 
-                and `code` not like %s and `code` not like %s and `name` not like %s 
+                and `code` not like %s and `code` not like %s and `name` not like %s
             """
     print(sql_1)
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int, '002%', '300%', '%st%'])
+    print(type(data))
     data = data.drop_duplicates(subset="code", keep="last")
     print(data["trade"])
     data["trade_float32"] = data["trade"].astype('float32', copy=False)
@@ -48,8 +49,9 @@ def stat_index_all(tmp_datetime):
     stock_guess = pd.DataFrame({
         "date": data["date"], "code": data["code"], "wave_mean": data["trade"],
         "wave_crest": data["trade"], "wave_base": data["trade"]}, index=data.index.values)
-    # print(stock_guess.head())
+    print(stock_guess.head())
     stock_guess = stock_guess.apply(apply_guess, axis=1)  # , axis=1)
+    print(stock_guess.head())
     # stock_guess.astype('float32', copy=False)
     stock_guess.drop('date', axis=1, inplace=True)  # 删除日期字段，然后和原始数据合并。
     stock_guess = stock_guess.round(2)  # 数据保留2位小数
@@ -87,7 +89,8 @@ def apply_guess(tmp):
     stock = common.get_hist_data_cache(code, date_start, date_end)
     # 增加空判断，如果是空返回 0 数据。
     if stock is None:
-        return list([code, date, 0.0, 0.0, 0.0])
+        return pd.Series([date, code, 0.0, 0.0, 0.0],
+                     index=['date', 'code', 'wave_mean', 'wave_crest', 'wave_base'])
 
     stock = pd.DataFrame({"close": stock["close"]}, index=stock.index.values)
     stock = stock.sort_index(0)  # 将数据按照日期排序下。
@@ -105,11 +108,9 @@ def apply_guess(tmp):
     wave_base_mean = pd.DataFrame(wave_base).mean()
     # 输出数据
     # print("##############")
-    tmp = {"code": code, "wave_mean": wave_mean,
-           "wave_crest": wave_crest_mean[1], "wave_base": wave_base_mean[1]}
-    # print(tmp)
     #     code      date wave_base wave_crest wave_mean 顺序必须一致。返回的是行数据，然后填充。
-    return list([code, date, wave_base_mean[1], wave_crest_mean[1], wave_mean])
+    return pd.Series([date, code, wave_base_mean[1], wave_crest_mean[1], wave_mean],
+                     index=['date','code','wave_mean','wave_crest','wave_base'])
 
 
 # main函数入口

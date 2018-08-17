@@ -210,7 +210,7 @@ def concat_guess_data(stock_column, data):
     print(stock_guess.columns.values)
     # print(stock_guess.head())
     stock_guess = stock_guess.apply(apply_guess, stock_column=stock_column, axis=1)  # , axis=1)
-    # print(stock_guess.head())
+    print(stock_guess.head())
     # stock_guess.astype('float32', copy=False)
     stock_guess.drop('date', axis=1, inplace=True)  # 删除日期字段，然后和原始数据合并。
     # print(stock_guess["5d"])
@@ -234,16 +234,20 @@ def apply_guess(tmp, stock_column):
     stock = common.get_hist_data_cache(code, date_start, date_end)
     # 设置返回数组。
     stock_data_list = []
+    stock_name_list = []
     # 增加空判断，如果是空返回 0 数据。
     if stock is None:
         for col in stock_column:
             if col == 'date':
                 stock_data_list.append(date)
+                stock_name_list.append('date')
             elif col == 'code':
                 stock_data_list.append(code)
+                stock_name_list.append('code')
             else:
                 stock_data_list.append(0)
-        return list(stock_data_list)
+                stock_name_list.append(col)
+        return pd.Series(stock_data_list, index=stock_name_list)
 
     # print(stock.head())
     # open  high  close   low     volume
@@ -261,8 +265,10 @@ def apply_guess(tmp, stock_column):
     for col in stock_column:
         if col == 'date':
             stock_data_list.append(date)
+            stock_name_list.append('date')
         elif col == 'code':
             stock_data_list.append(code)
+            stock_name_list.append('code')
         else:
             # 将数据的最后一个返回。
             tmp_val = stockStat[col].tail(1).values[0]
@@ -272,9 +278,9 @@ def apply_guess(tmp, stock_column):
                 tmp_val = 0
             # print("col name : ", col, tmp_val)
             stock_data_list.append(tmp_val)
-
+            stock_name_list.append(col)
     # print(stock_data_list)
-    return list(stock_data_list)
+    return pd.Series(stock_data_list, index=stock_name_list)
 
 
 # print(stock["mov_vol"].tail())
