@@ -329,8 +329,8 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="每日数据sklearn猜想",
-        name="每日股票数据sklearn ma猜想",
+        type="每日数据Keras猜想",
+        name="每日股票数据Keras猜想",
         table_name="guess_sklearn_ma_daily",
         columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
                  "turnoverratio", "next_close", "sklearn_score", "up_rate"],
@@ -338,20 +338,6 @@ STOCK_WEB_DATA_LIST.append(
                       "换手率", "预测收盘价", "sk概率", "预测上涨率"],
         primary_key=[],
         order_by=" date desc  "
-    )
-)
-
-######################### 最后是editor 配置 #########################
-STOCK_WEB_DATA_LIST.append(
-    StockWebData(
-        mode="editor",
-        type="股票配置管理",
-        name="持仓管理",
-        table_name="user_stock",
-        columns=["code", "date", "price", "shares", "commission_rate", "tax_rate", "comment"],
-        column_names=["股票代码", "日期", "价格", "数量", "佣金", "税率", "备注"],
-        primary_key=["code", "date"],
-        order_by=" code desc "
     )
 )
 
