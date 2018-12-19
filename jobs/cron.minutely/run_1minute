@@ -6,3 +6,4 @@ echo $DATE >> /data/logs/1min.log
 echo MYSQL_HOST $MYSQL_HOST >> /data/logs/1min.log
 echo MYSQL_USER $MYSQL_USER >> /data/logs/1min.log
 echo MYSQL_DB $MYSQL_DB >> /data/logs/1min.log
+echo "new job add ."
