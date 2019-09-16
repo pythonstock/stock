@@ -11,14 +11,17 @@ docker run --name mariadb -v /data/mariadb/data:/var/lib/mysql \
     -e MYSQL_ROOT_PASSWORD=mariadb -p 3306:3306 -d mariadb:latest
 
 docker run -itd --link=mariadb --name stock  \
+    -v /data/notebooks:/data/notebooks \
     -p 8888:8888 \
-    -p 6006:6006 \
     -p 9999:9999 \
-    -p 8500:8500 \
-    -p 9001:9001 \
     pythonstock/pythonstock:latest
 
 ```
+
+### 更新日志
+
+##1，增加 jupyter 和 TensorFlow 1.14.0
+
 
 
 ### 本地构建
@@ -29,7 +32,7 @@ docker run -itd --link=mariadb --name stock  \
 
 ```
 依赖这两个镜像，tensorflow镜像比较大。
-docker.io/tensorflow/tensorflow:latest
+docker.io/python:3.6-slim
 docker.io/mariadb:latest
 ```
 
@@ -38,8 +41,14 @@ docker.io/mariadb:latest
 > http://localhost:9999 web 
 >
 > http://localhost:8888 jupyter
->
-> http://localhost:6006 tensorBoard
+
+查看jupyter的密码：
+
+```
+docker exec -it stock bash 
+cat /tmp/jupyter-stderr*.log
+# 就可以看到 token 了，然后可以登录了。
+```
 
 ### 1，股票系统设计
 
@@ -83,8 +92,7 @@ http://docs.pythontab.com/tornado/introduction-to-tornado/
 
 需要mysql数据库启动。项目放到/data/stock 目录。
 ```
-
-    CREATE DATABASE IF NOT EXISTS `stock_data` CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `stock_data` CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 
 使用 :

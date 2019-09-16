@@ -1,7 +1,6 @@
 #!/bin/sh
 
 mkdir -p /data/logs/tensorflow
-mkdir -p /data/notebooks
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 

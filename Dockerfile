@@ -1,5 +1,9 @@
 #使用 python:3.6-slim 做基础镜像减少大小。其中tensorflow再用另外的镜像跑数据。
-FROM docker.io/python:3.6-slim
+
+# 之前使用的是python:3.6-slim
+# 可以更新 3.7-slim-stretch slim-stretch
+
+FROM docker.io/python:3.6-slim-stretch
 
 # https://opsx.alibaba.com/mirror
 # 使用阿里云镜像地址。修改debian apt 更新地址，pip 地址，设置时区。
@@ -31,7 +35,7 @@ RUN apt-get update && apt-get install -y gcc make axel python3-dev default-libmy
     cd /tmp && axel https://nchc.dl.sourceforge.net/project/ta-lib/ta-lib/0.4.0/ta-lib-0.4.0-src.tar.gz && \
     tar xvfz ta-lib-0.4.0-src.tar.gz && \
     cd ta-lib && ./configure && make && make install  && cd /tmp && rm -rf * && \
-    pip3 install TA-Lib  && \
+    pip3 install TA-Lib  && pip3 install jupyter && \
     apt-get --purge remove -y gcc make axel python3-dev default-libmysqlclient-dev libxml2-dev && \
     rm -rf /root/.cache/* && apt-get clean && apt-get autoremove -y
 
@@ -48,6 +52,11 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd && \
     sed -i -e 's/itertools\.izip/zip/g' \
     /usr/local/lib/python3.6/site-packages/torndb.py
+
+# 增加 TensorFlow 的支持，使用最新的2.0 编写代码。目前还是使用 1.x 吧，还没有学明白。
+# RUN pip3 install tensorflow==2.0.0-rc1 keras
+
+RUN pip3 install tensorflow keras sklearn
 
 #增加语言utf-8
 ENV LANG=zh_CN.UTF-8
@@ -70,8 +79,8 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin \n\
     chmod 600 /var/spool/cron/crontabs/root
 
 
-#增加服务端口
-EXPOSE 8888 9999 6006 8500 9001
+#增加服务端口就两个 6006 8500 9001
+EXPOSE 8888 9999
 
 #经常修改放到最后：
 ADD jobs /data/stock/jobs
