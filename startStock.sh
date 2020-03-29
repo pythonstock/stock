@@ -18,7 +18,7 @@ if [ $DB_IS_RUN -lt 2 ]; then
     DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
 
     if [ $DB_IS_RUN -ne 2 ]; then
-        docker run --name mariadb -v /data/mariadb/data:/var/lib/mysql \
+        docker run --name mariadb -v /data/mariadb/data:/var/lib/mysql --restart=always \
         -e MYSQL_ROOT_PASSWORD=mariadb -p 3306:3306 -d mariadb:latest
         echo "starting mariadb ..."
     else
@@ -50,8 +50,23 @@ fi
 sleep 1
 
 echo "starting stock ..."
+
+if [ $# != 1 ] ; then
+echo "############# run online ############# "
 # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
 docker run -itd --link=mariadb --name stock  \
-    -p 8888:8888 \
-    -p 9999:9999 \
+  -p 8888:8888 -p 9999:9999 --restart=always \
    pythonstock/pythonstock:latest
+exit 1;
+fi
+
+if [ $# != 2 ] ; then
+echo "#############  run dev ############# "
+# /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
+docker run -itd --link=mariadb --name stock  \
+  -p 8888:8888 -p 9999:9999 --restart=always \
+  -v /media/test/NewDisk1/py-workspace/stock:/data/stock \
+   pythonstock/pythonstock:latest
+exit 1;
+fi
+
