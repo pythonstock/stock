@@ -42,10 +42,15 @@ def engine_to_db(to_db):
     return engine
 
 
+# 通过数据库链接 engine。
 def conn():
-    db = MySQLdb.connect(MYSQL_HOST, MYSQL_USER, MYSQL_PWD, MYSQL_DB, charset="utf8")
-    # db.autocommit(on=True)
-    return db
+    try:
+        db = MySQLdb.connect(MYSQL_HOST, MYSQL_USER, MYSQL_PWD, MYSQL_DB, charset="utf8")
+        # db.autocommit = True
+    except Exception as e:
+        print("conn error :", e)
+    db.autocommit(on=True)
+    return db.cursor()
 
 
 # 定义通用方法函数，插入数据库表，并创建数据库主键，保证重跑数据的时候索引唯一。

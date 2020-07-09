@@ -46,7 +46,11 @@ docker.io/mariadb:latest
 
 ```
 docker exec -it stock bash 
-cat /tmp/jupyter-stderr*.log
+
+查看登录 token 问题：
+
+jupyter notebook list
+
 # 就可以看到 token 了，然后可以登录了。
 ```
 
@@ -151,3 +155,19 @@ CREATE TABLE `user_stock` (
 ```
 sh startStock.sh 1
 ```
+
+### 8，解决跑数据问题
+
+```
+# 通过数据库链接 engine。
+def conn():
+    try:
+        db = MySQLdb.connect(MYSQL_HOST, MYSQL_USER, MYSQL_PWD, MYSQL_DB, charset="utf8")
+        # db.autocommit = True
+    except Exception as e:
+        print("conn error :", e)
+    db.autocommit(on=True)
+    return db.cursor()
+```
+
+之前升级过代码，造成 db.cursor() 问题。
