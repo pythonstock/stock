@@ -50,23 +50,26 @@ fi
 sleep 1
 
 echo "starting stock ..."
-
-if [ $# != 1 ] ; then
-echo "############# run online ############# "
-# /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
-docker run -itd --link=mariadb --name stock  \
-  -p 8888:8888 -p 9999:9999 --restart=always \
-   pythonstock/pythonstock:latest
-exit 1;
-fi
-
-if [ $# != 2 ] ; then
-echo "#############  run dev ############# "
-# /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
-docker run -itd --link=mariadb --name stock  \
-  -p 8888:8888 -p 9999:9999 --restart=always \
-  -v /media/test/NewDisk1/py-workspace/stock:/data/stock \
-   pythonstock/pythonstock:latest
-exit 1;
+# 1 是开发环境。映射本地代码。
+if [ $# == 1 ] ; then
+    echo "#############  run dev ############# "
+    # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
+    mkdir -p notebooks
+    PWD=`pwd`
+    docker run -itd --link=mariadb --name stock  \
+      -p 8888:8888 -p 9999:9999 --restart=always \
+      -v ${PWD}/jobs:/data/stock/jobs \
+      -v ${PWD}/libs:/data/stock/libs \
+      -v ${PWD}/web:/data/stock/web \
+      -v ${PWD}/notebooks:/data/notebooks \
+       pythonstock/pythonstock:latest
+    exit 1;
+else
+    echo "############# run online ############# "
+    # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
+    docker run -itd --link=mariadb --name stock  \
+      -p 8888:8888 -p 9999:9999 --restart=always \
+       pythonstock/pythonstock:v1.0
+    exit 1;
 fi
 

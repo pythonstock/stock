@@ -145,6 +145,9 @@ CREATE TABLE `user_stock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
-```
 
+### 7，开发环境执行
+
+```
+sh startStock.sh 1
 ```

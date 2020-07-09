@@ -1,5 +1,10 @@
 #!/bin/sh
 
+export PYTHONIOENCODING=utf-8
+export LANG=zh_CN.UTF-8
+export PYTHONPATH=/data/stock
+export LC_CTYPE=zh_CN.UTF-8
+
 mkdir -p /data/logs/tensorflow
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`

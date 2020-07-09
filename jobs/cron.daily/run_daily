@@ -1,38 +1,46 @@
 #!/bin/sh
 
 mkdir -p /data/logs
-DATE=`date +%Y-%m-%d:%H:%M:%S`
+DATETIME=`date +%Y-%m-%d:%H:%M:%S`
 
-echo "###################"$DATE"###################" >> /data/logs/daily.0.log
+DATE=`date +%Y-%m-%d`
+
+export PYTHONIOENCODING=utf-8
+export LANG=zh_CN.UTF-8
+export PYTHONPATH=/data/stock
+export LC_CTYPE=zh_CN.UTF-8
+
+
+echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
 #增加每日，龙虎榜数据。
-/usr/local/bin/python3 /data/stock/jobs/daily_job.py >> /data/logs/daily.0.log
+/usr/local/bin/python3 /data/stock/jobs/daily_job.py >> /data/logs/daily.${DATE}.log
 
-echo "###################"$DATE"###################" >> /data/logs/daily.1.log
+echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
 #增加获得今日全部数据和大盘数据
-/usr/local/bin/python3 /data/stock/jobs/18h_daily_job.py >> /data/logs/daily.1.log
+/usr/local/bin/python3 /data/stock/jobs/18h_daily_job.py >> /data/logs/daily.${DATE}.log
 
-echo "###################"$DATE"###################" >> /data/logs/daily.2.log
+echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
 #使用波峰波谷方法猜想股票涨跌
-/usr/local/bin/python3 /data/stock/jobs/guess_period_daily_job.py >> /data/logs/daily.2.log
+/usr/local/bin/python3 /data/stock/jobs/guess_period_daily_job.py >> /data/logs/daily.${DATE}.log
 
-echo "###################"$DATE"###################" >> /data/logs/daily.3.log
+echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
 #使用 回归的方法预测。
-/usr/local/bin/python3 /data/stock/jobs/guess_return_daily_job.py >> /data/logs/daily.3.log
+/usr/local/bin/python3 /data/stock/jobs/guess_return_daily_job.py >> /data/logs/daily.${DATE}.log
 
-echo "###################"$DATE"###################" >> /data/logs/daily.4.log
+echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
 #使用股票指标预测。
-/usr/local/bin/python3 /data/stock/jobs/guess_indicators_daily_job.py >> /data/logs/daily.4.log
+/usr/local/bin/python3 /data/stock/jobs/guess_indicators_daily_job.py >> /data/logs/daily.${DATE}.log
 
-echo "###################"$DATE"###################" >> /data/logs/daily.5.log
+echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
 #使用股票指标预测购买。
-/usr/local/bin/python3 /data/stock/jobs/guess_indicators_lite_buy_daily_job.py >> /data/logs/daily.5.log
+/usr/local/bin/python3 /data/stock/jobs/guess_indicators_lite_buy_daily_job.py >> /data/logs/daily.${DATE}.log
 
-echo "###################"$DATE"###################" >> /data/logs/daily.6.log
+echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
 #使用股票指标预测卖出。
-/usr/local/bin/python3 /data/stock/jobs/guess_indicators_lite_sell_daily_job.py >> /data/logs/daily.6.log
+/usr/local/bin/python3 /data/stock/jobs/guess_indicators_lite_sell_daily_job.py >> /data/logs/daily.${DATE}.log
 
 #清除前3天数据。
 DATE_20=`date -d '-20 days' +%Y-%m-%d`
 MONTH_20=`date -d '-20 days' +%Y-%m`
-echo "rm -f /data/cache/hist_data_cache/$MONTH_20/$DATE_20"
-rm -f /data/cache/hist_data_cache/$MONTH_20/$DATE_20
+echo "rm -f /data/cache/hist_data_cache/${MONTH_20}/${DATETIME_20}"
+rm -f /data/cache/hist_data_cache/${MONTH_20}/${DATETIME_20}
