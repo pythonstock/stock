@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
 if [ $DB_IS_RUN -lt 2 ]; then
@@ -69,7 +69,7 @@ else
     # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
     docker run -itd --link=mariadb --name stock  \
       -p 8888:8888 -p 9999:9999 --restart=always \
-       pythonstock/pythonstock:v1.0
+       pythonstock/pythonstock:latest
     exit 1;
 fi
 

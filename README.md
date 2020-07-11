@@ -1,6 +1,6 @@
 ### 使用方法（依赖docker）
 
-已经放到docker hub上了
+使用 mariadb 和 stock 两个镜像
 
 ```
 mkdir -p /data/mariadb/data
@@ -17,6 +17,27 @@ docker run -itd --link=mariadb --name stock  \
     pythonstock/pythonstock:latest
 
 ```
+
+直接启动stock ，使用其他 mysql 数据库，需要配置变量方式：
+
+```
+docker run -itd --name stock  \
+    -v /data/notebooks:/data/notebooks \
+    -p 8888:8888 \
+    -p 9999:9999 \
+    -e MYSQL_HOST=127.0.0.1 \
+    -e MYSQL_USER=root \
+    -e MYSQL_PWD=mariadb \
+    -e MYSQL_DB=stock_data \
+    pythonstock/pythonstock:latest
+```
+
+进入镜像：
+```
+docker exec -it stock bash 
+sh /data/stock/jobs/cron.daily/run_daily
+```
+
 
 ### 更新日志
 
