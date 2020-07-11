@@ -27,7 +27,7 @@ EXPOSE 8888 9999
 ADD jobs /data/stock/jobs
 ADD libs /data/stock/libs
 ADD web /data/stock/web
-ADD supervisor /etc/supervisor
+ADD supervisor /data/supervisor
 
 ADD jobs/cron.minutely /etc/cron.minutely
 ADD jobs/cron.hourly /etc/cron.hourly
@@ -38,4 +38,4 @@ RUN mkdir -p /data/logs && ls /data/stock/ && chmod 755 /data/stock/jobs/run_* &
     chmod 755 /etc/cron.minutely/* && chmod 755 /etc/cron.hourly/* && \
     chmod 755 /etc/cron.daily/* && chmod 755 /etc/cron.monthly/*
 
-ENTRYPOINT ["supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
+ENTRYPOINT ["supervisord","-n","-c","/data/supervisor/supervisord.conf"]

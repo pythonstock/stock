@@ -61,6 +61,7 @@ if [ $# == 1 ] ; then
       -v ${PWD}/jobs:/data/stock/jobs \
       -v ${PWD}/libs:/data/stock/libs \
       -v ${PWD}/web:/data/stock/web \
+      -v ${PWD}/supervisor:/data/supervisor \
       -v ${PWD}/notebooks:/data/notebooks \
        pythonstock/pythonstock:latest
     exit 1;
