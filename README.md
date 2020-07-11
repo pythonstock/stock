@@ -192,3 +192,15 @@ def conn():
 ```
 
 之前升级过代码，造成 db.cursor() 问题。
+
+### 9，解决日志打印问题
+
+```
+
+配置 main.py 
+tornado.options.parse_command_line()
+
+然后启动配置参数：
+/usr/local/bin/python3 /data/stock/web/main.py -log_file_prefix=/data/logs/web.log
+
+```
