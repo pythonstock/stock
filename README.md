@@ -204,3 +204,21 @@ tornado.options.parse_command_line()
 /usr/local/bin/python3 /data/stock/web/main.py -log_file_prefix=/data/logs/web.log
 
 ```
+
+### 10，升级 bokeh 到 2.1.1 版本
+
+```
+
+https://pypi.org/project/bokeh/#files
+
+```
+
+### 解决 Bokeh JS兼容问题。
+
+> 升级 bokeh 到 2.1.1 版本
+>
+> https://pypi.org/project/bokeh/#files
+> 
+> 升级JS，因为 lib 包升级导致问题。
+
+ ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/diff-n-bokeh.png)
