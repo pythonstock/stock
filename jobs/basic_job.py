@@ -68,25 +68,27 @@ def stat_all(tmp_datetime):
     # 股票列表
     data = ts.get_stock_basics()
     # print(data.index)
+    # 解决ESP 小数问题。
+    data["esp"] = data["esp"].round(2)  # 数据保留2位小数
     common.insert_db(data, "ts_stock_basics", True, "`code`")
 
     # http://tushare.org/classifying.html#id9
 
-    # 行业分类
-    data = ts.get_industry_classified()
-    common.insert_db(data, "ts_industry_classified", True, "`code`")
-
-    # 概念分类
-    data = ts.get_concept_classified()
-    common.insert_db(data, "ts_concept_classified", True, "`code`")
+    # # 行业分类 必须使用 PRO 接口查询。
+    # data = ts.get_industry_classified()
+    # common.insert_db(data, "ts_industry_classified", True, "`code`")
+    #
+    # # 概念分类 必须使用 PRO 接口查询。
+    # data = ts.get_concept_classified()
+    # common.insert_db(data, "ts_concept_classified", True, "`code`")
 
     # 沪深300成份及权重
     data = ts.get_hs300s()
     common.insert_db(data, "ts_hs300s", True, "`code`")
 
-    # 上证50成份股
-    data = ts.get_sz50s()
-    common.insert_db(data, "ts_sz50s", True, "`code`")
+    # # 上证50成份股 没有数据？？
+    # data = ts.get_sz50s()
+    # common.insert_db(data, "ts_sz50s", True, "`code`")
 
     # 中证500成份股
     data = ts.get_zz500s()
