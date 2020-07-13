@@ -70,6 +70,28 @@ def stat_all(tmp_datetime):
     # print(data.index)
     common.insert_db(data, "ts_stock_basics", True, "`code`")
 
+    # http://tushare.org/classifying.html#id9
+
+    # 行业分类
+    data = ts.get_industry_classified()
+    common.insert_db(data, "ts_industry_classified", True, "`code`")
+
+    # 概念分类
+    data = ts.get_concept_classified()
+    common.insert_db(data, "ts_concept_classified", True, "`code`")
+
+    # 沪深300成份及权重
+    data = ts.get_hs300s()
+    common.insert_db(data, "ts_hs300s", True, "`code`")
+
+    # 上证50成份股
+    data = ts.get_sz50s()
+    common.insert_db(data, "ts_sz50s", True, "`code`")
+
+    # 中证500成份股
+    data = ts.get_zz500s()
+    common.insert_db(data, "ts_zz500s", True, "`code`")
+
 
 # 创建新数据库。
 def create_new_database():

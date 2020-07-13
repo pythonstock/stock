@@ -68,7 +68,10 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
 
 # RUN pip3 install tensorflow keras sklearn
 
-RUN pip3 install sklearn
+RUN pip3 install sklearn xlrd && apt-get install -y procps vim && \
+    echo "set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936" >> /etc/vim/vimrc && \
+    echo "set termencoding=utf-8" >> /etc/vim/vimrc && \
+    echo "set encoding=utf-8" >> /etc/vim/vimrc
 
 #增加语言utf-8
 ENV LANG=zh_CN.UTF-8
