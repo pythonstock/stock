@@ -63,6 +63,12 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     sed -i -e 's/\+ CONVERSIONS\[field_type\]/\+ \[CONVERSIONS\[field_type\],bytes\]/g' \
     /usr/local/lib/python3.6/site-packages/torndb.py
 
+#增加语言utf-8
+ENV LANG=zh_CN.UTF-8
+ENV LC_CTYPE=zh_CN.UTF-8
+ENV LC_ALL=C
+ENV PYTHONPATH=/data/stock
+
 # 增加 TensorFlow 的支持，使用最新的2.0 编写代码。目前还是使用 1.x 吧，还没有学明白。
 # RUN pip3 install tensorflow==2.0.0-rc1 keras
 
@@ -71,10 +77,6 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
 RUN pip3 install sklearn xlrd && apt-get install -y procps vim && \
     echo "set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936" >> /etc/vim/vimrc && \
     echo "set termencoding=utf-8" >> /etc/vim/vimrc && \
-    echo "set encoding=utf-8" >> /etc/vim/vimrc
+    echo "set encoding=utf-8" >> /etc/vim/vimrc && apt-get clean
 
-#增加语言utf-8
-ENV LANG=zh_CN.UTF-8
-ENV LC_CTYPE=zh_CN.UTF-8
-ENV LC_ALL=C
-ENV PYTHONPATH=/data/stock
+

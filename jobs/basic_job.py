@@ -82,9 +82,11 @@ def stat_all(tmp_datetime):
     # data = ts.get_concept_classified()
     # common.insert_db(data, "ts_concept_classified", True, "`code`")
 
-    # 沪深300成份及权重
+    # 沪深300成份股及权重
     data = ts.get_hs300s()
-    common.insert_db(data, "ts_hs300s", True, "`code`")
+    data = data.drop(columns=["date"])  # 删除日期
+    data = data.set_index("code")  # 替换索引
+    common.insert_db(data, "ts_stock_hs300s", True, "`code`")
 
     # # 上证50成份股 没有数据？？
     # data = ts.get_sz50s()
@@ -92,7 +94,9 @@ def stat_all(tmp_datetime):
 
     # 中证500成份股
     data = ts.get_zz500s()
-    common.insert_db(data, "ts_zz500s", True, "`code`")
+    data = data.drop(columns=["date"])  # 删除日期
+    data = data.set_index("code")  # 替换索引
+    common.insert_db(data, "ts_stock_zz500s", True, "`code`")
 
 
 # 创建新数据库。

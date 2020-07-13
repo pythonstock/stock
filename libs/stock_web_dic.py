@@ -40,6 +40,32 @@ STOCK_WEB_DATA_LIST.append(
     )
 )
 
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="基本面数据",
+        name="沪深300成份股",
+        table_name="ts_stock_hs300s",
+        columns=["code", "name", "weight"],
+        column_names=["代码", "名称", "权重"],
+        primary_key=[],
+        order_by=" code asc "
+    )
+)
+
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="基本面数据",
+        name="中证500成份股",
+        table_name="ts_stock_zz500s",
+        columns=["code", "name", "weight"],
+        column_names=["代码", "名称", "权重"],
+        primary_key=[],
+        order_by=" code asc "
+    )
+)
+
 # "code", "name: pchange", "amount", "buy", "bratio", "sell", "sratio", "reason", "date"
 # 代码 名称 当日涨跌幅 龙虎榜成交额(万) 买入额(万) 买入占总成交比例 卖出额(万) 卖出占总成交比例 上榜原因 日期
 
