@@ -232,7 +232,7 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="每日数据Keras猜想",
+        type="每日猜想买入卖出",
         name="每日股票数据Keras猜想",
         table_name="guess_sklearn_ma_daily",
         columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
