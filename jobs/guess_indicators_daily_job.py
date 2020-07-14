@@ -18,15 +18,16 @@ def stat_all_lite_buy(tmp_datetime):
     print("datetime_str:", datetime_str)
     print("datetime_int:", datetime_int)
 
-    # 强弱指标保持高于50表示为强势市场，反之低于50表示为弱势市场。
     # K值在80以上，D值在70以上，J值大于90时为超买。
+    # J大于100时为超买，小于10时为超卖。
+    # 当六日指标上升到达80时，表示股市已有超买现象
     # 当CCI＞﹢100 时，表明股价已经进入非常态区间——超买区间，股价的异动现象应多加关注。
     sql_1 = """
             SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
                             `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`,
                              `nmc` ,`kdjj`,`rsi_6`,`cci`
                         FROM stock_data.guess_indicators_daily WHERE `date` = %s 
-                        and kdjk >= 80 and kdjd >= 70 and kdjj >= 90  and rsi_6 >= 50  and cci >= 100
+                        and kdjk >= 80 and kdjd >= 70 and kdjj >= 100  and rsi_6 >= 80  and cci >= 100
     """  # and kdjj > 100 and rsi_6 > 80  and cci > 100 # 调整参数，提前获得股票增长。
 
     try:
@@ -52,20 +53,21 @@ def stat_all_lite_sell(tmp_datetime):
     print("datetime_str:", datetime_str)
     print("datetime_int:", datetime_int)
 
-    # 强弱指标保持高于50表示为强势市场，反之低于50表示为弱势市场。
-    # K值在80以上，D值在70以上，J值大于90时为超买。
-    # 当CCI＞﹢100 时，表明股价已经进入非常态区间——超买区间，股价的异动现象应多加关注。
+    # 超卖区：K值在20以下，D值在30以下为超卖区。一般情况下，股价有可能上涨，反弹的可能性增大。局内人不应轻易抛出股票，局外人可寻机入场。
+    # J大于100时为超买，小于10时为超卖。
+    # 当六日强弱指标下降至20时，表示股市有超卖现象
+    # 当CCI＜﹣100时，表明股价已经进入另一个非常态区间——超卖区间，投资者可以逢低吸纳股票。
     sql_1 = """
             SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
                             `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`,
                              `nmc` ,`kdjj`,`rsi_6`,`cci`
                         FROM stock_data.guess_indicators_daily WHERE `date` = %s 
-                        and kdjk >= 80 and kdjd >= 70 and kdjj >= 90  and rsi_6 >= 50  and cci >= 100
-    """  # and kdjj > 100 and rsi_6 > 80  and cci > 100 # 调整参数，提前获得股票增长。
+                        and kdjk <= 20 and kdjd <= 30 and kdjj <= 10  and rsi_6 <= 20  and cci <= -100
+    """
 
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM `stock_data`.`guess_indicators_lite_buy_daily` WHERE `date`= '%s' " % datetime_int
+        del_sql = " DELETE FROM `stock_data`.`guess_indicators_lite_sell_daily` WHERE `date`= '%s' " % datetime_int
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -75,7 +77,7 @@ def stat_all_lite_sell(tmp_datetime):
     print("######## len data ########:", len(data))
 
     try:
-        common.insert_db(data, "guess_indicators_lite_buy_daily", False, "`date`,`code`")
+        common.insert_db(data, "guess_indicators_lite_sell_daily", False, "`date`,`code`")
     except Exception as e:
         print("error :", e)
 
@@ -332,8 +334,9 @@ def apply_guess(tmp, stock_column):
 if __name__ == '__main__':
     # 使用方法传递。
     tmp_datetime = common.run_with_args(stat_all_batch)
-    # 二次筛选数据。
+    # 二次筛选数据。直接计算买卖股票数据。
     tmp_datetime = common.run_with_args(stat_all_lite_buy)
+    tmp_datetime = common.run_with_args(stat_all_lite_sell)
 
 
 ####################### 老方法，弃用了。#######################
