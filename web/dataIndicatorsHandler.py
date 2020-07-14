@@ -88,7 +88,7 @@ indicators_dic = [
         """,
         "dic": ["volume","volume_-2~2_max","volume_-2~2_min"]
     }, {
-        "title": "5，KDJ指标",
+        "title": "6，KDJ指标",
         "desc": """
             http://wiki.mbalib.com/wiki/%E9%9A%8F%E6%9C%BA%E6%8C%87%E6%A0%87
             随机指标(KDJ)一般是根据统计学的原理，通过一个特定的周期（常为9日、9周等）内出现过的最高价、最低价及最后一个计算周期的收盘价及这三者之间的比例关系，来计算最后一个计算周期的未成熟随机值RSV，然后根据平滑移动平均线的方法来计算K值、D值与J值，并绘成曲线图来研判股票走势。
@@ -96,7 +96,7 @@ indicators_dic = [
         """,
         "dic": ["close","kdjk","kdjd","kdjj"]
     }, {
-        "title": "6，SMA指标",
+        "title": "7，SMA指标",
         "desc": """
             http://wiki.mbalib.com/wiki/Sma
             简单移动平均线（Simple Moving Average，SMA）
@@ -104,7 +104,7 @@ indicators_dic = [
         """,
         "dic": ["close","close_5_sma","close_10_sma"]
     }, {
-        "title": "7，MACD指标",
+        "title": "8，MACD指标",
         "desc": """
             http://wiki.mbalib.com/wiki/MACD
             平滑异同移动平均线(Moving Average Convergence Divergence，简称MACD指标)，也称移动平均聚散指标
@@ -120,7 +120,7 @@ indicators_dic = [
         """,
         "dic": ["close","macd","macds","macdh"]
     }, {
-        "title": "8，BOLL指标",
+        "title": "9，BOLL指标",
         "desc": """
         http://wiki.mbalib.com/wiki/BOLL
             布林线指标(Bollinger Bands)
@@ -133,7 +133,7 @@ indicators_dic = [
         """,
         "dic": ["close","boll","boll_ub","boll_lb"]
     }, {
-        "title": "9，RSI指标",
+        "title": "10，RSI指标",
         "desc": """
             http://wiki.mbalib.com/wiki/RSI
             相对强弱指标（Relative Strength Index，简称RSI），也称相对强弱指数、相对力度指数
@@ -147,7 +147,7 @@ indicators_dic = [
         """,
         "dic": ["close","rsi_6","rsi_12"]
     }, {
-        "title": "10，WR指标",
+        "title": "11，WR指标",
         "desc": """
             http://wiki.mbalib.com/wiki/%E5%A8%81%E5%BB%89%E6%8C%87%E6%A0%87
             威廉指数（Williams%Rate）该指数是利用摆动点来度量市场的超买超卖现象。
@@ -158,7 +158,7 @@ indicators_dic = [
         """,
         "dic": ["close","wr_10","wr_6"]
     }, {
-        "title": "11，CCI指标",
+        "title": "12，CCI指标",
         "desc": """
             http://wiki.mbalib.com/wiki/%E9%A1%BA%E5%8A%BF%E6%8C%87%E6%A0%87
             顺势指标又叫CCI指标，其英文全称为“Commodity Channel Index”，
@@ -174,7 +174,7 @@ indicators_dic = [
         """,
         "dic": ["close","cci","cci_20"]
     }, {
-        "title": "12，TR、ATR指标",
+        "title": "13，TR、ATR指标",
         "desc": """
             http://wiki.mbalib.com/wiki/%E5%9D%87%E5%B9%85%E6%8C%87%E6%A0%87
             均幅指标（Average True Ranger,ATR）
@@ -187,7 +187,7 @@ indicators_dic = [
         """,
         "dic": ["close","tr","atr"]
     }, {
-        "title": "13，DMA指标",
+        "title": "14，DMA指标",
         "desc": """
             http://wiki.mbalib.com/wiki/DMA
             DMA指标（Different of Moving Average）又叫平行线差指标，是目前股市分析技术指标中的一种中短期指标，它常用于大盘指数和个股的研判。
@@ -196,7 +196,7 @@ indicators_dic = [
         """,
         "dic": ["close","dma"]
     }, {
-        "title": "14，DMI，+DI，-DI，DX，ADX，ADXR指标",
+        "title": "15，DMI，+DI，-DI，DX，ADX，ADXR指标",
         "desc": """
             http://wiki.mbalib.com/wiki/DMI
             动向指数Directional Movement Index,DMI）
@@ -209,14 +209,14 @@ indicators_dic = [
         """,
         "dic": ["close","pdi","mdi","dx","adx","adxr"]
     }, {
-        "title": "15，TRIX，MATRIX指标",
+        "title": "16，TRIX，MATRIX指标",
         "desc": """
             http://wiki.mbalib.com/wiki/TRIX
             TRIX指标又叫三重指数平滑移动平均指标（Triple Exponentially Smoothed Average）
         """,
         "dic": ["close","trix","trix_9_sma"]
     }, {
-        "title": "16，VR，MAVR指标",
+        "title": "17，VR，MAVR指标",
         "desc": """
             http://wiki.mbalib.com/wiki/%E6%88%90%E4%BA%A4%E9%87%8F%E6%AF%94%E7%8E%87
             成交量比率（Volumn Ratio，VR）（简称VR），是一项通过分析股价上升日成交额（或成交量，下同）与股价下降日成交额比值，
