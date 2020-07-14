@@ -112,97 +112,6 @@ STOCK_WEB_DATA_LIST.append(
     )
 )
 
-# 每日波峰波谷猜想
-STOCK_WEB_DATA_LIST.append(
-    StockWebData(
-        mode="query",
-        type="每日数据猜想",
-        name="每日波峰波谷猜想",
-        table_name="guess_period_daily",
-        columns=["date", "code", "name", "wave_base", "wave_crest", "wave_mean", "up_rate",
-                 "changepercent", "trade", "open", "high", "low", "settlement", "volume",
-                 "turnoverratio", "amount", "per", "pb", "mktcap", "nmc"],
-        column_names=["日期", "代码", "名称", "5波峰平均", "5波谷平均", "价格平均", "上涨率猜想%",
-                      "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
-                      "换手率", "成交金额", "市盈率", "市净率", "总市值", "流通市值"],
-        primary_key=[],
-        order_by=" date desc  "
-    )
-)
-
-# 每日收益率猜想。
-STOCK_WEB_DATA_LIST.append(
-    StockWebData(
-        mode="query",
-        type="每日数据猜想",
-        name="每日收益率猜想",
-        table_name="guess_return_daily",
-        columns=["date", "code", "name",
-                 "5d", "10d", "20d", "60d", "5-10d", "5-20d", "mov_vol", "return",
-                 "changepercent", "trade", "open", "high", "low", "settlement", "volume",
-                 "turnoverratio", "amount", "per", "pb", "mktcap", "nmc"],
-        column_names=["日期", "代码", "名称",
-                      "5周线", "10半月线", "20月线", "60季度线", "5-10日差%", "5-20日差%", "收益", "收益率移动标准差",
-                      "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
-                      "换手率", "成交金额", "市盈率", "市净率", "总市值", "流通市值"],
-        primary_key=[],
-        order_by=" date desc  "
-    )
-)
-
-# 每日股票指标lite猜想。
-STOCK_WEB_DATA_LIST.append(
-    StockWebData(
-        mode="query",
-        type="每日数据猜想",
-        name="每日股票指标lite猜想",
-        table_name="guess_indicators_lite_daily",
-        columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
-                 "turnoverratio", "amount", "per", "pb", "mktcap", "nmc",
-                 "kdjj", "rsi_6", "cci"],
-        column_names=["日期", "代码", "名称",
-                      "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
-                      "换手率", "成交金额", "市盈率", "市净率", "总市值", "流通市值",
-                      "kdjj", "rsi_6", "cci"],
-        primary_key=[],
-        order_by=" date desc  "
-    )
-)
-
-# 每日股票指标lite猜想买入。
-STOCK_WEB_DATA_LIST.append(
-    StockWebData(
-        mode="query",
-        type="每日数据猜想",
-        name="每日股票指标lite猜想买入",
-        table_name="guess_indicators_lite_buy_daily",
-        columns=["buy_date", "code", "name", "changepercent", "trade", "turnoverratio", "pb",
-                 "kdjj", "rsi_6", "cci", "wave_base", "wave_crest", "wave_mean", "up_rate", "buy", "sell",
-                 "today_trade", "income"],
-        column_names=["购买日期", "代码", "名称", "涨跌幅", "现价", "换手率%", "市净率%",
-                      "买入kdjj", "买入rsi_6", "买入cci", "波谷", "波峰", "波平均", "上涨率%", "买入", "卖出", "今日价格", "收益"],
-        primary_key=[],
-        order_by=" buy_date desc  "
-    )
-)
-
-# 每日股票指标lite猜想卖出。
-STOCK_WEB_DATA_LIST.append(
-    StockWebData(
-        mode="query",
-        type="每日数据猜想",
-        name="每日股票指标lite猜想卖出",
-        table_name="guess_indicators_lite_sell_daily",
-        columns=["date", "buy_date", "code", "name", "changepercent", "trade", "turnoverratio", "pb",
-                 "kdjj", "rsi_6", "cci", "wave_base", "wave_crest", "wave_mean", "up_rate", "buy", "sell",
-                 "today_trade", "income", "sell_cci", "sell_kdjj", "sell_rsi_6"],
-        column_names=["日期", "购买日期", "代码", "名称", "涨跌幅", "现价", "换手率%", "市净率%",
-                      "买入kdjj", "买入rsi_6", "买入cci", "波谷", "波峰", "波平均", "上涨率%", "买入", "卖出", "今日价格", "收益",
-                      "卖出kdjj", "卖出rsi_6", "卖出cci", ],
-        primary_key=[],
-        order_by=" buy_date desc  "
-    )
-)
 
 # 每日股票指标猜想。
 STOCK_WEB_DATA_LIST.append(
@@ -228,19 +137,41 @@ STOCK_WEB_DATA_LIST.append(
         order_by=" date desc  "
     )
 )
-
+# 每日股票指标lite猜想买入。
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="每日猜想买入卖出",
-        name="每日股票数据Keras猜想",
-        table_name="guess_sklearn_ma_daily",
+        type="每日数据猜想",
+        name="每日股票指标买入猜想",
+        table_name="guess_indicators_lite_buy_daily",
         columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
-                 "turnoverratio", "next_close", "sklearn_score", "up_rate"],
-        column_names=["日期", "代码", "名称", "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
-                      "换手率", "预测收盘价", "sk概率", "预测上涨率"],
+                 "turnoverratio", "amount", "per", "pb", "mktcap", "nmc",
+                 "kdjj", "rsi_6", "cci"],
+        column_names=["日期", "代码", "名称",
+                      "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
+                      "换手率", "成交金额", "市盈率", "市净率", "总市值", "流通市值",
+                      "kdjj", "rsi_6", "cci"],
         primary_key=[],
-        order_by=" date desc  "
+        order_by=" buy_date desc  "
+    )
+)
+
+# 每日股票指标lite猜想卖出。
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="每日数据猜想",
+        name="每日股票指标卖出猜想",
+        table_name="guess_indicators_lite_sell_daily",
+        columns=["date", "code", "name", "changepercent", "trade", "open", "high", "low", "settlement", "volume",
+                 "turnoverratio", "amount", "per", "pb", "mktcap", "nmc",
+                 "kdjj", "rsi_6", "cci"],
+        column_names=["日期", "代码", "名称",
+                      "涨跌幅", "现价", "开盘价", "最高价", "最低价", "昨日收盘价", "成交量",
+                      "换手率", "成交金额", "市盈率", "市净率", "总市值", "流通市值",
+                      "kdjj", "rsi_6", "cci"],
+        primary_key=[],
+        order_by=" buy_date desc  "
     )
 )
 
@@ -249,9 +180,9 @@ WEB_EASTMONEY_URL = "http://quote.eastmoney.com/%s.html"
 # 再拼接成Map使用。
 for tmp in STOCK_WEB_DATA_LIST:
     try:
-        # 增加columns 字段中的【东方财富】
+        # 增加columns 字段中的【查看股票】
         tmp_idx = tmp.columns.index("code")
-        tmp.column_names.insert(tmp_idx + 1, "东方财富")
+        tmp.column_names.insert(tmp_idx + 1, "查看股票")
     except  Exception as e:
         print("error :", e)
 

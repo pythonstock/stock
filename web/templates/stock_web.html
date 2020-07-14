@@ -10,13 +10,16 @@
 	<div class="row">
 		{% for index,element in enumerate(stockWeb.columns) %}
 		{% if index < 15 %}
-		<div class="col-md-4" id="filter_col{{ index+1 }}" data-column="{{ index }}">
-			{{ stockWeb.column_names[index] }} &nbsp;
-			<!-- Column - {{ stockWeb.column_names[index] }} - {{ element }} -->
-			<input type="text" class="column_filter input-group-sm form-control"
-				   {% if element == 'date' %} value="{{ date_now }}" {% end %}
-				   id="col{{ index }}_filter">
-		</div>
+			{% if element != 'eastmoney_url' %}
+			<div class="col-md-4" id="filter_col{{ index+1 }}" data-column="{{ index }}">
+				{{ stockWeb.column_names[index] }} &nbsp;
+				<!-- Column - {{ stockWeb.column_names[index] }} - {{ element }} -->
+
+				<input type="text" class="column_filter input-group-sm form-control"
+					   {% if element == 'date' %} value="{{ date_now }}" {% end %}
+					   id="col{{ index }}_filter">
+			</div>
+			{% end %}
 		{% end %}{% end %}
 	</div>
 
