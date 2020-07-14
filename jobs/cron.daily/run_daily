@@ -20,24 +20,8 @@ echo "###################"$DATETIME"###################" >> /data/logs/daily.${D
 /usr/local/bin/python3 /data/stock/jobs/18h_daily_job.py >> /data/logs/daily.${DATE}.log
 
 echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
-#使用波峰波谷方法猜想股票涨跌
-/usr/local/bin/python3 /data/stock/jobs/guess_period_daily_job.py >> /data/logs/daily.${DATE}.log
-
-echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
-#使用 回归的方法预测。
-/usr/local/bin/python3 /data/stock/jobs/guess_return_daily_job.py >> /data/logs/daily.${DATE}.log
-
-echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
 #使用股票指标预测。
 /usr/local/bin/python3 /data/stock/jobs/guess_indicators_daily_job.py >> /data/logs/daily.${DATE}.log
-
-echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
-#使用股票指标预测购买。
-/usr/local/bin/python3 /data/stock/jobs/guess_indicators_lite_buy_daily_job.py >> /data/logs/daily.${DATE}.log
-
-echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
-#使用股票指标预测卖出。
-/usr/local/bin/python3 /data/stock/jobs/guess_indicators_lite_sell_daily_job.py >> /data/logs/daily.${DATE}.log
 
 #清除前3天数据。
 DATE_20=`date -d '-20 days' +%Y-%m-%d`

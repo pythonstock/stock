@@ -11,7 +11,7 @@ import stockstats
 
 
 ### 对每日指标数据，进行筛选。将符合条件的。二次筛选出来。
-def stat_all_lite(tmp_datetime):
+def stat_all_lite_buy(tmp_datetime):
     datetime_str = (tmp_datetime).strftime("%Y-%m-%d")
     datetime_int = (tmp_datetime).strftime("%Y%m%d")
     print("datetime_str:", datetime_str)
@@ -30,7 +30,7 @@ def stat_all_lite(tmp_datetime):
 
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM `stock_data`.`guess_indicators_lite_daily` WHERE `date`= '%s' " % datetime_int
+        del_sql = " DELETE FROM `stock_data`.`guess_indicators_lite_buy_daily` WHERE `date`= '%s' " % datetime_int
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -40,7 +40,7 @@ def stat_all_lite(tmp_datetime):
     print("######## len data ########:", len(data))
 
     try:
-        common.insert_db(data, "guess_indicators_lite_daily", False, "`date`,`code`")
+        common.insert_db(data, "guess_indicators_lite_buy_daily", False, "`date`,`code`")
     except Exception as e:
         print("error :", e)
 
