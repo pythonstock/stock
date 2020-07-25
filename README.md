@@ -5,7 +5,7 @@
 
 ```
 PythonStock V1 是基于Python的pandas，tushare，bokeh，tornado，stockstats，ta-lib等框架开发的全栈股票系统。
-1）可以直接使用docker直接本地部署运行，整个项目在docker hub上压缩后200BM，本地占用500MB磁盘空间。
+1）可以直接使用docker直接本地部署运行，整个项目在docker hub上压缩后200MB，本地占用500MB磁盘空间。
 2）使用Docker解决了Python库安装问题，使用Mariadb（MySQL）存储数据。借助tushare抓取数据（老API，后续使用tushare pro开发）
 3）使用corn做定时任务，每天进行数据抓取计算，每天18点开始进行数据计算，计算当日数据，使用300天数据进行计算，大约需要15分钟计算完毕。
 4）股票数据接口防止被封，按天进行数据缓存，储存最近3天数据，每天定时清除，同时使用read_pickle to_pickle 的gzip压缩模式存储。
