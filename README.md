@@ -254,3 +254,7 @@ https://pypi.org/project/bokeh/#files
 > 
 > 升级JS，因为 lib 包升级导致问题。
 
+### 如果觉得还不错！！请作者喝杯咖啡吧 ☺！！
+
+![image](https://img-blog.csdnimg.cn/20200808102407611.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZyZWV3ZWJzeXM=,size_16,color_FFFFFF,t_70)
+
