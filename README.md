@@ -99,6 +99,14 @@ docker run -itd --name stock  \
     pythonstock/pythonstock:latest
 ```
 
+或者使用docker compose
+```
+mkdir -p ./data/mariadb/data
+mkdir -p ./data/notebooks
+
+docker-compose up
+```
+
 进入镜像：
 ```
 docker exec -it stock bash 
