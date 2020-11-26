@@ -21,7 +21,7 @@ if [ $DB_IS_RUN -lt 2 ]; then
 
     if [ $DB_IS_RUN -ne 2 ]; then
         docker run --name mariadb -v ${PWD}/data/mariadb/data:/var/lib/mysql --restart=always \
-        -e MYSQL_ROOT_PASSWORD=mariadb -p 3306:3306 -d mariadb:latest
+        -e MYSQL_ROOT_PASSWORD=mariadb -p 3306:3306 -d mariadb:10.5.4
         echo "starting mariadb ..."
     else
         echo "mariadb is running !!!"
