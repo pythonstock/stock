@@ -17,7 +17,7 @@ services:
             - stock_db:stock_db
         restart: always
     stock_db:
-        image: mariadb:latest
+        image: mariadb:10.5.4
         container_name: stock_db
         expose: 
             - "3306"
