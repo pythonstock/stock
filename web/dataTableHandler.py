@@ -8,10 +8,22 @@ import web.base as webBase
 import logging
 import datetime
 
+# info 蓝色 云财经
+# success 绿色
+#  danger 红色 东方财富
+#  warning 黄色
 WEB_EASTMONEY_URL = u"""
-    <a class='btn btn-info btn-xs' href='http://quote.eastmoney.com/%s.html' target='_blank'>查看</a>
-    <a class='btn btn-danger btn-xs' href='/data/indicators?code=%s' target='_blank'>指标</a>
-    <a class='btn btn-warning btn-xs' href='https://emweb.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=soft&code=%s' target='_blank'>研报</a>
+    <a class='btn btn-danger btn-xs tooltip-danger' data-rel="tooltip" data-placement="right" data-original-title="东方财富，股票详细地址"
+    href='http://quote.eastmoney.com/%s.html' target='_blank'>东财</a>
+    
+    <a class='btn btn-success btn-xs tooltip-success' data-rel="tooltip" data-placement="right" data-original-title="本地MACD，KDJ等指标"
+    href='/data/indicators?code=%s' target='_blank'>指标</a>
+    
+    <a class='btn btn-warning btn-xs tooltip-warning' data-rel="tooltip" data-placement="right" data-original-title="东方财富，研报地址"
+    href='https://emweb.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=soft&code=%s' target='_blank'>东研</a>
+    
+    <a class='btn btn-info btn-xs tooltip-info' data-rel="tooltip" data-placement="right" data-original-title="云财经，分析地址"
+    href='https://www.yuncaijing.com/quote/%s.html' target='_blank'>云财经</a>
     """
 # 和在dic中的字符串一致。字符串前面都不特别声明是u""
 eastmoney_name = "查看股票"
@@ -154,7 +166,7 @@ class GetStockDataHandler(webBase.BaseHandler):
                     else:
                         code_tmp = "SZ" + code_tmp
 
-                    tmp_url = WEB_EASTMONEY_URL % (tmp_obj["code"], tmp_obj["code"], code_tmp)
+                    tmp_url = WEB_EASTMONEY_URL % (tmp_obj["code"], tmp_obj["code"], code_tmp, code_tmp.lower())
                     tmp_obj["eastmoney_url"] = tmp_url
                     logging.info(tmp_idx)
                     logging.info(tmp_obj["eastmoney_url"])

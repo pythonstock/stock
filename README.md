@@ -258,3 +258,9 @@ https://pypi.org/project/bokeh/#files
 
 ![image](https://img-blog.csdnimg.cn/20200808102407611.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZyZWV3ZWJzeXM=,size_16,color_FFFFFF,t_70)
 
+
+### 12，发现MariaDb 版本不兼容问题
+
+相关数据执行只支持到10.5.4，版本可以使用，但是10.5.8 就有问题了。
+限制死了版本。看来软件也不能瞎升级，都用最新的有问题。可以解决数据问题。
+
