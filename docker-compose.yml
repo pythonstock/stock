@@ -1,0 +1,29 @@
+version: "3"
+services: 
+    stock:
+        image: pythonstock/pythonstock:latest
+        container_name: stock
+        ports: 
+            - "8888:8888"
+            - "9999:9999"
+        volumes: 
+            - "./data/notebooks:/data/notebooks"
+        environment: 
+            MYSQL_HOST: db
+            MYSQL_USER: root
+            MYSQL_PWD: mariadb
+            MYSQL_DB: stock_data
+        links:
+            - stock_db:stock_db
+        restart: always
+    stock_db:
+        image: mariadb:latest
+        container_name: stock_db
+        expose: 
+            - "3306"
+        volumes: 
+            - "./data/mariadb/data:/var/lib/mysql"
+        environment: 
+            MYSQL_ROOT_PASSWORD: mariadb
+        restart: always
+        
