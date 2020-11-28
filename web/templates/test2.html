@@ -1,0 +1,44 @@
+{% extends "layout/default.html" %}
+
+
+{% block main_content %}
+
+	<h3 class="header smaller lighter blue">欢迎使用股票系统。</h3>
+
+	<div class="clearfix">
+		<div class="pull-right tableTools-container"></div>
+	</div>
+
+	<div class="col-sm-1">
+			<button onclick="showIndicatorsWindow('000001');" role="button" class="btn btn-sm btn-primary" data-toggle="modal">
+				<i class="ace-icon fa fa-plus"></i>
+				测试弹窗指标分析窗口
+			</button>
+	</div><!-- /.col -->
+
+	<!--<iframe src="https://emweb.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=soft&code=SZ000001" width="700px" height="700px"></iframe>-->
+
+	<!-- 定义一个窗口的Div 指标分析数据页面 -->
+	<div id="indicators-window-modal" class="modal fade">
+		<div class="modal-dialog" style="width:1050px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="smaller lighter blue no-margin">股票数据详细指标分析</h3>
+				</div>
+				<div class="modal-body" id="indicators-window-body" >
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <script type="text/javascript">
+        //每次动态加载 指标分析窗口
+        function showIndicatorsWindow(code) {
+        	var baseUrl = '/data/indicators?code='+code; // 没有跨域问题，直接加载
+			$('#indicators-window-body').context = $("#indicators-window-body").load(baseUrl);
+            $('#indicators-window-modal').modal('show');
+        }
+	</script>
+
+{% end %}

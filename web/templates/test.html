@@ -1,0 +1,52 @@
+{% extends "layout/default.html" %}
+
+
+{% block main_content %}
+
+	<h3 class="header smaller lighter blue">欢迎使用股票系统。</h3>
+
+	<div class="clearfix">
+		<div class="pull-right tableTools-container"></div>
+	</div>
+
+	<div class="col-sm-1">
+			<button onclick="showDFCFWindow('SZ000001');" role="button" class="btn btn-sm btn-primary" data-toggle="modal">
+				<i class="ace-icon fa fa-plus"></i>
+				测试弹窗东方财富窗口
+			</button>
+	</div><!-- /.col -->
+
+	<!--<iframe src="https://emweb.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=soft&code=SZ000001" width="700px" height="700px"></iframe>-->
+
+	<!-- 定义一个窗口的Div 东方财富股票数据页面 -->
+	<div id="dfcf-window-modal" class="modal fade">
+		<div class="modal-dialog" style="width:1010px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="smaller lighter blue no-margin">东方财富分析</h3>
+				</div>
+				<div class="modal-body" id="dfcf-iframe-body" >
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <script type="text/javascript">
+        //每次动态加载 东方财富窗口
+        function showDFCFWindow(code) {
+
+        	var iframe = document.createElement('iframe')
+        	var baseUrl = 'https://emweb.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=soft&code='+code;
+        	// var baseUrl = 'https://emweb.eastmoney.com/PC_HSF10/OperationsRequired/Index?type=soft&code=';
+			iframe.src = baseUrl;
+			iframe.width = '980px';
+			iframe.height = '700px';
+			iframe.frameborder = '0';
+			$('#iframe-body').empty(); // 先清空数据
+			document.getElementById("dfcf-iframe-body").appendChild(iframe)
+            $('#dfcf-window-modal').modal('show');
+        }
+	</script>
+
+{% end %}

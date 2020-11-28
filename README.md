@@ -262,13 +262,44 @@ https://pypi.org/project/bokeh/#files
 > 
 > 升级JS，因为 lib 包升级导致问题。
 
-### 如果觉得还不错！！请作者喝杯咖啡吧 ☺！！
-
-![image](https://img-blog.csdnimg.cn/20200808102407611.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZyZWV3ZWJzeXM=,size_16,color_FFFFFF,t_70)
 
 
 ### 12，发现MariaDb 版本不兼容问题
 
 相关数据执行只支持到10.5.4，版本可以使用，但是10.5.8 就有问题了。
 限制死了版本。看来软件也不能瞎升级，都用最新的有问题。可以解决数据问题。
+
+
+
+### 13，增加日历
+
+```
+古老的jquery 代码：
+		$( ".date-picker" ).datepicker({
+			language: 'zh-CN', //设置语言
+            format:"yyyymmdd",
+            showOtherMonths: true,
+            selectOtherMonths: false,
+            autoclose: true,
+			todayHighlight: true
+        });
+针对日期类型的搜索条件增加日历
+
+```
+
+### 14 增加东方财经弹窗窗口、增加指标计算弹窗窗口
+
+发现了一个东方财富的页面，是给pc端用的。
+可以做个弹出框放到系统中。不进行调整了，长宽高可以做的小点。使用iframe引入界面。否则有跨域和样式问题。
+
+修改指标页面，改成窗口弹窗，做页面适配，方便查看。
+
+
+
+### 如果觉得还不错！！请作者喝杯咖啡吧 ☺！！
+
+![image](https://img-blog.csdnimg.cn/20200808102407611.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZyZWV3ZWJzeXM=,size_16,color_FFFFFF,t_70)
+
+
+
 

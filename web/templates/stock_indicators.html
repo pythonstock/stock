@@ -1,4 +1,4 @@
-{% extends "layout/default.html" %}
+{% extends "layout/indicators.html" %}
 
 
 {% block main_content %}
@@ -17,10 +17,7 @@
 
 <script type="text/javascript">
     Bokeh.set_log_level("info");
-
 </script>
-
-<h3 class="header smaller lighter blue">股票数据详细指标分析</h3>
 
 {% for index,element in enumerate(comp_list) %}
 <h4 class="header smaller lighter blue">{{ element["title"] }}</h4>
