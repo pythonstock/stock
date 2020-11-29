@@ -99,14 +99,21 @@
 
 	jQuery(function($) {
 
+
 		$( ".date-picker" ).datepicker({
 			language: 'zh-CN', //设置语言
             format:"yyyymmdd",
             showOtherMonths: true,
             selectOtherMonths: false,
             autoclose: true,
-			todayHighlight: true
-        });
+			todayHighlight: true,
+			onSelect: function(selected,evnt) {
+				 console.log(selected);
+			}
+        }).on('changeDate', function(ev){
+			$('input.column_filter').click();//触发搜索
+		});
+
 
 		var nameParam = $.getUrlVar('table_name');
 		//console.log(nameParam);
@@ -135,6 +142,7 @@
 				$(this).val()
 			).draw();
 		});
+
 		$('input.column_filter').click();//第一次点击执行，读取时间信息。
 
 		$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';

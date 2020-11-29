@@ -287,12 +287,17 @@ https://pypi.org/project/bokeh/#files
 
 ```
 
+https://www.bootcss.com/p/bootstrap-datetimepicker/
+不是使用jQuery的时间。
+
 ### 14 增加东方财经弹窗窗口、增加指标计算弹窗窗口
 
 发现了一个东方财富的页面，是给pc端用的。
 可以做个弹出框放到系统中。不进行调整了，长宽高可以做的小点。使用iframe引入界面。否则有跨域和样式问题。
 
 修改指标页面，改成窗口弹窗，做页面适配，方便查看。
+
+
 
 
 
