@@ -1,29 +1,32 @@
 version: "3"
-services: 
+services:
     stock:
         image: pythonstock/pythonstock:latest
         container_name: stock
-        ports: 
+        ports:
             - "8888:8888"
             - "9999:9999"
-        volumes: 
+        volumes:
             - "./data/notebooks:/data/notebooks"
-        environment: 
+            - "./data/logs:/data/logs"
+        environment:
             MYSQL_HOST: mariadb
             MYSQL_USER: root
             MYSQL_PWD: mariadb
             MYSQL_DB: stock_data
+            LANG: en_US.UTF-8
+            LC_ALL: en_US.UTF-8
         links:
             - mariadb:mariadb
         restart: always
     mariadb:
         image: mariadb:10.5.6
         container_name: mariadb
-        expose: 
-            - "3306"
-        volumes: 
+        ports:
+            - "3306:3306"
+        volumes:
             - "./data/mariadb/data:/var/lib/mysql"
-        environment: 
+        environment:
             MYSQL_ROOT_PASSWORD: mariadb
         restart: always
         
