@@ -9,16 +9,16 @@ services:
         volumes: 
             - "./data/notebooks:/data/notebooks"
         environment: 
-            MYSQL_HOST: db
+            MYSQL_HOST: mariadb
             MYSQL_USER: root
             MYSQL_PWD: mariadb
             MYSQL_DB: stock_data
         links:
-            - stock_db:stock_db
+            - mariadb:mariadb
         restart: always
-    stock_db:
-        image: mariadb:10.5.4
-        container_name: stock_db
+    mariadb:
+        image: mariadb:10.5.6
+        container_name: mariadb
         expose: 
             - "3306"
         volumes: 
