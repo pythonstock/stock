@@ -25,9 +25,10 @@ services:
         ports:
             - "3306:3306"
         volumes:
-            - "./data/mariadb/data:/var/lib/mysql"
+            - "./data/mysqldb/data:/var/lib/mysql"
         environment:
             MYSQL_ROOT_PASSWORD: mysqldb
             MYSQL_DATABASE: stock_data
+            TZ: Asia/Shanghai
         restart: always
         

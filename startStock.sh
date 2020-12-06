@@ -6,39 +6,36 @@ DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
 if [ $DB_IS_RUN -lt 2 ]; then
 
     #判断文件夹存在不。
-    if [ ! -d "/data/mariadb/data" ]; then
-        mkdir -p /data/mariadb/data
+    if [ ! -d "/data/mysqldb/data" ]; then
+        mkdir -p /data/mysqldb/data
     fi
 
-    HAS_DB=`docker images mariadb | wc -l `
+    HAS_DB=`docker images mysql:5.7 | wc -l `
     if [ $HAS_DB -ne 2 ];then
-        docker pull mariadb
+        docker pull mysql:5.7
     fi
 
     ####################### 启动数据库 #######################
-    #检查mariadb是否启动
-    DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
+    #检查mysqldb是否启动
+    DB_IS_RUN=`docker ps --filter "name=mysqldb" --filter "status=running" | wc -l `
 
     if [ $DB_IS_RUN -ne 2 ]; then
-        docker run --name mariadb -v ${PWD}/data/mariadb/data:/var/lib/mysql --restart=always \
-        -e MYSQL_ROOT_PASSWORD=mariadb -p 3306:3306 -d mariadb:10.5.4
-        echo "starting mariadb ..."
+        docker run --name mysqldb -v ${PWD}/data/mysqldb/data:/var/lib/mysql --restart=always \
+        -e MYSQL_ROOT_PASSWORD=mysqldb -e MYSQL_DATABASE=stock_data -e TZ=Asia/Shanghai \
+        -p 3306:3306 -d mysql:5.7
+        echo "starting mysqldb ..."
     else
-        echo "mariadb is running !!!"
+        echo "mysqldb is running !!!"
     fi
 
     ####################### 创建数据库 #######################
-    echo "wait 10 second , and create stock database ."
-    sleep 10
-    #检查mariadb是否启动，等待5秒钟，再次检查mariadb启动
-    DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
+    echo "wait 120 second , and create stock database ."
+    sleep 120
+    #检查mysqldb是否启动，等待5秒钟，再次检查mysqldb启动
+    DB_IS_RUN=`docker ps --filter "name=mysqldb" --filter "status=running" | wc -l `
     if [ $DB_IS_RUN -ne 2 ]; then
-        echo "mariadb is not running !!!"
-    else
-        #执行创建数据库
-        docker exec -it mariadb mysql -uroot -pmariadb mysql -e \
-            " CREATE DATABASE IF NOT EXISTS stock_data CHARACTER SET utf8 COLLATE utf8_general_ci "
-        echo "CREATE stock_data DATABASE "
+        echo "mysqldb is not running !!!"
+        exit 1;
     fi
 fi
 
@@ -58,7 +55,7 @@ if [ $# == 1 ] ; then
     # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
     mkdir -p notebooks
 
-    docker run -itd --link=mariadb --name stock  \
+    docker run -itd --link=mysqldb --name stock  \
       -p 8888:8888 -p 9999:9999 --restart=always \
       -v ${PWD}/jobs:/data/stock/jobs \
       -v ${PWD}/libs:/data/stock/libs \
@@ -71,7 +68,7 @@ if [ $# == 1 ] ; then
 else
     echo "############# run online ############# "
     # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
-    docker run -itd --link=mariadb --name stock  \
+    docker run -itd --link=mysqldb --name stock  \
       -p 8888:8888 -p 9999:9999 --restart=always \
        pythonstock/pythonstock:latest
     exit 1;
