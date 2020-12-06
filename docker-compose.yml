@@ -10,23 +10,24 @@ services:
             - "./data/notebooks:/data/notebooks"
             - "./data/logs:/data/logs"
         environment:
-            MYSQL_HOST: mariadb
+            MYSQL_HOST: mysqldb
             MYSQL_USER: root
-            MYSQL_PWD: mariadb
+            MYSQL_PWD: mysqldb
             MYSQL_DB: stock_data
             LANG: en_US.UTF-8
             LC_ALL: en_US.UTF-8
         links:
-            - mariadb:mariadb
+            - mysqldb:mysqldb
         restart: always
-    mariadb:
-        image: mariadb:10.5.6
-        container_name: mariadb
+    mysqldb:
+        image: mysql:5.7
+        container_name: mysqldb
         ports:
             - "3306:3306"
         volumes:
             - "./data/mariadb/data:/var/lib/mysql"
         environment:
-            MYSQL_ROOT_PASSWORD: mariadb
+            MYSQL_ROOT_PASSWORD: mysqldb
+            MYSQL_DATABASE: stock_data
         restart: always
         
