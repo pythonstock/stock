@@ -29,7 +29,7 @@ if [ $DB_IS_RUN -lt 2 ]; then
     fi
 
     ####################### 创建数据库 #######################
-    echo "wait 120 second , and create stock database ."
+    echo "wait 120 second , mysqldb is starting ."
     sleep 120
     #检查mysqldb是否启动，等待5秒钟，再次检查mysqldb启动
     DB_IS_RUN=`docker ps --filter "name=mysqldb" --filter "status=running" | wc -l `

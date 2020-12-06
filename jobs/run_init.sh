@@ -7,9 +7,14 @@ export LC_CTYPE=zh_CN.UTF-8
 
 mkdir -p /data/logs/tensorflow
 
+
+
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 
 echo $DATE >> /data/logs/run_init.log
+
+echo "wait 120 second , mysqldb is starting ." >> /data/logs/run_init.log
+sleep 120
 
 /usr/local/bin/python3 /data/stock/jobs/basic_job.py  >> /data/logs/run_init.log
 
