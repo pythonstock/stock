@@ -26,7 +26,8 @@ print("MYSQL_HOST :", MYSQL_HOST, ",MYSQL_USER :", MYSQL_USER, ",MYSQL_DB :", MY
 MYSQL_CONN_URL = "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL_HOST + ":3306/" + MYSQL_DB + "?charset=utf8"
 print("MYSQL_CONN_URL :", MYSQL_CONN_URL)
 
-def get_tushare_token()
+# 定义 获得 token 方法
+def get_tushare_token():
     tushare_token = os.environ.get('TUSHARE_TOKEN')
     if tushare_token != None:
         return tushare_token

@@ -16,6 +16,7 @@ services:
             MYSQL_DB: stock_data
             LANG: en_US.UTF-8
             LC_ALL: en_US.UTF-8
+            # 测试使用，自己需注册，申请：https://tushare.pro/user/token
             TUSHARE_TOKEN: 007b2f24bc3afb5ff5c604b0aee583956840210348169bc2436bddf9
         links:
             - mysqldb:mysqldb
