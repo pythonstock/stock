@@ -66,6 +66,8 @@ def stat_all(tmp_datetime):
 
     #############################基本面数据 http://tushare.org/fundamental.html
     # 股票列表
+    print(common.get_tushare_token())
+
     data = ts.get_stock_basics()
     # print(data.index)
     # 解决ESP 小数问题。
