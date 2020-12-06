@@ -113,6 +113,14 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose up -d
 ```
 
+要想修改文件进行调试，增加当前目录映射，加入到stock里面：
+```yaml
+        volumes:
+            - "./jobs:/data/stock/jobs"
+            - "./libs:/data/stock/libs"
+            - "./web:/data/stock/web"
+```
+
 进入镜像：
 ```
 docker exec -it stock bash 
