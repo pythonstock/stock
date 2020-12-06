@@ -32,7 +32,7 @@ class GetDataIndicatorsHandler(webBase.BaseHandler):
         try:
             date_now = datetime.datetime.now()
             date_end = date_now.strftime("%Y-%m-%d")
-            date_start = (date_now + datetime.timedelta(days=-300)).strftime("%Y-%m-%d")
+            date_start = (date_now + datetime.timedelta(days=-100)).strftime("%Y-%m-%d")
             print(code, date_start, date_end)
 
             # open, high, close, low, volume, price_change, p_change, ma5, ma10, ma20, v_ma5, v_ma10, v_ma20, turnover

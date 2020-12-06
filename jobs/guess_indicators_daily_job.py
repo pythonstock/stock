@@ -262,7 +262,7 @@ def apply_guess(tmp, stock_column):
     date = tmp["date"]
     code = tmp["code"]
     date_end = datetime.datetime.strptime(date, "%Y%m%d")
-    date_start = (date_end + datetime.timedelta(days=-300)).strftime("%Y-%m-%d")
+    date_start = (date_end + datetime.timedelta(days=-100)).strftime("%Y-%m-%d")
     date_end = date_end.strftime("%Y-%m-%d")
     # print(code, date_start, date_end)
     # open, high, close, low, volume, price_change, p_change, ma5, ma10, ma20, v_ma5, v_ma10, v_ma20, turnover
