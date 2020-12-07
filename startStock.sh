@@ -55,7 +55,11 @@ if [ $# == 1 ] ; then
     # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
     mkdir -p notebooks
 
+    #  测试使用，自己需注册，申请：https://tushare.pro/user/token
+
     docker run -itd --link=mysqldb --name stock  \
+      -e LANG=zh_CN.UTF-8 -e LC_CTYPE=zh_CN.UTF-8 -e PYTHONIOENCODING=utf-8 \
+      -e TUSHARE_TOKEN=007b2f24bc3afb5ff5c604b0aee583956840210348169bc2436bddf9 \
       -p 8888:8888 -p 9999:9999 --restart=always \
       -v ${PWD}/jobs:/data/stock/jobs \
       -v ${PWD}/libs:/data/stock/libs \
