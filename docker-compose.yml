@@ -1,0 +1,37 @@
+version: "3"
+services:
+    stock:
+        image: pythonstock/pythonstock:latest
+        container_name: stock
+        ports:
+            - "8888:8888"
+            - "9999:9999"
+        volumes:
+            - "./data/notebooks:/data/notebooks"
+            - "./data/logs:/data/logs"
+        environment:
+            MYSQL_HOST: mysqldb
+            MYSQL_USER: root
+            MYSQL_PWD: mysqldb
+            MYSQL_DB: stock_data
+            LANG: zh_CN.UTF-8
+            LC_CTYPE: zh_CN.UTF-8
+            PYTHONIOENCODING: utf-8
+            # 测试使用，自己需注册，申请：https://tushare.pro/user/token
+            TUSHARE_TOKEN: 007b2f24bc3afb5ff5c604b0aee583956840210348169bc2436bddf9
+        links:
+            - mysqldb:mysqldb
+        restart: always
+    mysqldb:
+        image: mysql:5.7
+        container_name: mysqldb
+        ports:
+            - "3306:3306"
+        volumes:
+            - "./data/mysqldb/data:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: mysqldb
+            MYSQL_DATABASE: stock_data
+            TZ: Asia/Shanghai
+        restart: always
+        

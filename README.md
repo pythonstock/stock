@@ -5,9 +5,9 @@
 
 ```
 PythonStock V1 是基于Python的pandas，tushare，bokeh，tornado，stockstats，ta-lib等框架开发的全栈股票系统。
-1）可以直接使用docker直接本地部署运行，整个项目在docker hub上压缩后200BM，本地占用500MB磁盘空间。
+1）可以直接使用docker直接本地部署运行，整个项目在docker hub上压缩后200MB，本地占用500MB磁盘空间。
 2）使用Docker解决了Python库安装问题，使用Mariadb（MySQL）存储数据。借助tushare抓取数据（老API，后续使用tushare pro开发）
-3）使用corn做定时任务，每天进行数据抓取计算，每天18点开始进行数据计算，计算当日数据，使用300天数据进行计算，大约需要15分钟计算完毕。
+3）使用cron做定时任务，每天进行数据抓取计算，每天18点开始进行数据计算，计算当日数据，使用300天数据进行计算，大约需要15分钟计算完毕。
 4）股票数据接口防止被封，按天进行数据缓存，储存最近3天数据，每天定时清除，同时使用read_pickle to_pickle 的gzip压缩模式存储。
 5）使用tornado开发web系统，支持股票数据，沪深300成份股，中证500成份股，龙虎榜数据，每日股票数据，每日大盘指数行情等
 6）数据展示系统，是通用数据展示系统，配置字典模板之后，页面自动加载数据，并完成数据展示，后续自己开发的指标数据可以加入进去。
@@ -97,6 +97,28 @@ docker run -itd --name stock  \
     -e MYSQL_PWD=mariadb \
     -e MYSQL_DB=stock_data \
     pythonstock/pythonstock:latest
+```
+
+或者使用docker compose
+
+安装docker-compose
+https://www.runoob.com/docker/docker-compose.html
+
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+```
+docker-compose up -d
+```
+
+要想修改文件进行调试，增加当前目录映射，加入到stock里面：
+```yaml
+        volumes:
+            - "./jobs:/data/stock/jobs"
+            - "./libs:/data/stock/libs"
+            - "./web:/data/stock/web"
 ```
 
 进入镜像：
@@ -254,7 +276,49 @@ https://pypi.org/project/bokeh/#files
 > 
 > 升级JS，因为 lib 包升级导致问题。
 
+
+
+### 12，发现MariaDb 版本不兼容问题
+
+相关数据执行只支持到10.5.4，版本可以使用，但是10.5.8 就有问题了。
+限制死了版本。看来软件也不能瞎升级，都用最新的有问题。可以解决数据问题。
+
+
+
+### 13，增加日历
+
+```
+古老的jquery 代码：
+		$( ".date-picker" ).datepicker({
+			language: 'zh-CN', //设置语言
+            format:"yyyymmdd",
+            showOtherMonths: true,
+            selectOtherMonths: false,
+            autoclose: true,
+			todayHighlight: true
+        });
+针对日期类型的搜索条件增加日历
+
+```
+
+https://www.bootcss.com/p/bootstrap-datetimepicker/
+不是使用jQuery的时间。
+
+### 14 增加东方财经弹窗窗口、增加指标计算弹窗窗口
+
+发现了一个东方财富的页面，是给pc端用的。
+可以做个弹出框放到系统中。不进行调整了，长宽高可以做的小点。使用iframe引入界面。否则有跨域和样式问题。
+
+修改指标页面，改成窗口弹窗，做页面适配，方便查看。
+
+
+
+
+
 ### 如果觉得还不错！！请作者喝杯咖啡吧 ☺！！
 
 ![image](https://img-blog.csdnimg.cn/20200808102407611.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZyZWV3ZWJzeXM=,size_16,color_FFFFFF,t_70)
+
+
+
 

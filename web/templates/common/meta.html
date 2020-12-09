@@ -7,19 +7,43 @@
 <link rel="stylesheet" href="/static/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 <!-- basic scripts -->
 <script src="/static/js/jquery-2.1.4.min.js"></script>
+<script src="/static/js/ace-extra.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
+
 <!-- page specific plugin scripts -->
 <script src="/static/js/jquery.dataTables.min.js"></script>
 <script src="/static/js/jquery.dataTables.bootstrap.min.js"></script>
 <script src="/static/js/dataTables.buttons.min.js"></script>
 <script src="/static/js/dataTables.select.min.js"></script>
 <!-- ace scripts -->
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/js/bootstrap-datepicker.zh-CN.js"></script>
+
+<link rel="stylesheet" href="/static/css/bootstrap-datepicker3.min.css" />
+<link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css" />
+
 <script src="/static/js/ace-elements.min.js"></script>
 <script src="/static/js/ace.min.js"></script>
+<script src="/static/js/jquery-ui.custom.min.js"></script>
+<script src="/static/js/bootbox.js"></script>
+
 <script src="/static/js/buttons.colVis.min.js"></script>
 <script src="/static/js/buttons.print.min.js"></script>
 <script src="/static/js/buttons.html5.min.js"></script>
+
+
 <script type='text/javascript'>
+jQuery(function($) {
+    //初始化窗口。
+    $('.modal.aside').ace_aside();
+    $('#aside-inside-modal').addClass('aside').ace_aside({container: ""});
+    $(document).one('ajaxloadstart.page', function(e) {
+        $('.modal.aside').remove();
+        $(window).off('.aside')
+    });
+})
 $.extend({
 	getUrlVars: function(){
 		var vars = [], hash;
@@ -35,6 +59,10 @@ $.extend({
 	getUrlVar: function(name){
 		return $.getUrlVars()[name];
 	}
+});
+jQuery(function($) {
+    $('[data-rel=tooltip]').tooltip();
+    $('[data-rel=popover]').popover({html:true});
 });
 </script>
 <style>
