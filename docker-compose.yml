@@ -9,6 +9,9 @@ services:
         volumes:
             - "./data/notebooks:/data/notebooks"
             - "./data/logs:/data/logs"
+            - "./jobs:/data/stock/jobs"
+            - "./libs:/data/stock/libs"
+            - "./web:/data/stock/web"
         environment:
             MYSQL_HOST: mysqldb
             MYSQL_USER: root
