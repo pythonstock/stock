@@ -27,7 +27,9 @@ def stat_all(tmp_datetime):
 
     print("datetime_str:", datetime_str)
     print("datetime_int:", datetime_int)
-    data = ts.top_list(datetime_str)
+    # 增加pro_api，token需要用户自己注册
+    pro = ts.pro_api(common.get_tushare_token())
+    data = pro.top_list(trade_date=datetime_str)
     # 处理重复数据，保存最新一条数据。最后一步处理，否则concat有问题。
     #
     if not data is None and len(data) > 0:
