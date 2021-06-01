@@ -24,7 +24,7 @@ index-url=http://mirrors.aliyun.com/pypi/simple" > /etc/pip.conf && \
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
 
-#安装 mysqlclient tushare (pandas ,numpy) tornado bokeh
+#安装 mysqlclient akshare (pandas ,numpy) tornado bokeh
 # apt-get autoremove -y 删除没有用的依赖lib。减少镜像大小。1MB 也要节省。
 # apt-get --purge remove 软件包名称 , 删除已安装包（不保留配置文件)。
 RUN apt-get update && apt-get install -y gcc make axel python3-dev default-libmysqlclient-dev libxml2-dev cron supervisor && \
@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y gcc make axel python3-dev default-libmy
     pip3 install requests && \
     pip3 install lxml bs4 && \
     pip3 install numpy pandas  && \
-    pip3 install tushare && \
+    pip3 install akshare && \
     pip3 install tornado torndb && \
     pip3 install bokeh stockstats && \
     cd /tmp && axel https://nchc.dl.sourceforge.net/project/ta-lib/ta-lib/0.4.0/ta-lib-0.4.0-src.tar.gz && \
