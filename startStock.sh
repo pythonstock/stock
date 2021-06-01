@@ -6,8 +6,8 @@ DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
 if [ $DB_IS_RUN -lt 2 ]; then
 
     #判断文件夹存在不。
-    if [ ! -d "/data/mysqldb/data" ]; then
-        mkdir -p /data/mysqldb/data
+    if [ ! -d "${PWD}/data/mysqldb/data" ]; then
+        mkdir -p ${PWD}/data/mysqldb/data
     fi
 
     HAS_DB=`docker images mysql:5.7 | wc -l `
@@ -20,17 +20,19 @@ if [ $DB_IS_RUN -lt 2 ]; then
     DB_IS_RUN=`docker ps --filter "name=mysqldb" --filter "status=running" | wc -l `
 
     if [ $DB_IS_RUN -ne 2 ]; then
+
+        ####################### 创建数据库 #######################
         docker run --name mysqldb -v ${PWD}/data/mysqldb/data:/var/lib/mysql --restart=always \
         -e MYSQL_ROOT_PASSWORD=mysqldb -e MYSQL_DATABASE=stock_data -e TZ=Asia/Shanghai \
         -p 3306:3306 -d mysql:5.7
         echo "starting mysqldb ..."
+        echo "wait 60 second , mysqldb is starting ."
+        sleep 60
     else
         echo "mysqldb is running !!!"
     fi
 
-    ####################### 创建数据库 #######################
-    echo "wait 120 second , mysqldb is starting ."
-    sleep 120
+
     #检查mysqldb是否启动，等待5秒钟，再次检查mysqldb启动
     DB_IS_RUN=`docker ps --filter "name=mysqldb" --filter "status=running" | wc -l `
     if [ $DB_IS_RUN -ne 2 ]; then
