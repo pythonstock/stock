@@ -312,12 +312,30 @@ https://www.bootcss.com/p/bootstrap-datetimepicker/
 修改指标页面，改成窗口弹窗，做页面适配，方便查看。
 
 
+### 15 使用 akshare 做相关股票数据抓取
 
+	
+中国的股市开盘时间为：每周一至周五的上午9:30——11：30，
+下午13:00——15:00。中国股市收盘时间为：每周一至周五的下午3点。
 
+实时行情数据
+接口: stock_zh_a_spot
+目标地址: http://vip.stock.finance.sina.com.cn/mkt/#hs_a
+描述: A 股数据是从新浪财经获取的数据, 重复运行本函数会被新浪暂时封 IP, 建议增加时间间隔
+限量: 单次返回所有 A 股上市公司的实时行情数据
 
-### 如果觉得还不错！！请作者喝杯咖啡吧 ☺！！
+历史行情数据
+日频率
+接口: stock_zh_a_daily
+目标地址: https://finance.sina.com.cn/realstock/company/sh600006/nc.shtml(示例)
+描述: A 股数据是从新浪财经获取的数据, 历史数据按日频率更新; 注意其中的 sh689009 为 CDR, 请 通过 stock_zh_a_cdr_daily 接口获取
+限量: 单次返回指定 A 股上市公司指定日期间的历史行情日频率数据
 
-![image](https://img-blog.csdnimg.cn/20200808102407611.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZyZWV3ZWJzeXM=,size_16,color_FFFFFF,t_70)
+### 16 升级基础镜像到3.7 python，保障 akshare 0.6.10 以上版本支持
+
+发现 akshare 要求升级python 3.7 以上版本才可以，需要升级基础镜像。
+然后 akshare 就可以升级到 0.9.65 的最新版本了。
+新版本就可以按照日期进行查询，解决 TypeError: stock_zh_a_daily() got an unexpected keyword argument 'start_date' 这个问题了。
 
 
 

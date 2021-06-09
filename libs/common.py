@@ -12,7 +12,6 @@ import MySQLdb
 from sqlalchemy import create_engine
 from sqlalchemy.types import NVARCHAR
 from sqlalchemy import inspect
-import tushare as ts
 import pandas as pd
 import traceback
 
@@ -193,9 +192,9 @@ def get_hist_data_cache(code, date_start, date_end):
         return pd.read_pickle(cache_file, compression="gzip")
     else:
         print("######### get data, write cache #########", code, date_start, date_end)
-        stock = ts.get_hist_data(code, start=date_start, end=date_end)
-        if stock is None:
-            return None
-        stock = stock.sort_index(0)  # 将数据按照日期排序下。
-        stock.to_pickle(cache_file, compression="gzip")
-        return stock
+        # stock = ts.get_hist_data(code, start=date_start, end=date_end)
+        # if stock is None:
+        #     return None
+        # stock = stock.sort_index(0)  # 将数据按照日期排序下。
+        # stock.to_pickle(cache_file, compression="gzip")
+        # return stock

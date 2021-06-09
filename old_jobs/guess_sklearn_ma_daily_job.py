@@ -128,7 +128,7 @@ def apply_sklearn(data):
     # model = KNeighborsClassifier()
 
     model.fit(stock_X.values, stock_y)
-    # print("############## test & target #############")
+    # print("############## test_akshare & target #############")
     # print("############## coef_ & intercept_ #############")
     # print(model.coef_)  # 系数
     # print(model.intercept_)  # 截断
