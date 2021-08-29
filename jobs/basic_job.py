@@ -13,6 +13,30 @@ import akshare as ak
 
 import MySQLdb
 
+# 600开头的股票是上证A股，属于大盘股
+# 600开头的股票是上证A股，属于大盘股，其中6006开头的股票是最早上市的股票，
+# 6016开头的股票为大盘蓝筹股；900开头的股票是上证B股；
+# 000开头的股票是深证A股，001、002开头的股票也都属于深证A股，
+# 其中002开头的股票是深证A股中小企业股票；
+# 200开头的股票是深证B股；
+# 300开头的股票是创业板股票；400开头的股票是三板市场股票。
+def stock_a(code):
+    # print(code)
+    # print(type(code))
+    # 上证A股  # 深证A股
+    if code.startswith('600') or code.startswith('6006') or code.startswith('601') or code.startswith('000') or code.startswith('001') or code.startswith('002'):
+        return True
+    else:
+        return False
+# 过滤掉 st 股票。
+def stock_a_filter_st(name):
+    # print(code)
+    # print(type(code))
+    # 上证A股  # 深证A股
+    if name.find("ST") == -1:
+        return True
+    else:
+        return False
 
 ####### 3.pdf 方法。宏观经济数据
 # 接口全部有错误。只专注股票数据。
@@ -68,17 +92,20 @@ def stat_all(tmp_datetime):
     #############################基本面数据 http://tushare.org/fundamental.html
     # 股票列表
 
-    data = ak.stock_zh_ah_name()
+    data = ak.stock_zh_a_spot_em()
     # print(data.index)
     # 解决ESP 小数问题。
     # data["esp"] = data["esp"].round(2)  # 数据保留2位小数
     print(data)
-    data.columns = ['index', 'code', 'name', 'latest_price', 'quote_change', 'ups_downs', 'volume',
-                    'turnover', 'amplitude', 'high', 'low', 'open', 'closed', 'quantity_ratio',
-                    'turnover_rate', 'pe_dynamic', 'pb']
+    data.columns = ['index', 'code','name','latest_price','quote_change','ups_downs','volume','turnover','amplitude','high','low','open','closed','quantity_ratio','turnover_rate','pe_dynamic','pb']
+
+    data = data.loc[data["code"].apply(stock_a)].loc[data["name"].apply(stock_a_filter_st)]
+
     #del data['index']
-    data.set_index('code', inplace = True)
+    data.set_index('code', inplace=True)
     data.drop('index', axis=1, inplace=True)
+    print(data)
+
     # 删除index，然后和原始数据合并。
 
 
