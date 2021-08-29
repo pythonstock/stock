@@ -27,14 +27,9 @@ STOCK_WEB_DATA_LIST.append(
         mode="query",
         type="基本面数据",
         name="股票列表",
-        table_name="ts_stock_basics",
-        columns=["code", "name", "industry", "area", "pe", "outstanding", "totals", "totalAssets", "liquidAssets",
-                 "fixedAssets", "reserved", "reservedPerShare", "esp", "bvps", "pb", "timeToMarket",
-                 "undp", "perundp", "rev", "profit", "gpr", "npr", "holders"],
-        column_names=["代码", "名称", "所属行业", "地区", "市盈率", "流通股本(亿)", "总股本(亿)", "总资产(万)", "流动资产",
-                      "固定资产", "公积金", "每股公积金", "每股收益", "每股净资", "市净率", "上市日期", "未分利润",
-                      "每股未分配", "收入同比(%)", "利润同比(%)", "毛利率(%)", "净利润率(%)", "股东人数"
-                      ],
+        table_name="stock_zh_ah_name",
+        columns=['code','name','latest_price','quote_change','ups_downs','volume','turnover','amplitude','high','low','open','closed','quantity_ratio','turnover_rate','pe_dynamic','pb'],
+        column_names=['代码','名称','最新价','涨跌幅','涨跌额','成交量','成交额','振幅','最高','最低','今开','昨收','量比','换手率','动态市盈率','市净率'],
         primary_key=[],
         order_by=" code asc "
     )

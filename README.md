@@ -338,5 +338,9 @@ https://www.bootcss.com/p/bootstrap-datetimepicker/
 新版本就可以按照日期进行查询，解决 TypeError: stock_zh_a_daily() got an unexpected keyword argument 'start_date' 这个问题了。
 
 
+### 17 升级ak到v1.0.80 做好每日东方财经数据
+
+
+
 
 

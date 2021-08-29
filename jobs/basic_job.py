@@ -6,10 +6,11 @@ import libs.common as common
 import sys
 import time
 import pandas as pd
-import tushare as ts
 from sqlalchemy.types import NVARCHAR
 from sqlalchemy import inspect
 import datetime
+import akshare as ak
+
 import MySQLdb
 
 
@@ -66,13 +67,22 @@ def stat_all(tmp_datetime):
 
     #############################基本面数据 http://tushare.org/fundamental.html
     # 股票列表
-    print(common.get_tushare_token())
 
-    data = ts.get_stock_basics()
+    data = ak.stock_zh_ah_name()
     # print(data.index)
     # 解决ESP 小数问题。
-    data["esp"] = data["esp"].round(2)  # 数据保留2位小数
-    common.insert_db(data, "ts_stock_basics", True, "`code`")
+    # data["esp"] = data["esp"].round(2)  # 数据保留2位小数
+    print(data)
+    data.columns = ['index', 'code', 'name', 'latest_price', 'quote_change', 'ups_downs', 'volume',
+                    'turnover', 'amplitude', 'high', 'low', 'open', 'closed', 'quantity_ratio',
+                    'turnover_rate', 'pe_dynamic', 'pb']
+    #del data['index']
+    data.set_index('code', inplace = True)
+    data.drop('index', axis=1, inplace=True)
+    # 删除index，然后和原始数据合并。
+
+
+    common.insert_db(data, "stock_zh_ah_name", True, "`code`")
 
     # http://tushare.org/classifying.html#id9
 

@@ -25,20 +25,11 @@ print("MYSQL_HOST :", MYSQL_HOST, ",MYSQL_USER :", MYSQL_USER, ",MYSQL_DB :", MY
 MYSQL_CONN_URL = "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL_HOST + ":3306/" + MYSQL_DB + "?charset=utf8"
 print("MYSQL_CONN_URL :", MYSQL_CONN_URL)
 
-# 定义 获得 token 方法
-def get_tushare_token():
-    tushare_token = os.environ.get('TUSHARE_TOKEN')
-    if tushare_token != None:
-        return tushare_token
-    else:
-        return ""
-
 def engine():
     engine = create_engine(
         MYSQL_CONN_URL,
         encoding='utf8', convert_unicode=True)
     return engine
-
 
 def engine_to_db(to_db):
     MYSQL_CONN_URL_NEW = "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL_HOST + ":3306/" + to_db + "?charset=utf8"
@@ -46,7 +37,6 @@ def engine_to_db(to_db):
         MYSQL_CONN_URL_NEW,
         encoding='utf8', convert_unicode=True)
     return engine
-
 
 # 通过数据库链接 engine。
 def conn():
