@@ -20,13 +20,13 @@ class StockWebData:
 STOCK_WEB_DATA_LIST = []
 
 
-# http://tushare.org/fundamental.html
-# 参考官网网站的文档，是最全的。
+# https://www.akshare.xyz/zh_CN/latest/data/stock/stock.html#id1
+# 限量: 单次返回所有 A 股上市公司的实时行情数据
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
         type="基本面数据",
-        name="股票列表",
+        name="每日股票数据-东财",
         table_name="stock_zh_ah_name",
         columns=['code','name','latest_price','quote_change','ups_downs','volume','turnover','amplitude','high','low','open','closed','quantity_ratio','turnover_rate','pe_dynamic','pb'],
         column_names=['代码','名称','最新价','涨跌幅','涨跌额','成交量','成交额','振幅','最高','最低','今开','昨收','量比','换手率','动态市盈率','市净率'],

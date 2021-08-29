@@ -100,6 +100,12 @@ def stat_all(tmp_datetime):
     data.columns = ['index', 'code','name','latest_price','quote_change','ups_downs','volume','turnover','amplitude','high','low','open','closed','quantity_ratio','turnover_rate','pe_dynamic','pb']
 
     data = data.loc[data["code"].apply(stock_a)].loc[data["name"].apply(stock_a_filter_st)]
+    try:
+        # 删除老数据。
+        del_sql = " DELETE FROM .`stock_zh_ah_name`  "
+        common.insert(del_sql)
+    except Exception as e:
+        print("error :", e)
 
     #del data['index']
     data.set_index('code', inplace=True)
@@ -107,7 +113,6 @@ def stat_all(tmp_datetime):
     print(data)
 
     # 删除index，然后和原始数据合并。
-
 
     common.insert_db(data, "stock_zh_ah_name", True, "`code`")
 

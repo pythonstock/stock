@@ -80,6 +80,8 @@ def insert_other_db(to_db, data, table_name, write_index, primary_keys):
                 print("################## ADD PRIMARY KEY ERROR :", e)
 
 
+
+
 # 插入数据。
 def insert(sql, params=()):
     with conn() as db:
