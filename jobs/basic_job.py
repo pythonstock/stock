@@ -38,6 +38,16 @@ def stock_a_filter_st(name):
     else:
         return False
 
+# 过滤价格，如果没有基本上是退市了。
+def stock_a_filter_price(latest_price):
+    # print(type(code))
+    # 上证A股  # 深证A股
+    if latest_price is None:
+        print(latest_price)
+        return False
+    else:
+        return True
+
 ####### 3.pdf 方法。宏观经济数据
 # 接口全部有错误。只专注股票数据。
 def stat_all(tmp_datetime):
@@ -96,10 +106,10 @@ def stat_all(tmp_datetime):
     # print(data.index)
     # 解决ESP 小数问题。
     # data["esp"] = data["esp"].round(2)  # 数据保留2位小数
-    print(data)
     data.columns = ['index', 'code','name','latest_price','quote_change','ups_downs','volume','turnover','amplitude','high','low','open','closed','quantity_ratio','turnover_rate','pe_dynamic','pb']
 
-    data = data.loc[data["code"].apply(stock_a)].loc[data["name"].apply(stock_a_filter_st)]
+    print(data)
+    data = data.loc[data["code"].apply(stock_a)].loc[data["name"].apply(stock_a_filter_st)].loc[data["latest_price"].apply(stock_a_filter_price)]
     try:
         # 删除老数据。
         del_sql = " DELETE FROM .`stock_zh_ah_name`  "
@@ -115,6 +125,14 @@ def stat_all(tmp_datetime):
     # 删除index，然后和原始数据合并。
 
     common.insert_db(data, "stock_zh_ah_name", True, "`code`")
+
+    try:
+        # 删除老数据。
+        del_sql = " DELETE FROM .`stock_zh_ah_name` where latest_price is null "
+        common.insert(del_sql)
+    except Exception as e:
+        print("error :", e)
+
 
     # http://tushare.org/classifying.html#id9
 

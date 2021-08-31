@@ -70,8 +70,12 @@ def insert_other_db(to_db, data, table_name, write_index, primary_keys):
     print(col_name_list)
     data.to_sql(name=table_name, con=engine_mysql, schema=to_db, if_exists='append',
                 dtype={col_name: NVARCHAR(length=255) for col_name in col_name_list}, index=write_index)
+
+    # print(insp.get_pk_constraint(table_name))
+    # print()
+    # print(type(insp))
     # 判断是否存在主键
-    if insp.get_primary_keys(table_name) == []:
+    if insp.get_pk_constraint(table_name)['constrained_columns'] == []:
         with engine_mysql.connect() as con:
             # 执行数据库插入数据。
             try:
