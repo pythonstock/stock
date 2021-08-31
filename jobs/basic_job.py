@@ -6,6 +6,7 @@ import libs.common as common
 import sys
 import time
 import pandas as pd
+import numpy as np
 from sqlalchemy.types import NVARCHAR
 from sqlalchemy import inspect
 import datetime
@@ -40,10 +41,8 @@ def stock_a_filter_st(name):
 
 # 过滤价格，如果没有基本上是退市了。
 def stock_a_filter_price(latest_price):
-    # print(type(code))
-    # 上证A股  # 深证A股
-    if latest_price is None:
-        print(latest_price)
+    # float 在 pandas 里面判断 空。
+    if np.isnan(latest_price):
         return False
     else:
         return True
@@ -108,8 +107,9 @@ def stat_all(tmp_datetime):
     # data["esp"] = data["esp"].round(2)  # 数据保留2位小数
     data.columns = ['index', 'code','name','latest_price','quote_change','ups_downs','volume','turnover','amplitude','high','low','open','closed','quantity_ratio','turnover_rate','pe_dynamic','pb']
 
-    print(data)
     data = data.loc[data["code"].apply(stock_a)].loc[data["name"].apply(stock_a_filter_st)].loc[data["latest_price"].apply(stock_a_filter_price)]
+    print(data)
+
     try:
         # 删除老数据。
         del_sql = " DELETE FROM .`stock_zh_ah_name`  "
@@ -123,15 +123,7 @@ def stat_all(tmp_datetime):
     print(data)
 
     # 删除index，然后和原始数据合并。
-
     common.insert_db(data, "stock_zh_ah_name", True, "`code`")
-
-    try:
-        # 删除老数据。
-        del_sql = " DELETE FROM .`stock_zh_ah_name` where latest_price is null "
-        common.insert(del_sql)
-    except Exception as e:
-        print("error :", e)
 
 
     # http://tushare.org/classifying.html#id9
