@@ -28,8 +28,10 @@ STOCK_WEB_DATA_LIST.append(
         type="1，股票基本数据",
         name="每日股票数据-东财",
         table_name="stock_zh_ah_name",
-        columns=['code','name','latest_price','quote_change','ups_downs','volume','turnover','amplitude','high','low','open','closed','quantity_ratio','turnover_rate','pe_dynamic','pb'],
-        column_names=['代码','名称','最新价','涨跌幅','涨跌额','成交量','成交额','振幅','最高','最低','今开','昨收','量比','换手率','动态市盈率','市净率'],
+        columns=['date','code','name','latest_price','quote_change','ups_downs','volume','turnover',
+                 'amplitude','high','low','open','closed','quantity_ratio','turnover_rate','pe_dynamic','pb'],
+        column_names=['日期','代码','名称','最新价','涨跌幅','涨跌额','成交量','成交额',
+                      '振幅','最高','最低','今开','昨收','量比','换手率','动态市盈率','市净率'],
         primary_key=[],
         order_by=" code asc "
     )
@@ -41,8 +43,8 @@ STOCK_WEB_DATA_LIST.append(
         type="1，股票基本数据",
         name="龙虎榜-个股上榜-新浪",
         table_name="stock_sina_lhb_ggtj",
-        columns= ['code','name','ranking_times','sum_buy','sum_sell','net_amount','buy_seat','sell_seat'],
-        column_names=['代码', '名称', '上榜次数', '累积购买额', '累积卖出额', '净额', '买入席位数', '卖出席位数'],
+        columns= ['date','code','name','ranking_times','sum_buy','sum_sell','net_amount','buy_seat','sell_seat'],
+        column_names=['日期','代码', '名称', '上榜次数', '累积购买额', '累积卖出额', '净额', '买入席位数', '卖出席位数'],
         primary_key=[],
         order_by=" code asc "
     )
@@ -51,11 +53,15 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="基本面数据",
-        name="中证500成份股",
-        table_name="ts_stock_zz500s",
-        columns=["code", "name", "weight"],
-        column_names=["代码", "名称", "权重"],
+        type="1，股票基本数据",
+        name="数据中心-大宗交易",
+        table_name="stock_dzjy_mrtj",
+        columns= ['date', 'code', 'name', 'quote_change', 'close_price', 'average_price',
+                                   'overflow_rate', 'trade_number', 'sum_volume', 'sum_turnover',
+                                   'turnover_market_rate'],
+        column_names=['日期', '代码', '名称', '涨跌幅', '收盘价', '成交均价',
+                      '折溢率', '成交笔数', '成交总量', '成交总额',
+                      '成交总额/流通市值'],
         primary_key=[],
         order_by=" code asc "
     )
