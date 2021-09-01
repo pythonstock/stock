@@ -20,6 +20,7 @@ class Application(tornado.web.Application):
         handlers = [
             # 设置路由
             (r"/", HomeHandler),
+            (r"/stock/", HomeHandler),
             (r"/test_akshare", TestHandler),# 测试页面，做写js 测试。
             (r"/test2", Test2Handler),# 测试页面，做写js 测试。
             # 使用datatable 展示报表数据模块。
@@ -51,6 +52,7 @@ class Application(tornado.web.Application):
 class HomeHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
+        print("################## index.html ##################")
         self.render("index.html", entries="hello", leftMenu=webBase.GetLeftMenu(self.request.uri))
 class TestHandler(webBase.BaseHandler):
     @gen.coroutine

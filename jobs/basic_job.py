@@ -112,7 +112,7 @@ def stat_all(tmp_datetime):
 
     try:
         # 删除老数据。
-        del_sql = " DELETE FROM .`stock_zh_ah_name`  "
+        del_sql = " DELETE FROM `stock_zh_ah_name`  "
         common.insert(del_sql)
     except Exception as e:
         print("error :", e)
@@ -121,36 +121,56 @@ def stat_all(tmp_datetime):
     data.set_index('code', inplace=True)
     data.drop('index', axis=1, inplace=True)
     print(data)
-
     # 删除index，然后和原始数据合并。
     common.insert_db(data, "stock_zh_ah_name", True, "`code`")
 
-
-    # http://tushare.org/classifying.html#id9
-
-    # # 行业分类 必须使用 PRO 接口查询。
-    # data = ts.get_industry_classified()
-    # common.insert_db(data, "ts_industry_classified", True, "`code`")
+    # 龙虎榜-个股上榜统计
+    # 接口: stock_sina_lhb_ggtj
     #
-    # # 概念分类 必须使用 PRO 接口查询。
-    # data = ts.get_concept_classified()
-    # common.insert_db(data, "ts_concept_classified", True, "`code`")
+    # 目标地址: http://vip.stock.finance.sina.com.cn/q/go.php/vLHBData/kind/ggtj/index.phtml
+    #
+    # 描述: 获取新浪财经-龙虎榜-个股上榜统计
+    #
+    stock_sina_lhb_ggtj = ak.stock_sina_lhb_ggtj(recent_day="5")
+    print(stock_sina_lhb_ggtj)
 
-    # 沪深300成份股及权重
-    data = ts.get_hs300s()
-    data = data.drop(columns=["date"])  # 删除日期
-    data = data.set_index("code")  # 替换索引
-    common.insert_db(data, "ts_stock_hs300s", True, "`code`")
+    stock_sina_lhb_ggtj.columns = ['code','name','ranking_times','sum_buy','sum_sell','net_amount','buy_seat','sell_seat']
 
-    # # 上证50成份股 没有数据？？
-    # data = ts.get_sz50s()
-    # common.insert_db(data, "ts_sz50s", True, "`code`")
+    stock_sina_lhb_ggtj = stock_sina_lhb_ggtj.loc[stock_sina_lhb_ggtj["code"].apply(stock_a)].loc[stock_sina_lhb_ggtj["name"].apply(stock_a_filter_st)]
 
-    # 中证500成份股
-    data = ts.get_zz500s()
-    data = data.drop(columns=["date"])  # 删除日期
-    data = data.set_index("code")  # 替换索引
-    common.insert_db(data, "ts_stock_zz500s", True, "`code`")
+    stock_sina_lhb_ggtj.set_index('code', inplace=True)
+    # data_sina_lhb.drop('index', axis=1, inplace=True)
+    try:
+        # 删除老数据。
+        del_sql = " DELETE FROM `stock_sina_lhb_ggtj`  "
+        common.insert(del_sql)
+    except Exception as e:
+        print("error :", e)
+    common.insert_db(stock_sina_lhb_ggtj, "stock_sina_lhb_ggtj", True, "`code`")
+
+    # 每日统计
+    # 接口: stock_dzjy_mrtj
+    #
+    # 目标地址: http://data.eastmoney.com/dzjy/dzjy_mrtj.aspx
+    #
+    # 描述: 获取东方财富网-数据中心-大宗交易-每日统计
+    datetime_str = (tmp_datetime).strftime("%Y-%m-%d")
+    print("################ tmp_datetime : " + datetime_str)
+
+    stock_dzjy_mrtj = ak.stock_dzjy_mrtj(start_date=datetime_str, end_date=datetime_str)
+    print(stock_dzjy_mrtj)
+
+    stock_dzjy_mrtj.columns = ['trade_date', 'code','name','quote_change','close_price ','average_price','overflow_rate','trade_number','sum_volume','sum_turnover','turnover_market_rate']
+
+    stock_dzjy_mrtj.set_index('code', inplace=True)
+    # data_sina_lhb.drop('index', axis=1, inplace=True)
+    try:
+        # 删除老数据。
+        del_sql = " DELETE FROM `stock_dzjy_mrtj`  "
+        common.insert(del_sql)
+    except Exception as e:
+        print("error :", e)
+    common.insert_db(stock_dzjy_mrtj, "stock_dzjy_mrtj", True, "`code`")
 
 
 # 创建新数据库。

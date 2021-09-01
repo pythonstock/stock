@@ -25,7 +25,7 @@ STOCK_WEB_DATA_LIST = []
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="基本面数据",
+        type="1，股票基本数据",
         name="每日股票数据-东财",
         table_name="stock_zh_ah_name",
         columns=['code','name','latest_price','quote_change','ups_downs','volume','turnover','amplitude','high','low','open','closed','quantity_ratio','turnover_rate','pe_dynamic','pb'],
@@ -38,11 +38,11 @@ STOCK_WEB_DATA_LIST.append(
 STOCK_WEB_DATA_LIST.append(
     StockWebData(
         mode="query",
-        type="基本面数据",
-        name="沪深300成份股",
-        table_name="ts_stock_hs300s",
-        columns=["code", "name", "weight"],
-        column_names=["代码", "名称", "权重"],
+        type="1，股票基本数据",
+        name="龙虎榜-个股上榜-新浪",
+        table_name="stock_sina_lhb_ggtj",
+        columns= ['code','name','ranking_times','sum_buy','sum_sell','net_amount','buy_seat','sell_seat'],
+        column_names=['代码', '名称', '上榜次数', '累积购买额', '累积卖出额', '净额', '买入席位数', '卖出席位数'],
         primary_key=[],
         order_by=" code asc "
     )
