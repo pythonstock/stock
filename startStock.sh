@@ -24,7 +24,7 @@ if [ $DB_IS_RUN -lt 2 ]; then
         ####################### 创建数据库 #######################
         docker run --name mysqldb -v ${PWD}/data/mysqldb/data:/var/lib/mysql --restart=always \
         -e MYSQL_ROOT_PASSWORD=mysqldb -e MYSQL_DATABASE=stock_data -e TZ=Asia/Shanghai \
-        -p 3306:3306 -d mysql:5.7
+        -p 3306:3306 -d mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         echo "starting mysqldb ..."
         echo "wait 60 second , mysqldb is starting ."
         sleep 60
@@ -61,7 +61,6 @@ if [ $# == 1 ] ; then
 
     docker run -itd --link=mysqldb --name stock  \
       -e LANG=zh_CN.UTF-8 -e LC_CTYPE=zh_CN.UTF-8 -e PYTHONIOENCODING=utf-8 \
-      -e TUSHARE_TOKEN=007b2f24bc3afb5ff5c604b0aee583956840210348169bc2436bddf9 \
       -p 8888:8888 -p 9999:9999 --restart=always \
       -v ${PWD}/jobs:/data/stock/jobs \
       -v ${PWD}/libs:/data/stock/libs \

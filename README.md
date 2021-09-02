@@ -351,6 +351,7 @@ https://www.akshare.xyz/zh_CN/latest/data/stock/stock.html#id1
 
 过滤包括：600，6006，601，000，001，002，且不包括ST的股票数据。
 
+增加数据库utf8 参数 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci 
 
 
 

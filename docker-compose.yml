@@ -34,5 +34,10 @@ services:
             MYSQL_ROOT_PASSWORD: mysqldb
             MYSQL_DATABASE: stock_data
             TZ: Asia/Shanghai
+        command: [
+            '--character-set-server=utf8mb4',
+            '--collation-server=utf8mb4_general_ci',
+            '--max_connections=3000'
+        ]
         restart: always
         

@@ -16,9 +16,9 @@ import pandas as pd
 import traceback
 
 # 使用环境变量获得数据库。兼容开发模式可docker模式。
-MYSQL_HOST = os.environ.get('MYSQL_HOST') if (os.environ.get('MYSQL_HOST') != None) else "mariadb"
+MYSQL_HOST = os.environ.get('MYSQL_HOST') if (os.environ.get('MYSQL_HOST') != None) else "mysqldb"
 MYSQL_USER = os.environ.get('MYSQL_USER') if (os.environ.get('MYSQL_USER') != None) else "root"
-MYSQL_PWD = os.environ.get('MYSQL_PWD') if (os.environ.get('MYSQL_PWD') != None) else "mariadb"
+MYSQL_PWD = os.environ.get('MYSQL_PWD') if (os.environ.get('MYSQL_PWD') != None) else "mysqldb"
 MYSQL_DB = os.environ.get('MYSQL_DB') if (os.environ.get('MYSQL_DB') != None) else "stock_data"
 
 print("MYSQL_HOST :", MYSQL_HOST, ",MYSQL_USER :", MYSQL_USER, ",MYSQL_DB :", MYSQL_DB)
@@ -127,7 +127,12 @@ def select_count(sql, params=()):
 # 通用函数。获得日期参数。
 def run_with_args(run_fun):
     tmp_datetime_show = datetime.datetime.now()  # 修改成默认是当日执行 + datetime.timedelta()
+    tmp_hour_int = int(tmp_datetime_show.strftime("%H"))
+    if tmp_hour_int < 12 :
+        # 判断如果是每天 中午 12 点之前运行，跑昨天的数据。
+        tmp_datetime_show = (tmp_datetime_show + datetime.timedelta(days=-1))
     tmp_datetime_str = tmp_datetime_show.strftime("%Y-%m-%d %H:%M:%S.%f")
+    print("\n######################### hour_int %d " % tmp_hour_int)
     str_db = "MYSQL_HOST :" + MYSQL_HOST + ", MYSQL_USER :" + MYSQL_USER + ", MYSQL_DB :" + MYSQL_DB
     print("\n######################### " + str_db + "  ######################### ")
     print("\n######################### begin run %s %s  #########################" % (run_fun, tmp_datetime_str))
