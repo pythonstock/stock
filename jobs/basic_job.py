@@ -194,6 +194,9 @@ def stat_all(tmp_datetime):
 
         # 数据保留2位小数
         try:
+            stock_dzjy_mrtj = stock_dzjy_mrtj.loc[stock_dzjy_mrtj["code"].apply(stock_a)].loc[
+                stock_dzjy_mrtj["name"].apply(stock_a_filter_st)]
+
             stock_dzjy_mrtj["average_price"] = stock_dzjy_mrtj["average_price"].round(2)
             stock_dzjy_mrtj["overflow_rate"] = stock_dzjy_mrtj["overflow_rate"].round(4)
             stock_dzjy_mrtj["turnover_market_rate"] = stock_dzjy_mrtj["turnover_market_rate"].round(6)
