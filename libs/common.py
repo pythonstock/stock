@@ -14,6 +14,7 @@ from sqlalchemy.types import NVARCHAR
 from sqlalchemy import inspect
 import pandas as pd
 import traceback
+import akshare as ak
 
 # 使用环境变量获得数据库。兼容开发模式可docker模式。
 MYSQL_HOST = os.environ.get('MYSQL_HOST') if (os.environ.get('MYSQL_HOST') != None) else "mysqldb"
@@ -193,9 +194,12 @@ def get_hist_data_cache(code, date_start, date_end):
         return pd.read_pickle(cache_file, compression="gzip")
     else:
         print("######### get data, write cache #########", code, date_start, date_end)
-        # stock = ts.get_hist_data(code, start=date_start, end=date_end)
-        # if stock is None:
-        #     return None
-        # stock = stock.sort_index(0)  # 将数据按照日期排序下。
-        # stock.to_pickle(cache_file, compression="gzip")
-        # return stock
+        stock = ak.stock_zh_a_hist(symbol= code, start_date=date_start, end_date=date_end, adjust="")
+        stock.columns = ['date', 'open', 'close', 'high', 'low', 'volume', 'amount', 'amplitude', 'quote_change',
+                         'ups_downs', 'turnover']
+        if stock is None:
+            return None
+        stock = stock.sort_index(0)  # 将数据按照日期排序下。
+        print(stock)
+        stock.to_pickle(cache_file, compression="gzip")
+        return stock
