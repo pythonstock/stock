@@ -37,6 +37,8 @@ RUN apt-get update && apt-get install -y gcc make axel python3-dev default-libmy
     apt-get install -y nodejs && \
     pip3 install tornado torndb && \
     pip3 install bokeh stockstats && \
+    pip3 install akshare  --upgrade && \
+    apt-get install -y nodejs && \
     cd /tmp && axel https://nchc.dl.sourceforge.net/project/ta-lib/ta-lib/0.4.0/ta-lib-0.4.0-src.tar.gz && \
     tar xvfz ta-lib-0.4.0-src.tar.gz && \
     cd ta-lib && ./configure && make && make install  && cd /tmp && rm -rf * && \
