@@ -354,12 +354,15 @@ https://www.akshare.xyz/zh_CN/latest/data/stock/stock.html#id1
 增加数据库utf8 参数 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci 
 
 
-###  bokeh 升级到 2.3.2 版本
+###  bokeh 升级到 2.4.0 版本
 
 目录
 /usr/local/lib/python3.7/site-packages
+使用脚本进行升级。
 
-发布一个2.0 的版本。
+###  发布一个2.0 的版本
+
+构建基础版本 pythonstock/pythonstock:base-2021-09 在这个镜像的基础上使用 akshare 1.1.9
 
 
 

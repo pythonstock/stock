@@ -14,6 +14,11 @@ import web.dataTableHandler as dataTableHandler
 import web.dataEditorHandler as dataEditorHandler
 import web.dataIndicatorsHandler as dataIndicatorsHandler
 import web.base as webBase
+import pandas as pd
+import numpy as np
+import akshare as ak
+import bokeh as bh
+import stockstats as ss
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -53,7 +58,14 @@ class HomeHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
         print("################## index.html ##################")
-        self.render("index.html", entries="hello", leftMenu=webBase.GetLeftMenu(self.request.uri))
+        pandasVersion = pd.__version__
+        numpyVersion = np.__version__
+        akshareVersion = ak.__version__
+        bokehVersion = bh.__version__
+        #stockstatsVersion = ss.__version__
+        self.render("index.html", pandasVersion=pandasVersion, numpyVersion=numpyVersion,
+                    akshareVersion=akshareVersion, bokehVersion=bokehVersion, stockstatsVersion="stockstatsVersion",
+                    leftMenu=webBase.GetLeftMenu(self.request.uri))
 class TestHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
