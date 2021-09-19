@@ -144,7 +144,12 @@ docker exec -it stock bash
 
 查看登录 token 问题：
 
+Currently running servers:
+http://0.0.0.0:8888/?token=xxxxxxxxxxxxxx :: /data/notebooks
+
 jupyter notebook list
+
+
 
 # 就可以看到 token 了，然后可以登录了。
 ```
@@ -210,7 +215,7 @@ http://docs.sqlalchemy.org/en/latest/core/reflection.html
 https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.drop_duplicates.html
 
 ```python
-    data = ts.get_report_data(year, quarter)
+    data = get_data(year, quarter)
     # 处理重复数据，保存最新一条数据。
     data.drop_duplicates(subset="code", keep="last")
 ```
