@@ -26,6 +26,9 @@ print("MYSQL_HOST :", MYSQL_HOST, ",MYSQL_USER :", MYSQL_USER, ",MYSQL_DB :", MY
 MYSQL_CONN_URL = "mysql+mysqldb://" + MYSQL_USER + ":" + MYSQL_PWD + "@" + MYSQL_HOST + ":3306/" + MYSQL_DB + "?charset=utf8mb4"
 print("MYSQL_CONN_URL :", MYSQL_CONN_URL)
 
+__version__ = "2.0.0"
+# 每次发布时候更新。
+
 def engine():
     engine = create_engine(
         MYSQL_CONN_URL,

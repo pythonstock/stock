@@ -8,6 +8,7 @@ from tornado import gen
 # sys.path.append(os.path.abspath('/data/stock/libs'))
 import libs.stock_web_dic as stock_web_dic
 import web.base as webBase
+import libs.common as common
 import logging
 import re
 
@@ -19,7 +20,9 @@ class GetEditorHtmlHandler(webBase.BaseHandler):
         stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
         # self.uri_ = ("self.request.url:", self.request.uri)
         # print self.uri_
-        self.render("data_editor.html", stockWeb=stockWeb, leftMenu=webBase.GetLeftMenu(self.request.uri))
+        self.render("data_editor.html", stockWeb=stockWeb,
+                    pythonStockVersion=common.__version__,
+                    leftMenu=webBase.GetLeftMenu(self.request.uri))
 
 
 # 拼接sql，将value的key 和 value 放到一起。

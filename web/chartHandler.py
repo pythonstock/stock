@@ -5,6 +5,7 @@
 from tornado import gen
 import libs.stock_web_dic as stock_web_dic
 import web.base as webBase
+import libs.common as common
 import logging
 import tornado.web
 import matplotlib
@@ -43,5 +44,7 @@ class GetChartHtmlHandler(webBase.BaseHandler):
         # self.uri_ = ("self.request.url:", self.request.uri)
         # print self.uri_
         logging.info("chart...")
-        self.render("stock_chart.html", entries="", leftMenu=webBase.GetLeftMenu(self.request.uri))
+        self.render("stock_chart.html", entries="",
+                    pythonStockVersion=common.__version__,
+                    leftMenu=webBase.GetLeftMenu(self.request.uri))
 

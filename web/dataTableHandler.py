@@ -3,6 +3,7 @@
 
 import json
 from tornado import gen
+import libs.common as common
 import libs.stock_web_dic as stock_web_dic
 import web.base as webBase
 import logging
@@ -58,6 +59,7 @@ class GetStockHtmlHandler(webBase.BaseHandler):
             print("error :", e)
         logging.info("####################GetStockHtmlHandlerEnd")
         self.render("stock_web.html", stockWeb=stockWeb, date_now=date_now_str,
+                    pythonStockVersion=common.__version__,
                     leftMenu=webBase.GetLeftMenu(self.request.uri))
 
 

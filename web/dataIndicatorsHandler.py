@@ -51,7 +51,9 @@ class GetDataIndicatorsHandler(webBase.BaseHandler):
             logging.info("error :", e)
         logging.info("#################### GetStockHtmlHandlerEnd ####################")
 
-        self.render("stock_indicators.html", comp_list=comp_list, leftMenu=webBase.GetLeftMenu(self.request.uri))
+        self.render("stock_indicators.html", comp_list=comp_list,
+                    pythonStockVersion=common.__version__,
+                    leftMenu=webBase.GetLeftMenu(self.request.uri))
 
 
 # 配置数据

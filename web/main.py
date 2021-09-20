@@ -71,15 +71,20 @@ class HomeHandler(webBase.BaseHandler):
         self.render("index.html", pandasVersion=pandasVersion, numpyVersion=numpyVersion,
                     akshareVersion=akshareVersion, bokehVersion=bokehVersion,
                     stockstatsVersion="0.3.2", talibVersion=talibVersion, jupyterVersion=jupyterVersion,
+                    pythonStockVersion = common.__version__,
                     leftMenu=webBase.GetLeftMenu(self.request.uri))
 class TestHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
-        self.render("test_akshare.html", entries="hello", leftMenu=webBase.GetLeftMenu(self.request.uri))
+        self.render("test_akshare.html", entries="hello",
+                    pythonStockVersion=common.__version__,
+                    leftMenu=webBase.GetLeftMenu(self.request.uri))
 class Test2Handler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
-        self.render("test2.html", entries="hello", leftMenu=webBase.GetLeftMenu(self.request.uri))
+        self.render("test2.html", entries="hello",
+                    pythonStockVersion=common.__version__,
+                    leftMenu=webBase.GetLeftMenu(self.request.uri))
 
 def main():
     tornado.options.parse_command_line()
