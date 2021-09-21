@@ -17,11 +17,13 @@ PythonStock V2 是基于Python的pandas，akshare，bokeh，tornado，stockstats
 8) 2.0 最大的更新在于替换tushare库（因部分库不能使用），使用akshare进行数据抓取。
 ```
 
- ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock-show-01.jpg)
- 
+2.0 说明
+ ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock2-001.png)
+ ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock2-002.png)
+
  bokeh 绘图指标数据：
  
-  ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/diff-n-bokeh.png)
+  ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock2-003.png)
  
 
 然后根据3个指标进行股票数据计算：
