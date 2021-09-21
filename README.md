@@ -8,7 +8,7 @@
 PythonStock V2 是基于Python的pandas，akshare，bokeh，tornado，stockstats，ta-lib等框架开发的全栈股票系统。
 项目创建于2017年7月17日，每月不定期更新。
 1）可以直接使用docker直接本地部署运行，整个项目在docker hub上压缩后200MB，本地占用500MB磁盘空间。
-2）使用Docker解决了Python库安装问题，使用Mariadb（MySQL）存储数据。借助tushare抓取数据（老API，后续使用tushare pro开发）
+2）使用Docker解决了Python库安装问题，使用Mariadb（MySQL）存储数据。借助akshare抓取数据。
 3）使用cron做定时任务，每天进行数据抓取计算，每天18点开始进行数据计算，计算当日数据，使用300天数据进行计算，大约需要15分钟计算完毕。
 4）股票数据接口防止被封，按天进行数据缓存，储存最近3天数据，每天定时清除，同时使用read_pickle to_pickle 的gzip压缩模式存储。
 5）使用tornado开发web系统，支持每日股票数据-东财，龙虎榜-个股上榜-新浪，数据中心-大宗交易行情等。
@@ -139,33 +139,12 @@ sh /data/stock/jobs/cron.daily/run_daily
 ### 本地访问端口
 
 > http://localhost:9999 股票系统 
->
-> http://localhost:8888 jupyter
 
-查看jupyter的密码：
-
-```
-docker exec -it stock bash 
-
-查看登录 token 问题：
-
-Currently running servers:
-http://0.0.0.0:8888/?token=xxxxxxxxxxxxxx :: /data/notebooks
-
-jupyter notebook list
-
-
-
-# 就可以看到 token 了，然后可以登录了。
-```
 
 ### 1，股票系统设计
 
 相关博客资料：
-http://blog.csdn.net/freewebsys/article/category/7076584
-
-股票数据抓取框架使用TuShare。
-http://tushare.org/
+https://blog.csdn.net/freewebsys/category_9285317.html
 
 数据分析清洗使用pandas，numpy。
 http://pandas.pydata.org/
@@ -179,9 +158,6 @@ http://www.tornadoweb.org/en/stable/
 tornado web系统
 http://docs.pythontab.com/tornado/introduction-to-tornado/
 
-scikit-learn 文档，中文文档
-https://scikit-learn.org/stable/
-https://github.com/apachecn/sklearn-doc-zh/
 
 ### 2，架构设计
 全系使用python实现。因为都是python的类库，互相之间调用方便。
