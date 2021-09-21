@@ -18,9 +18,6 @@ import pandas as pd
 import numpy as np
 import akshare as ak
 import bokeh as bh
-import talib
-import jupyter
-
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -64,13 +61,11 @@ class HomeHandler(webBase.BaseHandler):
         numpyVersion = np.__version__
         akshareVersion = ak.__version__
         bokehVersion = bh.__version__
-        talibVersion = talib.__version__
-        jupyterVersion = jupyter.__version__
         #stockstatsVersion = ss.__version__ # 没有这个函数，但是好久不更新了
         # https://github.com/jealous/stockstats
         self.render("index.html", pandasVersion=pandasVersion, numpyVersion=numpyVersion,
                     akshareVersion=akshareVersion, bokehVersion=bokehVersion,
-                    stockstatsVersion="0.3.2", talibVersion=talibVersion, jupyterVersion=jupyterVersion,
+                    stockstatsVersion="0.3.2",
                     pythonStockVersion = common.__version__,
                     leftMenu=webBase.GetLeftMenu(self.request.uri))
 class TestHandler(webBase.BaseHandler):
