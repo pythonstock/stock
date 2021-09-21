@@ -76,7 +76,7 @@
 
 	//每次动态加载 指标分析窗口
 	function showIndicatorsWindow(code) {
-		var baseUrl = '/data/indicators?code='+code; // 没有跨域问题，直接加载
+		var baseUrl = '/stock/data/indicators?code='+code; // 没有跨域问题，直接加载
 		$('#indicators-window-body').html( "<h5>数据加载中...请稍候.</h5>" );
 		$('#indicators-window-body').context = $("#indicators-window-body").load(baseUrl);
 		$('#indicators-window-modal').modal('show');

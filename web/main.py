@@ -34,7 +34,7 @@ class Application(tornado.web.Application):
             (r"/data/editor", dataEditorHandler.GetEditorHtmlHandler),
             (r"/data/editor/save", dataEditorHandler.SaveEditorHandler),
             # 获得股票指标数据。
-            (r"/data/indicators", dataIndicatorsHandler.GetDataIndicatorsHandler),
+            (r"/stock/data/indicators", dataIndicatorsHandler.GetDataIndicatorsHandler),
         ]
         settings = dict(  # 配置
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
