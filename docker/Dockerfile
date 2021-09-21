@@ -24,26 +24,36 @@ index-url=http://mirrors.aliyun.com/pypi/simple" > /etc/pip.conf && \
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
 
+#增加语言utf-8
+ENV LANG=zh_CN.UTF-8
+ENV LC_CTYPE=zh_CN.UTF-8
+ENV LC_ALL=C
+ENV PYTHONPATH=/data/stock
+
+# 增加 TensorFlow 的支持，使用最新的2.0 编写代码。目前还是使用 1.x 吧，还没有学明白。
+# RUN pip3 install tensorflow==2.0.0-rc1 keras
+# RUN pip3 install tensorflow keras sklearn
+
+# 设置 vim 的语言配置
+RUN mkdir -p /etc/vim/ && \
+    echo "set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936" >> /etc/vim/vimrc && \
+    echo "set termencoding=utf-8" >> /etc/vim/vimrc && \
+    echo "set encoding=utf-8" >> /etc/vim/vimrc
+
 # 安装 mysqlclient akshare (pandas ,numpy) tornado bokeh
 # 安装 nodejs 库
 # apt-get autoremove -y 删除没有用的依赖lib。减少镜像大小。1MB 也要节省。
 # apt-get --purge remove 软件包名称 , 删除已安装包（不保留配置文件)。
-RUN apt-get update && apt-get install -y gcc make axel python3-dev default-libmysqlclient-dev libxml2-dev cron  && \
+RUN apt-get update && apt-get install -y procps gcc make python3-dev default-libmysqlclient-dev libxml2-dev cron  && \
     pip3 install mysqlclient sqlalchemy && \
     pip3 install supervisor && \
-    pip3 install requests && \
-    pip3 install lxml bs4 && \
     pip3 install numpy pandas  && \
     pip3 install akshare --upgrade && \
     apt-get install -y nodejs && \
     pip3 install tornado torndb && \
     pip3 install bokeh stockstats && \
-    cd /tmp && axel https://nchc.dl.sourceforge.net/project/ta-lib/ta-lib/0.4.0/ta-lib-0.4.0-src.tar.gz && \
-    tar xvfz ta-lib-0.4.0-src.tar.gz && \
-    cd ta-lib && ./configure && make && make install  && cd /tmp && rm -rf * && \
-    pip3 install TA-Lib  && pip3 install jupyter && \
-    apt-get --purge remove -y gcc make axel python3-dev default-libmysqlclient-dev libxml2-dev && \
-    rm -rf /root/.cache/* && apt-get clean && apt-get autoremove -y
+    apt-get --purge remove -y gcc make python3-dev default-libmysqlclient-dev libxml2-dev && \
+    rm -rf /root/.cache/* && apt-get clean && apt-get autoremove -y && pip3 uninstall -y matplotlib
 
 # /usr/local/lib/python3.7/site-packages/pandas/
 # 1.解决 pandas 数据插入问题。直接修改数据库驱动 sqlalchemy
@@ -66,18 +76,4 @@ RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
     sed -i -e 's/\+ CONVERSIONS\[field_type\]/\+ \[CONVERSIONS\[field_type\],bytes\]/g' \
     /usr/local/lib/python3.7/site-packages/torndb.py
 
-#增加语言utf-8
-ENV LANG=zh_CN.UTF-8
-ENV LC_CTYPE=zh_CN.UTF-8
-ENV LC_ALL=C
-ENV PYTHONPATH=/data/stock
 
-# 增加 TensorFlow 的支持，使用最新的2.0 编写代码。目前还是使用 1.x 吧，还没有学明白。
-# RUN pip3 install tensorflow==2.0.0-rc1 keras
-
-# RUN pip3 install tensorflow keras sklearn
-
-RUN apt-get update && apt-get install -y procps vim && mkdir -p /etc/vim/ && \
-    echo "set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936" >> /etc/vim/vimrc && \
-    echo "set termencoding=utf-8" >> /etc/vim/vimrc && \
-    echo "set encoding=utf-8" >> /etc/vim/vimrc && apt-get clean
