@@ -28,8 +28,9 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
 # 安装 nodejs 库
 # apt-get autoremove -y 删除没有用的依赖lib。减少镜像大小。1MB 也要节省。
 # apt-get --purge remove 软件包名称 , 删除已安装包（不保留配置文件)。
-RUN apt-get update && apt-get install -y gcc make axel python3-dev default-libmysqlclient-dev libxml2-dev cron supervisor && \
+RUN apt-get update && apt-get install -y gcc make axel python3-dev default-libmysqlclient-dev libxml2-dev cron  && \
     pip3 install mysqlclient sqlalchemy && \
+    pip3 install supervisor && \
     pip3 install requests && \
     pip3 install lxml bs4 && \
     pip3 install numpy pandas  && \
@@ -76,9 +77,7 @@ ENV PYTHONPATH=/data/stock
 
 # RUN pip3 install tensorflow keras sklearn
 
-RUN pip3 install sklearn xlrd && apt-get install -y procps vim && \
+RUN apt-get update && apt-get install -y procps vim && mkdir -p /etc/vim/ && \
     echo "set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936" >> /etc/vim/vimrc && \
     echo "set termencoding=utf-8" >> /etc/vim/vimrc && \
     echo "set encoding=utf-8" >> /etc/vim/vimrc && apt-get clean
-
-
