@@ -53,7 +53,7 @@ RUN apt-get update && apt-get install -y procps gcc make python3-dev default-lib
     pip3 install tornado torndb && \
     pip3 install bokeh stockstats && \
     apt-get --purge remove -y gcc make python3-dev default-libmysqlclient-dev libxml2-dev && \
-    rm -rf /root/.cache/* && apt-get clean && apt-get autoremove -y && pip3 uninstall -y matplotlib
+    rm -rf /root/.cache/* && apt-get clean && apt-get autoremove -y
 
 # /usr/local/lib/python3.7/site-packages/pandas/
 # 1.解决 pandas 数据插入问题。直接修改数据库驱动 sqlalchemy
