@@ -67,6 +67,66 @@ STOCK_WEB_DATA_LIST.append(
     )
 )
 
+
+
+# 每日股票指标lite猜想买入。
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="2，每日数据猜想",
+        name="股票指标lite猜想买入",
+        table_name="guess_indicators_lite_buy_daily",
+        columns=['date', 'code', 'name', 'latest_price', 'quote_change', 'ups_downs', 'volume', 'turnover',
+                 'amplitude', 'high', 'low', 'open', 'closed', 'quantity_ratio', 'turnover_rate', 'pe_dynamic', 'pb',
+                 'kdjj', 'rsi_6', 'cci'],
+        column_names=['日期', '代码', '名称', '最新价', '涨跌幅', '涨跌额', '成交量', '成交额',
+                      '振幅', '最高', '最低', '今开', '昨收', '量比', '换手率', '动态市盈率', '市净率',
+                      'kdjj', 'rsi_6', 'cci'],
+        primary_key=[],
+        order_by=" buy_date desc  "
+    )
+)
+
+# 每日股票指标lite猜想卖出。
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="2，每日数据猜想",
+        name="股票指标lite猜想卖出",
+        table_name="guess_indicators_lite_sell_daily",
+        columns=['date', 'code', 'name', 'latest_price', 'quote_change', 'ups_downs', 'volume', 'turnover',
+                 'amplitude', 'high', 'low', 'open', 'closed', 'quantity_ratio', 'turnover_rate', 'pe_dynamic', 'pb',
+                 'kdjj', 'rsi_6', 'cci'],
+        column_names=['日期', '代码', '名称', '最新价', '涨跌幅', '涨跌额', '成交量', '成交额',
+                      '振幅', '最高', '最低', '今开', '昨收', '量比', '换手率', '动态市盈率', '市净率',
+                      'kdjj', 'rsi_6', 'cci'],
+        primary_key=[],
+        order_by=" buy_date desc  "
+    )
+)
+
+# 每日股票指标lite猜想。
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="query",
+        type="2，每日数据猜想",
+        name="股票指标猜想原始数据",
+        table_name="guess_indicators_daily",
+        columns=['date','code','name','latest_price','quote_change','ups_downs',
+                 'adx', 'adxr', 'boll', 'boll_lb', 'boll_ub', 'cci', 'cci_20', 'close_-1_r',
+                    'close_-2_r', 'code', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3', 'date', 'dma', 'dx',
+                    'kdjd', 'kdjj', 'kdjk', 'macd', 'macdh', 'macds', 'mdi', 'pdi',
+                    'rsi_12', 'rsi_6', 'trix', 'trix_9_sma', 'vr', 'vr_6_sma', 'wr_10', 'wr_6'],
+        column_names=['日期','代码','名称','最新价','涨跌幅','涨跌额',
+                      'adx', 'adxr', 'boll', 'boll_lb', 'boll_ub', 'cci', 'cci_20', 'close_-1_r',
+                    'close_-2_r', 'code', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3', 'date', 'dma', 'dx',
+                    'kdjd', 'kdjj', 'kdjk', 'macd', 'macdh', 'macds', 'mdi', 'pdi',
+                    'rsi_12', 'rsi_6', 'trix', 'trix_9_sma', 'vr', 'vr_6_sma', 'wr_10', 'wr_6'],
+        primary_key=[],
+        order_by=' date desc  '
+    )
+)
+
 # "code", "name: pchange", "amount", "buy", "bratio", "sell", "sratio", "reason", "date"
 # 代码 名称 当日涨跌幅 龙虎榜成交额(万) 买入额(万) 买入占总成交比例 卖出额(万) 卖出占总成交比例 上榜原因 日期
 
