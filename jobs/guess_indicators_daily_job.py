@@ -23,10 +23,10 @@ def stat_all_lite_buy(tmp_datetime):
     # 当六日指标上升到达80时，表示股市已有超买现象
     # 当CCI＞﹢100 时，表明股价已经进入非常态区间——超买区间，股价的异动现象应多加关注。
     sql_1 = """
-            SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
-                            `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`,
-                             `nmc` ,`kdjj`,`rsi_6`,`cci`
-                        FROM stock_data.guess_indicators_daily WHERE `date` = %s 
+            SELECT `date`,`code`,`name`,`latest_price`,`quote_change`,`ups_downs`,`volume`,`turnover`,
+                 `amplitude`,`high`,`low`,`open`,`closed`,`quantity_ratio`,`turnover_rate`,`pe_dynamic`,`pb`,
+                 `kdjj`,`rsi_6`,`cci`
+            FROM stock_data.guess_indicators_daily WHERE `date` = %s 
                         and kdjk >= 80 and kdjd >= 70 and kdjj >= 100  and rsi_6 >= 80  and cci >= 100
     """  # and kdjj > 100 and rsi_6 > 80  and cci > 100 # 调整参数，提前获得股票增长。
 
@@ -39,7 +39,7 @@ def stat_all_lite_buy(tmp_datetime):
 
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int])
     data = data.drop_duplicates(subset="code", keep="last")
-    print("######## len data ########:", len(data))
+    print("######## stat_all_lite_buy len data ########:", len(data))
 
     try:
         common.insert_db(data, "guess_indicators_lite_buy_daily", False, "`date`,`code`")
@@ -58,9 +58,9 @@ def stat_all_lite_sell(tmp_datetime):
     # 当六日强弱指标下降至20时，表示股市有超卖现象
     # 当CCI＜﹣100时，表明股价已经进入另一个非常态区间——超卖区间，投资者可以逢低吸纳股票。
     sql_1 = """
-            SELECT `date`, `code`, `name`, `changepercent`, `trade`, `open`, `high`, `low`, 
-                            `settlement`, `volume`, `turnoverratio`, `amount`, `per`, `pb`, `mktcap`,
-                             `nmc` ,`kdjj`,`rsi_6`,`cci`
+            SELECT `date`,`code`,`name`,`latest_price`,`quote_change`,`ups_downs`,`volume`,`turnover`,
+                 `amplitude`,`high`,`low`,`open`,`closed`,`quantity_ratio`,`turnover_rate`,`pe_dynamic`,`pb`,
+                 `kdjj`,`rsi_6`,`cci`
                         FROM stock_data.guess_indicators_daily WHERE `date` = %s 
                         and kdjk <= 20 and kdjd <= 30 and kdjj <= 10  and rsi_6 <= 20  and cci <= -100
     """
@@ -74,7 +74,7 @@ def stat_all_lite_sell(tmp_datetime):
 
     data = pd.read_sql(sql=sql_1, con=common.engine(), params=[datetime_int])
     data = data.drop_duplicates(subset="code", keep="last")
-    print("######## len data ########:", len(data))
+    print("######## stat_all_lite_sell len data ########:", len(data))
 
     try:
         common.insert_db(data, "guess_indicators_lite_sell_daily", False, "`date`,`code`")
