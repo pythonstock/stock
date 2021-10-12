@@ -269,10 +269,11 @@ https://www.akshare.xyz/zh_CN/latest/data/stock/stock.html#id1
 https://www.bootcss.com/p/bootstrap-datetimepicker/
 不是使用jQuery的时间。
 
-### 8，发现MariaDb 版本不兼容问题，最后切换成mysql
+### 8，发现MariaDb 版本不兼容问题，最后切换成mysql,使用 mysql:5.7 镜像
 
 相关数据执行只支持到10.5.4，版本可以使用，但是10.5.8 就有问题了。
 限制死了版本。看来软件也不能瞎升级，都用最新的有问题。可以解决数据问题。
+使用 mysql:5.7 镜像，更通用些，不折腾mariaDb了。
 
 
 ### 7，解决 Bokeh JS兼容问题。
