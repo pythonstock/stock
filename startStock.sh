@@ -2,7 +2,7 @@
 
 PWD=`pwd`
 
-DB_IS_RUN=`docker ps --filter "name=mariadb" --filter "status=running" | wc -l `
+DB_IS_RUN=`docker ps --filter "name=mysqldb" --filter "status=running" | wc -l `
 if [ $DB_IS_RUN -lt 2 ]; then
 
     #判断文件夹存在不。
@@ -17,7 +17,6 @@ if [ $DB_IS_RUN -lt 2 ]; then
 
     ####################### 启动数据库 #######################
     #检查mysqldb是否启动
-    DB_IS_RUN=`docker ps --filter "name=mysqldb" --filter "status=running" | wc -l `
 
     if [ $DB_IS_RUN -ne 2 ]; then
 
@@ -34,7 +33,6 @@ if [ $DB_IS_RUN -lt 2 ]; then
 
 
     #检查mysqldb是否启动，等待5秒钟，再次检查mysqldb启动
-    DB_IS_RUN=`docker ps --filter "name=mysqldb" --filter "status=running" | wc -l `
     if [ $DB_IS_RUN -ne 2 ]; then
         echo "mysqldb is not running !!!"
         exit 1;
