@@ -59,7 +59,7 @@ if [ $# == 1 ] ; then
 
     docker run -itd --link=mysqldb --name stock  \
       -e LANG=zh_CN.UTF-8 -e LC_CTYPE=zh_CN.UTF-8 -e PYTHONIOENCODING=utf-8 \
-      -p 8888:8888 -p 9999:9999 --restart=always \
+      -p 9999:9999 --restart=always \
       -v ${PWD}/jobs:/data/stock/jobs \
       -v ${PWD}/libs:/data/stock/libs \
       -v ${PWD}/web:/data/stock/web \
@@ -72,7 +72,7 @@ else
     echo "############# run online ############# "
     # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
     docker run -itd --link=mysqldb --name stock  \
-      -p 8888:8888 -p 9999:9999 --restart=always \
+      -p 9999:9999 --restart=always \
        pythonstock/pythonstock:latest
     exit 1;
 fi
