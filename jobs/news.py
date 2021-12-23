@@ -3,7 +3,7 @@
 
 "提取同花顺app新闻"
 #
-#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
+#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
 #
 
 
@@ -39,7 +39,7 @@ class News(object):
         self.subcodeCount = ""
         self.__stock_column = ['date','code','name','news']
         self.stock_board_concept_cons_ths_df = ak.stock_board_concept_cons_ths(symbol="元宇宙")
-        name = "汤姆猫"
+#        name = "汤姆猫"
 #        self.__get_single_code_news_list(name)
 #        self.__get_block_code_list()
         self.__get_board_code_list_from_akshare()
@@ -68,7 +68,11 @@ class News(object):
             self.__get_single_code_news_list(name)
         else:
             jsonData = r.text
-            text = json.loads(jsonData)
+            try:
+                text = json.loads(jsonData)
+            except IndexError:
+                time.sleep(random.uniform(0.57, 1.08))
+                self.__get_single_code_news_list(name)
             pageitem = text['data']['pageItems']
             for p in pageitem:                           
                 t = p['ctime']         
@@ -178,7 +182,7 @@ class News(object):
         datetime_str = time.strftime("%Y-%m-%d_%H-%M-%S")    #时间戳转换正常时间
         print(datetime_str)
 #        print(self.stock_board_concept_cons_ths_df)
-        name = 'meta_' + datetime_str + '.xlsx'
+        name = '/data/logs/meta_' + datetime_str + '.xlsx'
         self.data.to_excel(name,index = False)
         return self.data
 
