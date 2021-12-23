@@ -14,7 +14,7 @@ import bs4
 import re
 import json
 import time
-
+import akshare as ak
 import pandas as pd
 import libs.common as common
 
@@ -38,10 +38,12 @@ class News(object):
         self.block_code_list = {}
         self.subcodeCount = ""
         self.__stock_column = ['date','code','name','news']
+        self.stock_board_concept_cons_ths_df = ak.stock_board_concept_cons_ths(symbol="元宇宙")
         name = "汤姆猫"
 #        self.__get_single_code_news_list(name)
-        self.__get_block_code_list()
-        self.__get_bankuai_news_list()
+#        self.__get_block_code_list()
+        self.__get_board_code_list_from_akshare()
+        self.__get_board_news_list()
             
     def __get_single_code_news_url(self,name):
         pn = 1
@@ -77,7 +79,7 @@ class News(object):
                 new = pd.DataFrame({'date':datetime_int,'code':code,'name':name,'source':p['source'],'news':p['title'],'url':p['url']},index = [0])
                 self.data=self.data.append(new,ignore_index=True)   # ignore_index=True,表示不按原来的索引，从0开始自动递增
                 
-    def __get_bankuai_news_list(self):         
+    def __get_board_news_list(self):         
         for n in self.block_code_list:
             try:
                 self.__get_single_code_news_list(n)
@@ -131,7 +133,17 @@ class News(object):
                 self.block_code_list[name] = i['5']
             print(self.block_code_list)
             time.sleep(random.uniform(0.57, 1.08))   
-            
+   
+
+    def __get_board_code_list_from_akshare(self):
+        df = self.stock_board_concept_cons_ths_df
+        j = 0
+        for i in df['名称']:
+            self.block_code_list[i] = df.at[j,'代码']
+            j = j+1
+        print(self.block_code_list,j)
+
+   
     def __store_to_sql(self):
         try:
             my_private_stock_daily = ak.stock_sina_lhb_ggtj(recent_day="5")
@@ -165,6 +177,7 @@ class News(object):
         print(self.data)
         datetime_str = time.strftime("%Y-%m-%d_%H-%M-%S")    #时间戳转换正常时间
         print(datetime_str)
+#        print(self.stock_board_concept_cons_ths_df)
         name = 'meta_' + datetime_str + '.xlsx'
         self.data.to_excel(name,index = False)
         return self.data
