@@ -145,7 +145,7 @@ class News(object):
         for i in df['名称']:
             self.block_code_list[i] = df.at[j,'代码']
             j = j+1
-        print(self.block_code_list,j)
+#        print(self.block_code_list,j)
 
    
     def __store_to_sql(self):
@@ -178,10 +178,11 @@ class News(object):
         return
     
     def get_data(self):
-        print(self.data)
+        print(self.data.size)
+        print(len(self.block_code_list))
         datetime_str = time.strftime("%Y-%m-%d_%H-%M-%S")    #时间戳转换正常时间
         print(datetime_str)
-#        print(self.stock_board_concept_cons_ths_df)
+#        print(self.stock_board_concept_cons_ths_df.size())
         name = '/data/logs/meta_' + datetime_str + '.xlsx'
         self.data.to_excel(name,index = False)
         return self.data
