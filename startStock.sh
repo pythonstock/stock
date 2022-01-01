@@ -44,8 +44,13 @@ fi
 #检查stock启动
 STOCK_IS_RUN=`docker ps --filter "name=stock" --filter "status=running" | wc -l `
 if [ $STOCK_IS_RUN -ge 2 ]; then
-    echo "stop & rm stock ..."
-    docker stop stock && docker rm stock
+	if [ $# == 1 ] ; then
+		echo "stop & restart stock ..."
+		docker stop stock && docker restart stock
+	else
+		echo "stop & rm stock ..."
+		docker stop stock && docker rm stock
+	fi
 fi
 
 sleep 1
@@ -68,14 +73,14 @@ if [ $# == 1 ] ; then
       -v ${PWD}/supervisor:/data/supervisor \
       -v ${PWD}/notebooks:/data/notebooks \
       -v ${PWD}/data/logs:/data/logs \
-       pythonstock/pythonstock:latest
+       pythonstock/pythonstock:v1
     exit 1;
 else
     echo "############# run online ############# "
     # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
     docker run -itd --link=mysqldb --name stock  \
       -p 8888:8888 -p 9999:9999 --restart=always \
-       pythonstock/pythonstock:latest
+       pythonstock/pythonstock:v1
     exit 1;
 fi
 
