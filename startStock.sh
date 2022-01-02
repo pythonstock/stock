@@ -44,13 +44,8 @@ fi
 #检查stock启动
 STOCK_IS_RUN=`docker ps --filter "name=stock" --filter "status=running" | wc -l `
 if [ $STOCK_IS_RUN -ge 2 ]; then
-	if [ $# == 1 ] ; then
-		echo "stop & restart stock ..."
-		docker stop stock && docker restart stock
-	else
-		echo "stop & rm stock ..."
-		docker stop stock && docker rm stock
-	fi
+	echo "stop & rm stock ..."
+	docker stop stock && docker rm stock
 fi
 
 sleep 1
@@ -66,6 +61,7 @@ if [ $# == 1 ] ; then
 
     docker run -itd --link=mysqldb --name stock  \
       -e LANG=zh_CN.UTF-8 -e LC_CTYPE=zh_CN.UTF-8 -e PYTHONIOENCODING=utf-8 \
+      -p 9001:9001 \
       -p 8888:8888 -p 9999:9999 --restart=always \
       -v ${PWD}/jobs:/data/stock/jobs \
       -v ${PWD}/libs:/data/stock/libs \
@@ -73,14 +69,15 @@ if [ $# == 1 ] ; then
       -v ${PWD}/supervisor:/data/supervisor \
       -v ${PWD}/notebooks:/data/notebooks \
       -v ${PWD}/data/logs:/data/logs \
-       pythonstock/pythonstock:v1
+       pythonstock/pythonstock:base-2022-01 \
+       supervisord -n -c /data/supervisor/supervisord.conf
     exit 1;
 else
     echo "############# run online ############# "
     # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
     docker run -itd --link=mysqldb --name stock  \
       -p 8888:8888 -p 9999:9999 --restart=always \
-       pythonstock/pythonstock:v1
+       pythonstock/pythonstock:base-2022-01
     exit 1;
 fi
 
