@@ -1,23 +1,23 @@
-#使用 python:3.7-slim 做基础镜像减少大小。其中tensorflow再用另外的镜像跑数据。
+# akshare 推荐python3.8.5+, 使用 python:3.8-slim 做基础镜像。其中tensorflow再用另外的镜像跑数据。
 
-# 之前使用的是python:3.6-slim
-# 可以更新 3.7-slim-stretch slim-stretch
+# 之前使用的是3.7-slim-stretch
+# 现在更新 3.8-slim-buster slim-buster
 
-# https://hub.docker.com/_/python?tab=tags&page=1&name=3.7-slim-stretch
+# https://hub.docker.com/_/python?tab=tags&page=1&name=3.8-slim-buster
 # 用这个做为基础镜像，防止每次都进行构建。
 
-FROM docker.io/python:3.7-slim-stretch
+FROM docker.io/python:3.8-slim-buster
 
 # https://opsx.alibaba.com/mirror
 # 使用阿里云镜像地址。修改debian apt 更新地址，pip 地址，设置时区。
-RUN echo  "deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib\n\
-deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib\n\
-deb http://mirrors.aliyun.com/debian-security stretch/updates main\n\
-deb-src http://mirrors.aliyun.com/debian-security stretch/updates main\n\
-deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib\n\
-deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib\n\
-deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib\n\
-deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib" > /etc/apt/sources.list && \
+RUN echo  "deb http://mirrors.aliyun.com/debian/ buster main non-free contrib\n\
+deb-src http://mirrors.aliyun.com/debian/ buster main non-free contrib\n\
+deb http://mirrors.aliyun.com/debian-security buster/updates main\n\
+deb-src http://mirrors.aliyun.com/debian-security buster/updates main\n\
+deb http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib\n\
+deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib\n\
+deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib\n\
+deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" > /etc/apt/sources.list && \
 echo  "[global]\n\
 trusted-host=mirrors.aliyun.com\n\
 index-url=http://mirrors.aliyun.com/pypi/simple" > /etc/pip.conf && \
@@ -29,6 +29,9 @@ ENV LANG=zh_CN.UTF-8
 ENV LC_CTYPE=zh_CN.UTF-8
 ENV LC_ALL=C
 ENV PYTHONPATH=/data/stock
+
+# 解决warning "debconf: unable to initialize frontend: Dialog"
+ENV DEBIAN_FRONTEND noninteractive
 
 # 增加 TensorFlow 的支持，使用最新的2.0 编写代码。目前还是使用 1.x 吧，还没有学明白。
 # RUN pip3 install tensorflow==2.0.0-rc1 keras
@@ -44,7 +47,12 @@ RUN mkdir -p /etc/vim/ && \
 # 安装 nodejs 库
 # apt-get autoremove -y 删除没有用的依赖lib。减少镜像大小。1MB 也要节省。
 # apt-get --purge remove 软件包名称 , 删除已安装包（不保留配置文件)。
-RUN apt-get update && apt-get install -y net-tools procps gcc make python3-dev default-libmysqlclient-dev libxml2-dev cron  && \
+RUN apt-get update
+
+# 解决warning "debconf: delaying package configuration, since apt-utils is not installed"
+RUN apt-get install --assume-yes apt-utils
+
+RUN apt-get install -y net-tools procps gcc make default-libmysqlclient-dev cron && \
     pip3 install mysqlclient sqlalchemy && \
     pip3 install supervisor && \
     pip3 install numpy pandas  && \
@@ -52,7 +60,7 @@ RUN apt-get update && apt-get install -y net-tools procps gcc make python3-dev d
     apt-get install -y nodejs && \
     pip3 install tornado torndb && \
     pip3 install bokeh stockstats sklearn && \
-    apt-get --purge remove -y gcc make python3-dev default-libmysqlclient-dev libxml2-dev && \
+    pip3 install jupyter && \
     rm -rf /root/.cache/* && apt-get clean && apt-get autoremove -y
 
 # /usr/local/lib/python3.7/site-packages/pandas/
@@ -67,13 +75,14 @@ RUN apt-get update && apt-get install -y net-tools procps gcc make python3-dev d
 #    CONVERSIONS[field_type] = [(FLAG.BINARY, str)] + CONVERSIONS[field_type]
 #  TypeError: can only concatenate list (not "type") to list
 
+# RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
+#    sed -i -e 's/executemany(statement/executemany(statement.replace\("INSERT INTO","INSERT IGNORE INTO")/g' \
+#        /usr/local/lib/python3.7/site-packages/sqlalchemy/dialects/mysql/mysqldb.py && \
+#    rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd && \
 RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
-    sed -i -e 's/executemany(statement/executemany(statement.replace\("INSERT INTO","INSERT IGNORE INTO")/g' \
-        /usr/local/lib/python3.7/site-packages/sqlalchemy/dialects/mysql/mysqldb.py && \
-    rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd && \
     sed -i -e 's/itertools\.izip/zip/g' \
-    /usr/local/lib/python3.7/site-packages/torndb.py  && \
+    /usr/local/lib/python3.8/site-packages/torndb.py  && \
     sed -i -e 's/\+ CONVERSIONS\[field_type\]/\+ \[CONVERSIONS\[field_type\],bytes\]/g' \
-    /usr/local/lib/python3.7/site-packages/torndb.py
+    /usr/local/lib/python3.8/site-packages/torndb.py
 
 
