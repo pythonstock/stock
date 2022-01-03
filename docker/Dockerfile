@@ -76,14 +76,13 @@ RUN apt-get install -y net-tools procps gcc make default-libmysqlclient-dev cron
 #    CONVERSIONS[field_type] = [(FLAG.BINARY, str)] + CONVERSIONS[field_type]
 #  TypeError: can only concatenate list (not "type") to list
 
-# RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
-#    sed -i -e 's/executemany(statement/executemany(statement.replace\("INSERT INTO","INSERT IGNORE INTO")/g' \
-#        /usr/local/lib/python3.7/site-packages/sqlalchemy/dialects/mysql/mysqldb.py && \
-#    rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd && \
 RUN echo `date +%Y-%m-%d:%H:%M:%S` >> /etc/docker.build && \
+    sed -i -e 's/executemany(statement/executemany(statement.replace\("INSERT INTO","INSERT IGNORE INTO")/g' \
+        /usr/local/lib/python3.8/site-packages/sqlalchemy/dialects/mysql/mysqldb.py && \
+    rm -f /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/passwd && \
     sed -i -e 's/itertools\.izip/zip/g' \
-    /usr/local/lib/python3.8/site-packages/torndb.py  && \
+        /usr/local/lib/python3.8/site-packages/torndb.py  && \
     sed -i -e 's/\+ CONVERSIONS\[field_type\]/\+ \[CONVERSIONS\[field_type\],bytes\]/g' \
-    /usr/local/lib/python3.8/site-packages/torndb.py
+        /usr/local/lib/python3.8/site-packages/torndb.py
 
 

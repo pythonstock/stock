@@ -69,15 +69,15 @@ if [ $# == 1 ] ; then
       -v ${PWD}/supervisor:/data/supervisor \
       -v ${PWD}/notebooks:/data/notebooks \
       -v ${PWD}/data/logs:/data/logs \
-       pythonstock/pythonstock:2022-01 \
-       supervisord -n -c /data/supervisor/supervisord.conf
+       pythonstock/pythonstock:latest
     exit 1;
 else
     echo "############# run online ############# "
     # /data/stock 是代码目录 -v /data/stock:/data/stock 是开发模式。
     docker run -itd --link=mysqldb --name stock  \
+      -p 9001:9001 \
       -p 8888:8888 -p 9999:9999 --restart=always \
-       pythonstock/pythonstock:2022-01
+       pythonstock/pythonstock:latest
     exit 1;
 fi
 
