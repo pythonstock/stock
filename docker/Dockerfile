@@ -53,8 +53,9 @@ RUN apt-get update
 RUN apt-get install --assume-yes apt-utils
 
 RUN apt-get install -y net-tools procps gcc make default-libmysqlclient-dev cron && \
-    pip3 install mysqlclient sqlalchemy && \
-    pip3 install supervisor && \
+    pip3 install mysqlclient
+    apt-get --purge remove -y gcc make default-libmysqlclient-dev && \
+    pip3 install supervisor sqlalchemy && \
     pip3 install numpy pandas  && \
     pip3 install akshare --upgrade && \
     apt-get install -y nodejs && \
