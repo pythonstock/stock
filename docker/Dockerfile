@@ -24,6 +24,7 @@ index-url=http://mirrors.aliyun.com/pypi/simple" > /etc/pip.conf && \
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
 
+RUN echo "rebuild docker @2022-01-12"
 #增加语言utf-8
 ENV LANG=zh_CN.UTF-8
 ENV LC_CTYPE=zh_CN.UTF-8
