@@ -38,17 +38,13 @@ class News(object):
         self.block_code_list = {}
         self.subcodeCount = ""
         self.__stock_column = ['date','code','name','news']
-        self.stock_board_concept_cons_ths_df = ak.stock_board_concept_cons_ths(symbol="元宇宙")
-#        name = "汤姆猫"
-#        self.__get_single_code_news_list(name)
-#        self.__get_block_code_list()
-        self.__get_board_code_list_from_akshare()
-        self.__get_board_news_list()
+        self.stock_board_concep_or_industry_cons_ths_df = pd.DataFrame()
+        self.stock_board_concep_or_industry_name_ths_df = pd.DataFrame()
             
     def __get_single_code_news_url(self,name):
         pn = 1
         if self.block_code_list.get(name):
-            print('code name', name)
+#            print('code name', name)
             code = self.block_code_list[name]
             self.url = self.__m_url + code + '_' + str(pn) + ".json"            
         else:
@@ -57,7 +53,7 @@ class News(object):
     
     def __get_single_code_news_list(self, name):
         self.__get_single_code_news_url(name)
-        print(self.url, headers)    
+#        print(self.url, headers)
         r = requests.get(self.url, headers=headers)
 #        print(r)
         code = self.block_code_list[name]
@@ -83,20 +79,25 @@ class News(object):
                 new = pd.DataFrame({'date':datetime_int,'code':code,'name':name,'source':p['source'],'news':p['title'],'url':p['url']},index = [0])
                 self.data=self.data.append(new,ignore_index=True)   # ignore_index=True,表示不按原来的索引，从0开始自动递增
                 
-    def __get_board_news_list(self):         
+    def __get_board_news_list(self):
+        s = "+"
         for n in self.block_code_list:
+            print(s, end="\r")
+            s = s + "+"
             try:
                 self.__get_single_code_news_list(n)
-            except IndexError:
-                pass
+            except IndexError as e:
+                print("error :", e)
             finally:
                 time.sleep(random.uniform(0.57, 1.08))
-#            break
+                pass
+        print("+", end="\n")
+
 
     def __get_block_code_count(self):
  #       self.url = "http://m.10jqka.com.cn/hq/rank/concept.html#885934"
         self.url = "http://d.10jqka.com.cn/v2/blockrank/885934/199112/d15.js"
-        print(self.url, headers)    
+        print(self.url, headers)
         r = requests.get(self.url, headers=headers)
         if r.status_code == 403:
             print("Too fast, Forbidden!")
@@ -116,7 +117,7 @@ class News(object):
     def __get_block_code_list(self):
         self.__get_block_code_count()
         self.url = "http://d.10jqka.com.cn/v2/blockrank/885934/199112/d" + self.subcodeCount + ".js"
-        print(self.url, headers)    
+#        print(self.url, headers)    
         r = requests.get(self.url, headers=headers)
         if r.status_code == 403:
             print("Too fast, Forbidden!")            
@@ -140,12 +141,13 @@ class News(object):
    
 
     def __get_board_code_list_from_akshare(self):
-        df = self.stock_board_concept_cons_ths_df
+        df = self.stock_board_concep_or_industry_cons_ths_df
+        print(df.shape[0])
         j = 0
         for i in df['名称']:
             self.block_code_list[i] = df.at[j,'代码']
             j = j+1
-        print(self.block_code_list,j)
+#        print(self.block_code_list,j)
 
    
     def __store_to_sql(self):
@@ -177,28 +179,43 @@ class News(object):
     def __read_from_sql(self):
         return
     
-    def get_data(self):
-        print(self.data)
+    def get_data(self,symbol):
         datetime_str = time.strftime("%Y-%m-%d_%H-%M-%S")    #时间戳转换正常时间
         print(datetime_str)
-#        print(self.stock_board_concept_cons_ths_df)
-        name = '/data/logs/meta_' + datetime_str + '.xlsx'
+        self.data = pd.DataFrame()
+        self.block_code_list = {}
+        try:
+            self.stock_board_concep_or_industry_cons_ths_df = ak.stock_board_concept_cons_ths(symbol=symbol)
+        except Exception as e:
+            print("error :", e)
+            self.stock_board_concep_or_industry_cons_ths_df = ak.stock_board_industry_cons_ths(symbol=symbol)
+#        print(self.stock_board_concep_or_industry_cons_ths_df)
+        self.__get_board_code_list_from_akshare()
+        self.__get_board_news_list()
+        print("news sizes:",self.data.size)
+        print("stock totals:",len(self.block_code_list))
+        name = '/data/logs/excel/'+ symbol + '-' + datetime_str + '.xlsx'
         self.data.to_excel(name,index = False)
+        print(name,"saved")
         return self.data
 
-    
-  
-
+    def get_concep_and_industry_name(self):
+        datetime_str = time.strftime("%Y-%m-%d_%H-%M-%S")
+        self.stock_board_concep_or_industry_name_ths_df = ak.stock_board_concept_name_ths()
+        name = '/data/logs/excel/board_concept_'+ datetime_str + '.xlsx'
+        self.stock_board_concep_or_industry_name_ths_df.to_excel(name,index = False)
+        self.stock_board_concep_or_industry_name_ths_df = ak.stock_board_industry_name_ths()
+        name = '/data/logs/excel/board_industry_'+ datetime_str + '.xlsx'
+        self.stock_board_concep_or_industry_name_ths_df.to_excel(name,index = False)
 
 def main():
     global end_time, thread_num
     end_time = "2021-01-01 00:00:00"
-    
- 
-  
     n = News()
-    n.get_data()        
-    print('test done')	    
+#    n.get_concep_and_industry_name()
+    n.get_data('元宇宙')
+    n.get_data('中药')
+    print('done')
 
 
 
