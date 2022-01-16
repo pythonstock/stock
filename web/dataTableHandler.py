@@ -63,6 +63,39 @@ class GetStockHtmlHandler(webBase.BaseHandler):
                     leftMenu=webBase.GetLeftMenu(self.request.uri))
 
 
+# 获得页面数据。
+class NewGetStockHtmlHandler(webBase.BaseHandler):
+    @gen.coroutine
+    def get(self):
+        name = self.get_argument("table_name", default=None, strip=False)
+        stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
+        # self.uri_ = ("self.request.url:", self.request.uri)
+        # print self.uri_
+        date_now = datetime.datetime.now()
+        date_now_str = date_now.strftime("%Y%m%d")
+        # 每天的 16 点前显示昨天数据。
+        if date_now.hour < 16:
+            date_now_str = (date_now + datetime.timedelta(days=-1)).strftime("%Y%m%d")
+
+        try:
+            # 增加columns 字段中的【查看股票 东方财富】
+            logging.info(eastmoney_name in stockWeb.column_names)
+            if eastmoney_name in stockWeb.column_names:
+                tmp_idx = stockWeb.column_names.index(eastmoney_name)
+                logging.info(tmp_idx)
+                try:
+                    # 防止重复插入数据。可能会报错。
+                    stockWeb.columns.remove("eastmoney_url")
+                except Exception as e:
+                    print("error :", e)
+                stockWeb.columns.insert(tmp_idx, "eastmoney_url")
+        except Exception as e:
+            print("error :", e)
+        logging.info("####################NewGetStockHtmlHandlerEnd")
+        self.render("new_stock_web.html", stockWeb=stockWeb, date_now=date_now_str,
+                    pythonStockVersion=common.__version__,
+                    leftMenu=webBase.GetLeftMenu(self.request.uri))
+
 # 获得股票数据内容。
 class GetStockDataHandler(webBase.BaseHandler):
     def get(self):

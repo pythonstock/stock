@@ -13,6 +13,8 @@ class StockWebData:
         self.order_by = order_by
         if mode == "query":
             self.url = "/stock/data?table_name=" + self.table_name
+        elif mode == "new_query":
+            self.url = "/stock/new_data?table_name=" + self.table_name
         elif mode == "editor":
             self.url = "/data/editor?table_name=" + self.table_name
 
@@ -126,6 +128,20 @@ STOCK_WEB_DATA_LIST.append(
         order_by=' date desc  '
     )
 )
+
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="new_query",
+        type="3，概念新闻",
+        name="元宇宙",
+        table_name="stock_concep_yuanyuzhou",
+        columns=['date', 'code', 'name','source','news'],
+        column_names=['日期', '代码', '名称', '来源', '新闻'],
+        primary_key=[],
+        order_by=" buy_date desc  "
+    )
+)
+
 
 # "code", "name: pchange", "amount", "buy", "bratio", "sell", "sratio", "reason", "date"
 # 代码 名称 当日涨跌幅 龙虎榜成交额(万) 买入额(万) 买入占总成交比例 卖出额(万) 卖出占总成交比例 上榜原因 日期

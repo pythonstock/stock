@@ -150,28 +150,16 @@ class News(object):
 #        print(self.block_code_list,j)
 
    
-    def __store_to_sql(self):
+    def __store_to_sql(self,symbol):
         try:
-            my_private_stock_daily = ak.stock_sina_lhb_ggtj(recent_day="5")
-            print(my_private_stock_daily)
-
-            my_private_stock_daily.columns = ['code', 'name', 'ranking_times', 'sum_buy', 'sum_sell', 'net_amount', 'buy_seat',
-                                           'sell_seat']
-
-            my_private_stock_daily = my_private_stock_daily.loc[my_private_stock_daily["code"].apply(stock_a)].loc[
-                my_private_stock_daily["name"].apply(stock_a_filter_st)]
-
-            my_private_stock_daily.set_index('code', inplace=True)
-            # data_sina_lhb.drop('index', axis=1, inplace=True)
-            # 删除老数据。
-            my_private_stock_daily['date'] = datetime_int  # 修改时间成为int类型。
-
-            # 删除老数据。
-            del_sql = " DELETE FROM `my_private_stock_daily` where `date` = '%s' " % datetime_int
-            common.insert(del_sql)
-
-            common.insert_db(my_private_stock_daily, "my_private_stock_daily", True, "`date`,`code`")
-
+            my_private_stock = self.data
+            if symbol == "元宇宙":
+                block_name = 'stock_concep_yuanyuzhou'
+            elif symbol == "中药":
+                block_name = 'stock_concep_zhongyao'
+            else:
+                block_name = 'stock_concep_none'
+            common.insert_db(my_private_stock, block_name , True, "`date`,`code`,`news`")
         except Exception as e:
             print("error :", e)
         return       
@@ -192,6 +180,7 @@ class News(object):
 #        print(self.stock_board_concep_or_industry_cons_ths_df)
         self.__get_board_code_list_from_akshare()
         self.__get_board_news_list()
+        self.__store_to_sql(symbol)
         print("news sizes:",self.data.size)
         print("stock totals:",len(self.block_code_list))
         name = '/data/logs/excel/'+ symbol + '-' + datetime_str + '.xlsx'
@@ -214,7 +203,7 @@ def main():
     n = News()
 #    n.get_concep_and_industry_name()
     n.get_data('元宇宙')
-    n.get_data('中药')
+  #  n.get_data('中药')
     print('done')
 
 
