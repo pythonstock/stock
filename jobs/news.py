@@ -193,7 +193,7 @@ class News(object):
         self.stock_board_concep_or_industry_name_ths_df = ak.stock_board_concept_name_ths()
         try:
             my_private_stock = self.stock_board_concep_or_industry_name_ths_df
-            block_name = 'stock_board_concep_name'
+            block_name = 'stock_board_concept_name'
             common.insert_db(my_private_stock, block_name , True, "`日期`,`概念名称`")
         except Exception as e:
             print("error :", e)

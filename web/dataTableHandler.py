@@ -69,8 +69,8 @@ class NewGetStockHtmlHandler(webBase.BaseHandler):
     def get(self):
         name = self.get_argument("table_name", default=None, strip=False)
         stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
-        # self.uri_ = ("self.request.url:", self.request.uri)
-        # print self.uri_
+        self.uri_ = ("self.request.url:", self.request.uri)
+        print (self.uri_)
         date_now = datetime.datetime.now()
         date_now_str = date_now.strftime("%Y%m%d")
         # 每天的 16 点前显示昨天数据。
@@ -183,13 +183,13 @@ class GetStockDataHandler(webBase.BaseHandler):
         stock_web_list = self.db.query(sql)
 
         for tmp_obj in (stock_web_list):
-            logging.info("####################")
+            #logging.info("####################")
             if type_param == "editor":
                 tmp_obj["DT_RowId"] = tmp_obj[stock_web.columns[0]]
             # logging.info(tmp_obj)
             try:
                 # 增加columns 字段中的【东方财富】
-                logging.info("eastmoney_name : %s " % eastmoney_name)
+                #logging.info("eastmoney_name : %s " % eastmoney_name)
                 if eastmoney_name in stock_web.column_names:
                     tmp_idx = stock_web.column_names.index(eastmoney_name)
 
@@ -202,8 +202,8 @@ class GetStockDataHandler(webBase.BaseHandler):
 
                     tmp_url = WEB_EASTMONEY_URL % (tmp_obj["code"], tmp_obj["code"], code_tmp)
                     tmp_obj["eastmoney_url"] = tmp_url
-                    logging.info(tmp_idx)
-                    logging.info(tmp_obj["eastmoney_url"])
+                    #logging.info(tmp_idx)
+                    #logging.info(tmp_obj["eastmoney_url"])
                     # logging.info(type(tmp_obj))
                     # tmp.column_names.insert(tmp_idx, eastmoney_name)
             except Exception as e:
