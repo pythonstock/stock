@@ -30,7 +30,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="smaller lighter blue no-margin">东方财富分析</h3>
+					<h3 class="smaller lighter blue no-margin">同花顺</h3>
 				</div>
 				<div class="modal-body" id="dfcf-iframe-body" >
 				</div>
@@ -68,7 +68,8 @@
 
 		var iframe = document.createElement('iframe')
 		// var baseUrl = 'https://emweb.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=soft&code='+code;
-		var baseUrl = 'https://emweb.eastmoney.com/PC_HSF10/OperationsRequired/Index?type=soft&code='+code;
+		var baseUrl = 'http://q.10jqka.com.cn/gn/detail/code/'+code.replace('SZ','');
+		console.log(baseUrl);
 		iframe.src = baseUrl;
 		iframe.width = '980px';
 		iframe.height = '700px';

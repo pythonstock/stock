@@ -148,8 +148,8 @@ STOCK_WEB_DATA_LIST.append(
         type="3，概念新闻",
         name="概念列表",
         table_name="stock_board_concept_name",
-        columns=['日期', '概念名称', '成分股数量','代码', '网址'],
-        column_names=['日期', '概念名称', '成分股数量', '代码', '网址'],
+        columns=['date', 'name', 'code','number', 'url'],
+        column_names=['日期', '概念名称', '代码', '成分股数量','网址'],
         primary_key=[],
         order_by=" buy_date desc  "
     )

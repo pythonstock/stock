@@ -191,10 +191,11 @@ class News(object):
     def get_concep_and_industry_name(self):
         datetime_str = time.strftime("%Y-%m-%d_%H-%M-%S")
         self.stock_board_concep_or_industry_name_ths_df = ak.stock_board_concept_name_ths()
+        self.stock_board_concep_or_industry_name_ths_df.columns = ['date', 'name', 'number', 'url', 'code']
         try:
             my_private_stock = self.stock_board_concep_or_industry_name_ths_df
             block_name = 'stock_board_concept_name'
-            common.insert_db(my_private_stock, block_name , True, "`日期`,`概念名称`")
+            common.insert_db(my_private_stock, block_name , True, "`date`,`name`")
         except Exception as e:
             print("error :", e)
         name = '/data/logs/excel/board_concept_'+ datetime_str + '.xlsx'
