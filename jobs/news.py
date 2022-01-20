@@ -191,6 +191,12 @@ class News(object):
     def get_concep_and_industry_name(self):
         datetime_str = time.strftime("%Y-%m-%d_%H-%M-%S")
         self.stock_board_concep_or_industry_name_ths_df = ak.stock_board_concept_name_ths()
+        try:
+            my_private_stock = self.stock_board_concep_or_industry_name_ths_df
+            block_name = 'stock_board_concep_name'
+            common.insert_db(my_private_stock, block_name , True, "`日期`,`概念名称`")
+        except Exception as e:
+            print("error :", e)
         name = '/data/logs/excel/board_concept_'+ datetime_str + '.xlsx'
         self.stock_board_concep_or_industry_name_ths_df.to_excel(name,index = False)
         self.stock_board_concep_or_industry_name_ths_df = ak.stock_board_industry_name_ths()
@@ -201,7 +207,7 @@ def main():
     global end_time, thread_num
     end_time = "2021-01-01 00:00:00"
     n = News()
-#    n.get_concep_and_industry_name()
+    n.get_concep_and_industry_name()
     n.get_data('元宇宙')
   #  n.get_data('中药')
     print('done')

@@ -142,7 +142,18 @@ STOCK_WEB_DATA_LIST.append(
     )
 )
 
-
+STOCK_WEB_DATA_LIST.append(
+    StockWebData(
+        mode="new_query",
+        type="3，概念新闻",
+        name="概念列表",
+        table_name="stock_board_concep_name",
+        columns=['日期', '概念名称', '成分股数量','代码'],
+        column_names=['日期', '概念名称', '成分股数量', '代码'],
+        primary_key=[],
+        order_by=" buy_date desc  "
+    )
+)
 # "code", "name: pchange", "amount", "buy", "bratio", "sell", "sratio", "reason", "date"
 # 代码 名称 当日涨跌幅 龙虎榜成交额(万) 买入额(万) 买入占总成交比例 卖出额(万) 卖出占总成交比例 上榜原因 日期
 
