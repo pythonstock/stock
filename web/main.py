@@ -13,6 +13,7 @@ import libs.stock_web_dic as stock_web_dic
 import web.dataTableHandler as dataTableHandler
 import web.dataEditorHandler as dataEditorHandler
 import web.dataIndicatorsHandler as dataIndicatorsHandler
+import web.newHomeHandler as newHomeHandler
 import web.base as webBase
 import pandas as pd
 import numpy as np
@@ -23,7 +24,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             # 设置路由
-            (r"/", NewHomeHandler),
+            (r"/", newHomeHandler.newHomeHandler),
             (r"/old", HomeHandler),
             (r"/stock/", HomeHandler),
             (r"/test_akshare", TestAkshareHandler),# 测试页面，做写js 测试。
@@ -54,7 +55,6 @@ class Application(tornado.web.Application):
             host=common.MYSQL_HOST, database=common.MYSQL_DB,
             user=common.MYSQL_USER, password=common.MYSQL_PWD)
 
-
 # 首页handler。
 class HomeHandler(webBase.BaseHandler):
     @gen.coroutine
@@ -71,18 +71,14 @@ class HomeHandler(webBase.BaseHandler):
                     stockstatsVersion="0.3.2",
                     pythonStockVersion = common.__version__,
                     leftMenu=webBase.GetLeftMenu(self.request.uri))
-class NewHomeHandler(webBase.BaseHandler):
-    @gen.coroutine
-    def get(self):
-        self.render("new_index.html",
-                    pythonStockVersion=common.__version__,
-                    leftMenu=webBase.GetLeftMenu(self.request.uri))
+
 class TestHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
         self.render("test.html", entries="hello",
                     pythonStockVersion=common.__version__,
                     leftMenu=webBase.GetLeftMenu(self.request.uri))
+
 class Test2Handler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
