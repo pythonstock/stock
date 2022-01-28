@@ -13,38 +13,43 @@ deb http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib\n\
 deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib\n\
 deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib\n\
 deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" > /etc/apt/sources.list && \
+apt-get update && \
 echo  "[global]\n\
 trusted-host=mirrors.aliyun.com\n\
 index-url=https://mirrors.aliyun.com/pypi/simple/" > /etc/pip.conf && \
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    echo "Asia/Shanghai" > /etc/timezone
+echo "Asia/Shanghai" > /etc/timezone
 
-#增加语言utf-8
-ENV LANG=zh_CN.UTF-8
-ENV LC_CTYPE=zh_CN.UTF-8
+
+#增加语言GB18030
+ENV LANG=zh_CN.GB18030
+ENV LC_CTYPE=zh_CN.GB18030
 ENV LC_ALL=C
-ENV PYTHONPATH=/data/stock
+ENV PYTHONPATH=/data/vnpy
 
 # 解决warning "debconf: unable to initialize frontend: Dialog"
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update
-
 # 解决warning "debconf: delaying package configuration, since apt-utils is not installed"
 RUN apt-get install --assume-yes apt-utils && pip3 install pip --upgrade
 
-RUN apt-get install -y  gcc g++ make wget && \
+RUN apt-get install -y  gcc g++ make wget git vim  && \
+	apt-get install -y libgl1-mesa-glx libglib2.0-0 libfontconfig1 libxkbcommon-x11-0 && \
+	apt-get install -y libdbus-1-3  xfonts-intl-chinese xfonts-wqy locales && \
+	echo "zh_CN.GB18030 GB18030" >> /etc/locale.gen && locale-gen && \
     pip3 install numpy==1.18.2 && \
     cd /tmp && wget https://pip.vnpy.com/colletion/ta-lib-0.4.0-src.tar.gz && \
     tar xvfz ta-lib-0.4.0-src.tar.gz && \
-    cd ta-lib && ./configure && make && make install && pip3 install ta-lib==0.4.17 
-#	cd /tmp && git clone https://github.com/vnpy/vnpy.git && \
-#	python3 -m pip install -i https://mirrors.aliyun.com/pypi/simple/  numpy scipy && \
-#	cd /tmp/vnpy && pip3 install -r requirements.txt  && \
-#	cd /tmp && rm -rf *
+    cd ta-lib && ./configure && make && make install && pip3 install ta-lib==0.4.17 && \
+    echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> ~/.bashrc  && \
+    cd /tmp && git clone https://github.91chi.fun//https://github.com/vnpy/vnpy.git && \
+    cd /tmp/vnpy && pip3 install -r requirements.txt && pip3 install . && \
+    cd /tmp && rm -rf *
 
 # 设置 vim 的语言配置
 RUN mkdir -p /etc/vim/ && \
     echo "set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936" >> /etc/vim/vimrc && \
     echo "set termencoding=utf-8" >> /etc/vim/vimrc && \
-    echo "set encoding=utf-8" >> /etc/vim/vimrc	
+    echo "set encoding=utf-8" >> /etc/vim/vimrc
+
+WORKDIR /data
