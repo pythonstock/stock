@@ -8,7 +8,7 @@ import datetime
 import time
 import sys
 import os
-import MySQLdb
+import pymysql
 from sqlalchemy import create_engine
 from sqlalchemy.types import NVARCHAR
 from sqlalchemy import inspect
@@ -45,11 +45,11 @@ def engine_to_db(to_db):
 # 通过数据库链接 engine。
 def conn():
     try:
-        db = MySQLdb.connect(MYSQL_HOST, MYSQL_USER, MYSQL_PWD, MYSQL_DB, charset="utf8")
+        db = pymysql.connect(host=MYSQL_HOST, port=3306, user=MYSQL_USER, password=MYSQL_PWD, db=MYSQL_DB, charset="utf8")
         # db.autocommit = True
     except Exception as e:
         print("conn error :", e)
-    db.autocommit(on=True)
+    db.autocommit(True)
     return db.cursor()
 
 
