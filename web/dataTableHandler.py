@@ -66,13 +66,13 @@ class GetStockHtmlHandler(webBase.BaseHandler):
 # 获得股票数据内容。
 class GetStockDataHandler(webBase.BaseHandler):
     def get(self):
-
+        logging.info("######################## GetStockDataHandler ########################")
         # 获得分页参数。
         start_param = self.get_argument("start", default=0, strip=False)
         length_param = self.get_argument("length", default=10, strip=False)
         print("page param:", length_param, start_param)
 
-        name_param = self.get_argument("name", default=None, strip=False)
+        name_param = self.get_argument("name", default="stock_zh_ah_name", strip=False)
         type_param = self.get_argument("type", default=None, strip=False)
 
         stock_web = stock_web_dic.STOCK_WEB_DATA_MAP[name_param]
@@ -180,7 +180,10 @@ class GetStockDataHandler(webBase.BaseHandler):
         logging.info("stockWebList size : %s " % stock_web_size)
 
         obj = {
+            "code": 20000,
+            "message": "success",
             "draw": 0,
+            "total": stock_web_size[0]["num"],
             "recordsTotal": stock_web_size[0]["num"],
             "recordsFiltered": stock_web_size[0]["num"],
             "data": stock_web_list
