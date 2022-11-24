@@ -7,6 +7,18 @@ import libs.common as common
 
 #基础handler，主要负责检查mysql的数据库链接。
 class BaseHandler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        print("######################## BaseHandler ########################")
+        self.set_header("Access-Control-Allow-Credentials", "true")
+        self.set_header("Access-Control-Allow-Origin", "http://localhost:9528")
+        self.set_header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
+        self.set_header("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type")
+        self.set_header("Access-Control-Expose-Headers", "Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma")
+    # 同时定义一个option方法
+    def options(self):
+        self.set_status(204)
+        self.finish()
+
     @property
     def db(self):
         try:
