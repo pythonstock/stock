@@ -1,7 +1,8 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
+import json
 
-class StockWebData:
+class TableInfo(json.JSONEncoder):
     def __init__(self, mode, type, name, table_name, columns, column_names, primary_key, order_by):
         self.mode = mode  # 模式，query，editor 查询和编辑模式
         self.type = type
@@ -23,7 +24,7 @@ STOCK_WEB_DATA_LIST = []
 # https://www.akshare.xyz/zh_CN/latest/data/stock/stock.html#id1
 # 限量: 单次返回所有 A 股上市公司的实时行情数据
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="1，股票基本数据",
         name="每日股票数据-东财",
@@ -38,7 +39,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="1，股票基本数据",
         name="龙虎榜-个股上榜-新浪",
@@ -51,7 +52,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="1，股票基本数据",
         name="数据中心-大宗交易",
@@ -71,7 +72,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 每日股票指标lite猜想买入。
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="2，每日数据猜想",
         name="股票指标lite猜想买入",
@@ -89,7 +90,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 每日股票指标lite猜想卖出。
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="2，每日数据猜想",
         name="股票指标lite猜想卖出",
@@ -107,7 +108,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 每日股票指标lite猜想。
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="2，每日数据猜想",
         name="股票指标猜想原始数据",

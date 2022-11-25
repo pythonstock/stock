@@ -29,12 +29,12 @@ WEB_EASTMONEY_URL = u"""
 eastmoney_name = "查看股票"
 
 
-# 获得页面数据。
+# 获得页面数据，进入页面中。
 class GetStockHtmlHandler(webBase.BaseHandler):
     @gen.coroutine
     def get(self):
         name = self.get_argument("table_name", default=None, strip=False)
-        stockWeb = stock_web_dic.STOCK_WEB_DATA_MAP[name]
+        tableInfo = stock_web_dic.STOCK_WEB_DATA_MAP[name]
         # self.uri_ = ("self.request.url:", self.request.uri)
         # print self.uri_
         date_now = datetime.datetime.now()
@@ -45,20 +45,20 @@ class GetStockHtmlHandler(webBase.BaseHandler):
 
         try:
             # 增加columns 字段中的【查看股票 东方财富】
-            logging.info(eastmoney_name in stockWeb.column_names)
-            if eastmoney_name in stockWeb.column_names:
-                tmp_idx = stockWeb.column_names.index(eastmoney_name)
+            logging.info(eastmoney_name in tableInfo.column_names)
+            if eastmoney_name in tableInfo.column_names:
+                tmp_idx = tableInfo.column_names.index(eastmoney_name)
                 logging.info(tmp_idx)
                 try:
                     # 防止重复插入数据。可能会报错。
-                    stockWeb.columns.remove("eastmoney_url")
+                    tableInfo.columns.remove("eastmoney_url")
                 except Exception as e:
                     print("error :", e)
-                stockWeb.columns.insert(tmp_idx, "eastmoney_url")
+                tableInfo.columns.insert(tmp_idx, "eastmoney_url")
         except Exception as e:
             print("error :", e)
         logging.info("####################GetStockHtmlHandlerEnd")
-        self.render("stock_web.html", stockWeb=stockWeb, date_now=date_now_str,
+        self.render("tableInfo.html", tableInfo=tableInfo, date_now=date_now_str,
                     pythonStockVersion=common.__version__,
                     leftMenu=webBase.GetLeftMenu(self.request.uri))
 
@@ -75,7 +75,7 @@ class GetStockDataHandler(webBase.BaseHandler):
         name_param = self.get_argument("name", default="stock_zh_ah_name", strip=False)
         type_param = self.get_argument("type", default=None, strip=False)
 
-        stock_web = stock_web_dic.STOCK_WEB_DATA_MAP[name_param]
+        tableInfo = stock_web_dic.STOCK_WEB_DATA_MAP[name_param]
 
         # https://datatables.net/manual/server-side
         self.set_header('Content-Type', 'application/json;charset=UTF-8')
@@ -104,12 +104,15 @@ class GetStockDataHandler(webBase.BaseHandler):
                 # 找到字符串
                 str_val = val[0].decode("utf-8")
                 if str_val != "":  # 字符串。
-                    search_by_column.append(stock_web.columns[int_idx])
+                    search_by_column.append(tableInfo.columns[int_idx])
                     search_by_data.append(val[0].decode("utf-8"))  # bytes转换字符串
 
         # 打印日志。
         search_sql = ""
         search_idx = 0
+
+        logging.info("################# search_by_column #################")
+
         logging.info(search_by_column)
         logging.info(search_by_data)
         for item in search_by_column:
@@ -122,7 +125,7 @@ class GetStockDataHandler(webBase.BaseHandler):
                 search_sql = search_sql + " AND `%s` = '%s' " % (item, val)
             search_idx = search_idx + 1
 
-        # print("stockWeb :", stock_web)
+        # print("tableInfo :", stock_web)
         order_by_sql = ""
         # 增加排序。
         if len(order_by_column) != 0 and len(order_by_dir) != 0:
@@ -130,7 +133,7 @@ class GetStockDataHandler(webBase.BaseHandler):
             idx = 0
             for key in order_by_column:
                 # 找到排序字段和dir。
-                col_tmp = stock_web.columns[key]
+                col_tmp = tableInfo.columns[key]
                 dir_tmp = order_by_dir[idx]
                 if idx != 0:
                     order_by_sql += " ,cast(`%s` as decimal) %s" % (col_tmp, dir_tmp)
@@ -142,8 +145,8 @@ class GetStockDataHandler(webBase.BaseHandler):
         if int(length_param) > 0:
             limit_sql = " LIMIT %s , %s " % (start_param, length_param)
         sql = " SELECT * FROM `%s` %s %s %s " % (
-            stock_web.table_name, search_sql, order_by_sql, limit_sql)
-        count_sql = " SELECT count(1) as num FROM `%s` %s " % (stock_web.table_name, search_sql)
+            tableInfo.table_name, search_sql, order_by_sql, limit_sql)
+        count_sql = " SELECT count(1) as num FROM `%s` %s " % (tableInfo.table_name, search_sql)
 
         logging.info("select sql : " + sql)
         logging.info("count sql : " + count_sql)
@@ -152,13 +155,13 @@ class GetStockDataHandler(webBase.BaseHandler):
         for tmp_obj in (stock_web_list):
             logging.info("####################")
             if type_param == "editor":
-                tmp_obj["DT_RowId"] = tmp_obj[stock_web.columns[0]]
+                tmp_obj["DT_RowId"] = tmp_obj[tableInfo.columns[0]]
             # logging.info(tmp_obj)
             try:
                 # 增加columns 字段中的【东方财富】
                 logging.info("eastmoney_name : %s " % eastmoney_name)
-                if eastmoney_name in stock_web.column_names:
-                    tmp_idx = stock_web.column_names.index(eastmoney_name)
+                if eastmoney_name in tableInfo.column_names:
+                    tmp_idx = tableInfo.column_names.index(eastmoney_name)
 
                     code_tmp = tmp_obj["code"]
                     # 判断上海还是 深圳，东方财富 接口要求。
@@ -177,12 +180,35 @@ class GetStockDataHandler(webBase.BaseHandler):
                 print("error :", e)
 
         stock_web_size = self.db.query(count_sql)
-        logging.info("stockWebList size : %s " % stock_web_size)
+        logging.info("tableInfoList size : %s " % stock_web_size)
+
+        # 动态表格展示：
+        table_columns = []
+        try:
+            tmp_len = len(tableInfo.columns)
+            logging.info("ableInfo.columns tmp_len : %s " % tmp_len)
+            # 循环数据，转换成对象，放入到数组中，方便前端 vue table 循环使用。
+            for tmp_idx in range(0, tmp_len):
+                logging.info(tmp_idx)
+
+                column = tableInfo.columns[tmp_idx]
+                column_name = tableInfo.column_names[tmp_idx]
+
+                tpm_column_obj = {
+                    "column": column,
+                    "columnName" : column_name
+                }
+                table_columns.append(tpm_column_obj)
+               
+        except Exception as e:
+            print("error :", e)
 
         obj = {
             "code": 20000,
             "message": "success",
             "draw": 0,
+            "tableName" : tableInfo.name,
+            "tableColumns":  table_columns,
             "total": stock_web_size[0]["num"],
             "recordsTotal": stock_web_size[0]["num"],
             "recordsFiltered": stock_web_size[0]["num"],

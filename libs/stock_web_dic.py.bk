@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-class StockWebData:
+class TableInfo:
     def __init__(self, mode, type, name, table_name, columns, column_names, primary_key, order_by):
         self.mode = mode  # 模式，query，editor 查询和编辑模式
         self.type = type
@@ -20,7 +20,7 @@ class StockWebData:
 STOCK_WEB_DATA_LIST = []
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="宏观经济数据",
         name="存款利率",
@@ -33,7 +33,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="宏观经济数据",
         name="贷款利率",
@@ -46,7 +46,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="宏观经济数据",
         name="存款准备金率",
@@ -59,7 +59,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="宏观经济数据",
         name="货币供应量",
@@ -83,7 +83,7 @@ STOCK_WEB_DATA_LIST.append(
 # http://tushare.org/fundamental.html
 # 参考官网网站的文档，是最全的。
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="基本面数据",
         name="股票列表",
@@ -102,7 +102,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 业绩报告（主表）
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="基本面数据",
         name="业绩报告（主表）",
@@ -119,7 +119,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 盈利能力
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="基本面数据",
         name="盈利能力",
@@ -134,7 +134,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="基本面数据",
         name="营运能力",
@@ -150,7 +150,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="基本面数据",
         name="成长能力",
@@ -168,7 +168,7 @@ STOCK_WEB_DATA_LIST.append(
 
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据",
         name="龙虎榜",
@@ -182,7 +182,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 # 实时行情
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据",
         name="每日股票数据",
@@ -197,7 +197,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 # 大盘指数行情列表
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据",
         name="每日大盘指数行情",
@@ -211,7 +211,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 每日波峰波谷猜想
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据猜想",
         name="每日波峰波谷猜想",
@@ -229,7 +229,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 每日收益率猜想。
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据猜想",
         name="每日收益率猜想",
@@ -249,7 +249,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 每日股票指标lite猜想。
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据猜想",
         name="每日股票指标lite猜想",
@@ -268,7 +268,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 每日股票指标lite猜想买入。
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据猜想",
         name="每日股票指标lite猜想买入",
@@ -285,7 +285,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 每日股票指标lite猜想卖出。
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据猜想",
         name="每日股票指标lite猜想卖出",
@@ -303,7 +303,7 @@ STOCK_WEB_DATA_LIST.append(
 
 # 每日股票指标猜想。
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据猜想",
         name="每日股票指标All猜想",
@@ -327,7 +327,7 @@ STOCK_WEB_DATA_LIST.append(
 )
 
 STOCK_WEB_DATA_LIST.append(
-    StockWebData(
+    TableInfo(
         mode="query",
         type="每日数据Keras猜想",
         name="每日股票数据Keras猜想",
