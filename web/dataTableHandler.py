@@ -77,7 +77,6 @@ class GetStockDataHandler(webBase.BaseHandler):
 
         tableInfo = stock_web_dic.STOCK_WEB_DATA_MAP[name_param]
 
-        # https://datatables.net/manual/server-side
         self.set_header('Content-Type', 'application/json;charset=UTF-8')
         order_by_column = []
         order_by_dir = []
