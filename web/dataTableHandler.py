@@ -152,33 +152,6 @@ class GetStockDataHandler(webBase.BaseHandler):
         logging.info("count sql : " + count_sql)
         stock_web_list = self.db.query(sql)
 
-        for tmp_obj in (stock_web_list):
-            logging.info("####################")
-            if type_param == "editor":
-                tmp_obj["DT_RowId"] = tmp_obj[tableInfo.columns[0]]
-            # logging.info(tmp_obj)
-            try:
-                # 增加columns 字段中的【东方财富】
-                logging.info("eastmoney_name : %s " % eastmoney_name)
-                if eastmoney_name in tableInfo.column_names:
-                    tmp_idx = tableInfo.column_names.index(eastmoney_name)
-
-                    code_tmp = tmp_obj["code"]
-                    # 判断上海还是 深圳，东方财富 接口要求。
-                    if code_tmp.startswith("6"):
-                        code_tmp = "SH" + code_tmp
-                    else:
-                        code_tmp = "SZ" + code_tmp
-
-                    tmp_url = WEB_EASTMONEY_URL % (tmp_obj["code"], tmp_obj["code"], code_tmp)
-                    tmp_obj["eastmoney_url"] = tmp_url
-                    logging.info(tmp_idx)
-                    logging.info(tmp_obj["eastmoney_url"])
-                    # logging.info(type(tmp_obj))
-                    # tmp.column_names.insert(tmp_idx, eastmoney_name)
-            except Exception as e:
-                print("error :", e)
-
         stock_web_size = self.db.query(count_sql)
         logging.info("tableInfoList size : %s " % stock_web_size)
 
