@@ -1,0 +1,80 @@
+{% extends "layout/single_default.html" %}
+
+
+{% block main_content %}
+
+
+	<h3 class="header smaller lighter blue">手写图片识别演示</h3>
+
+		<div class="row clearfix">
+                <div class="col-md-6 column">
+					<canvas id="the_stage" width="280" height="280">your browser don't support canvas!</canvas>
+					<div>
+						<button type="button" class="btn btn-default butt" onclick="clearCanvas()"><strong>删除</strong></button>
+						<button type="button" class="btn btn-default butt" id="recognize" onclick="processImg()"><strong>识别</strong></button>
+					</div>
+				</div>
+				<div class="col-md-6 column">
+                    <h3>result:</h3>
+                    <h2 id="rec_result"></h2>
+                </div>
+		</div>
+
+	<h3 class="header smaller lighter blue">测试图片识别演示</h3>
+	<div class="row clearfix" style="width:400px;">
+		{% for image in image_array %}
+				  <div class="col-md-2" style="margin-top: 15px;">
+					  <img src="{{ image }}" alt="" width="50" class="minst_img" height="50" style="1px solid #e1e4e5;cursor: pointer;">
+				  </div>
+		{% end %}
+	</div>
+	<div class="col-md-6 column">
+			<h3>结果:</h3>
+			<h2 id="prediction_text">"-1"</h2>
+    </div>
+<!-- inline scripts related to this page -->
+<script src="/static/js/mnist-draw.js"></script>
+<style>
+	#the_stage {
+    border: 1px solid #999;
+    border-radius: 4px;
+    box-shadow: -10px 10px 5px #888888;
+}
+</style>
+<script type="text/javascript">
+jQuery(function($) {
+	$("#recognize").click(
+		//提交数据
+		function () {
+			$("#rec_result").html("connecting...");
+			var scribbler = document.getElementById ("the_stage");
+			var imageData =  scribbler.toDataURL('image/png');
+			var dataTemp = imageData.substr(22);
+
+			var sendPackage = {"id": "1", "txt": dataTemp};
+			$.post("/minst_serving/prediction2", sendPackage, function(msg){
+				$("#rec_result").html(msg);
+			});
+		}
+	);
+
+	$(".minst_img").click(
+		//提交数据
+		function () {
+			img_url = $(this).attr("src")
+			console.log("here",);
+			//
+			$.ajax({
+			   type: "GET",
+			   url: "/minst_serving/prediction",
+			   data: "img_url="+img_url,
+			   success: function(msg){
+				 console.log( "prediction : " + msg );
+				 $("#prediction_text").html(msg);
+			   }
+			});
+		}
+	);
+});
+</script>
+{% end %}

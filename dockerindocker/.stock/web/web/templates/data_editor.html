@@ -1,0 +1,157 @@
+{% extends "layout/default.html" %}
+
+
+{% block main_content %}
+
+	<h3 class="header smaller lighter blue">{{ stockWeb.name }}</h3>
+	<div class="table-header">{{ stockWeb.name }}</div>
+
+	<div class="row">&nbsp;</div>
+	<div class="row">
+		{% for index,element in enumerate(stockWeb.columns) %}
+		<div class="col-md-4" id="filter_col{{ index+1 }}" data-column="{{ index }}">
+			{{ stockWeb.column_names[index] }} &nbsp;
+			<!-- Column - {{ stockWeb.column_names[index] }} - {{ element }} -->
+			<input type="text" class="column_filter input-group-sm form-control" id="col{{ index }}_filter">
+		</div>
+		{% end %}
+	</div>
+
+	<table cellpadding="3" cellspacing="0" border="0" style="width: 67%; margin: 0 auto 2em auto;">
+		<tbody>
+
+		</tbody>
+	</table>
+	<!-- div.table-responsive -->
+	<!-- div.dataTables_borderWrap -->
+	<div>
+		<div class="pull-right tableTools-container"></div>
+		<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th></th>
+					{% for column_name in stockWeb.column_names %}
+					<th>{{ column_name }}</th>
+				    {% end %}
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+	jQuery(function($) {
+		editor = new $.fn.dataTable.Editor( {
+		i18n: {
+			create: {
+				button: "新建",
+				title:  "创建新数据",
+				submit: "保存"
+			},
+			edit: {
+				button: "修改",
+				title:  "修改数据",
+				submit: "保存"
+			},
+			remove: {
+				button: "删除",
+				title:  "删除数据",
+				submit: "删除",
+				confirm: {
+					_: "确定删除 %d 条数据？",
+					1: "确定删除 1 条数据？"
+				}
+			},
+			error: {
+				system: "发生了一系统错误，（更多信息）"
+			},
+			datetime: {
+				previous: '前一月',
+				next:     '下一月',
+				months:   [ '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月' ],
+				weekdays: [ '星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' ]
+			}
+		},
+        ajax: "/data/editor/save?table_name={{ stockWeb.table_name }}",
+        table: "#dynamic-table",
+			fields: [
+				{% for index,element in enumerate(stockWeb.columns) %}
+				{
+					label: "{{ stockWeb.column_names[index] }}:",
+					name: "{{ element }}"
+					{% if element == "date" %} ,type: "datetime" {% end %}
+				},{% end %}
+			]
+		} );
+
+		var nameParam = $.getUrlVar('table_name');
+		//console.log(nameParam);
+		var myTable = $('#dynamic-table').DataTable( {
+			"dom": "Bfrtip",
+			"bFilter": true,
+			"ordering": true,
+			"processing": true,
+			"serverSide": true,
+			"lengthMenu": [[20, 30, 50, 100,1000, -1], [20, 30, 50, 100,1000, "All"]],
+			"language": {
+                "url": "/static/js/datatables.Chinese.json"
+            },
+			"ajax": "/stock/api_data?type=editor&name="+nameParam,
+			"columns": [
+				{
+					"data": "",
+					"defaultContent": "",
+					"className": 'select-checkbox',
+					"orderable": true
+				},
+				{% for column in stockWeb.columns %}
+					{ "data": "{{ column }}" },
+				{% end %}
+        	],
+        	select: {
+				style:    'os',
+				selector: 'td:first-child'
+			},
+        	buttons: [
+				{ extend: "create", editor: editor, text: '新增' },
+				{ extend: "edit",   editor: editor, text: '编辑' },
+				{ extend: "remove", editor: editor, text: '删除' }
+			]
+		} );
+
+		$('input.column_filter').on( 'keyup click', function () {
+			var i =  $(this).parents('div').attr('data-column') ;
+			//console.log(i,"val:",$(this).val());
+			myTable.column(i).search(
+				$(this).val()
+			).draw();
+		});
+
+		$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+		new $.fn.dataTable.Buttons( myTable, {
+			buttons: [
+			  {
+				"extend": "copy",
+				"text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+				"className": "btn btn-white btn-primary btn-bold"
+			  },
+			  {
+				"extend": "csv",
+				"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+				"className": "btn btn-white btn-primary btn-bold"
+			  },
+			  {
+				"extend": "print",
+				"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+				"className": "btn btn-white btn-primary btn-bold",
+				autoPrint: false,
+				message: 'This print was produced using the Print button for DataTables'
+			  }
+			]
+		} );
+		myTable.buttons().container().appendTo( $('.tableTools-container') );
+	})
+</script>
+{% end %}

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+mkdir -p /data/logs
+DATE=`date +%Y-%m-%d:%H:%M:%S`
+echo $DATE >> /data/logs/1min.log
+echo MYSQL_HOST $MYSQL_HOST >> /data/logs/1min.log
+echo MYSQL_USER $MYSQL_USER >> /data/logs/1min.log
+echo MYSQL_DB $MYSQL_DB >> /data/logs/1min.log

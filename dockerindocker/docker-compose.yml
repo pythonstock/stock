@@ -1,0 +1,45 @@
+version: "3"
+services:
+  # ... 此处是其他容器的配置
+    stock:
+        image: pythonstock/pythonstock:latest
+        container_name: stock
+        user: "${UID}:${GID}"
+        ports:
+            - "9898:9898"
+            - "9999:9999"
+        volumes:
+            - ".stock/data/notebooks:/data/notebooks"
+            - ".stock/data/logs:/data/logs"
+            - ".stock/jobs:/data/stock/jobs"
+            - ".stock/libs:/data/stock/libs"
+            - ".stock/web:/data/stock/web"
+        environment:
+            DOCKER_USER: $USER
+            MYSQL_HOST: mysqldb
+            MYSQL_USER: root
+            MYSQL_PWD: mysqldb
+            MYSQL_DB: stock_data
+            LANG: zh_CN.UTF-8
+            LC_CTYPE: zh_CN.UTF-8
+            PYTHONIOENCODING: utf-8
+        links:
+            - mysqldb:mysqldb
+        restart: always
+    mysqldb:
+        image: mysql:5.7
+        container_name: mysqldb
+        ports:
+            - "3306:3306"
+        volumes:
+            - ".stock/mysqldb/data:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: mysqldb
+            MYSQL_DATABASE: stock_data
+            TZ: Asia/Shanghai
+        command: [
+            '--character-set-server=utf8mb4',
+            '--collation-server=utf8mb4_general_ci',
+            '--max_connections=3000'
+        ]
+        restart: always

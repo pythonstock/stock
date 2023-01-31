@@ -1,0 +1,27 @@
+#!/bin/sh
+
+mkdir -p /data/logs
+DATETIME=`date +%Y-%m-%d:%H:%M:%S`
+
+DATE=`date +%Y-%m-%d`
+
+export PYTHONIOENCODING=utf-8
+export LANG=zh_CN.UTF-8
+export PYTHONPATH=/data/stock
+export LC_CTYPE=zh_CN.UTF-8
+
+
+echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
+#增加获得今日全部数据和大盘数据
+/usr/local/bin/python3 /data/stock/jobs/18h_daily_job.py >> /data/logs/daily.${DATE}.log
+
+
+echo "###################"$DATETIME"###################" >> /data/logs/daily.${DATE}.log
+#使用股票指标预测。
+/usr/local/bin/python3 /data/stock/jobs/guess_indicators_daily_job.py >> /data/logs/daily.${DATE}.log
+
+#清除前3天数据。
+DATE_20=`date -d '-20 days' +%Y-%m-%d`
+MONTH_20=`date -d '-20 days' +%Y-%m`
+echo "rm -f /data/cache/hist_data_cache/${MONTH_20}/${DATETIME_20}"
+rm -f /data/cache/hist_data_cache/${MONTH_20}/${DATETIME_20}
