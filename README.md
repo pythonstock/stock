@@ -1,3 +1,8 @@
+### 说明，项目迁移到了Gitee 啦
+
+项目迁移到这里了：此项目后续更新访问这里：
+https://gitee.com/pythonstock/stock
+
 ### pythonstock V2 项目简介
 
 
