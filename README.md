@@ -1,7 +1,15 @@
 ### 说明，项目迁移到了Gitee 啦
 
 项目迁移到这里了：此项目后续更新访问这里：
+
 https://gitee.com/pythonstock/stock
+
+github项目后续就Archives存档了，不再更新了！
+
+csdn的pythonstock专栏地址，相关资料都在这里有说明：
+
+https://blog.csdn.net/freewebsys/category_9285317.html
+
 
 ### pythonstock V2 项目简介
 
