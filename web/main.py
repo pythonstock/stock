@@ -87,7 +87,6 @@ def main():
     port = 9999
     http_server.listen(port)
     # tornado.options.options.logging = "debug"
-    tornado.options.parse_command_line()
 
     tornado.ioloop.IOLoop.current().start()
 
