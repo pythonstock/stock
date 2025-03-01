@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mkdir -p /data/logs
+DATE=`date +%Y-%m-%d:%H:%M:%S`
+echo $DATE >> /data/logs/1min.log

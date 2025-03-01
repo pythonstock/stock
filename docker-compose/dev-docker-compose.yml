@@ -1,0 +1,92 @@
+networks:
+  stock-dev-network:
+    driver: bridge
+
+version: "3"
+services:
+    frontend:
+        image: pythonstock/frontend-dev:latest
+        build:
+            context: .
+            dockerfile: docker/DevFrontendDockerfile
+        container_name: frontend
+        ports:
+            - "8080:8080"
+        volumes:
+        # 设置开发目录，方便开发调试
+            - "../frontend:/usr/src/app"
+        environment:
+            LANG: zh_CN.UTF-8
+            LC_CTYPE: zh_CN.UTF-8
+        restart: always
+        networks:
+            stock-dev-network: {}
+        # 入口写死，手动启动应用。
+        entrypoint: /usr/src/app/docker-entrypoint.sh
+        depends_on:
+            - backend
+    backend:
+        image: pythonstock/backend-dev:latest
+        build:
+            context: .
+            dockerfile: docker/DevBackendDockerfile
+        container_name: backend
+        ports:
+            - "8888:8888"
+            - "9090:9090"
+        volumes:
+        # 设置开发目录，方便开发调试
+            - "../backend/jobs/crontab:/var/spool/cron/crontabs/root"
+            - "../backend/jobs/cron.minutely:/etc/cron.minutely"
+            - "../backend/jobs/cron.hourly:/etc/cron.hourly"
+            - "../backend/jobs/cron.daily:/etc/cron.daily"
+            - "../backend/jobs/cron.monthly:/etc/cron.monthly"
+            - "../backend:/data/stock"
+            - "../backend/supervisor:/data/supervisor"
+            - "./data/notebooks:/data/notebooks"
+            - "./data/logs:/data/logs"
+        environment:
+            MYSQL_HOST: mysql-stock
+            MYSQL_USER: root
+            MYSQL_PWD: mysql-stock
+            MYSQL_DB: stock_data
+            MYSQL_PORT: 3306
+            LANG: zh_CN.UTF-8
+            LC_CTYPE: zh_CN.UTF-8
+            PYTHONIOENCODING: utf-8
+        restart: always
+        networks:
+            stock-dev-network: {}
+        # 入口写死，手动启动应用。
+        #entrypoint: sleep 999999d
+        depends_on:
+            - mysql-stock
+    mysql-stock:
+        # image: hub.atomgit.com/library/mysql:5.7
+        # https://hub.atomgit.com/repos/amd64/mysql
+        image: docker.m.daocloud.io/library/mysql:8
+        container_name: mysql-stock
+        # 执行命令：https://juejin.cn/s/mysql%20healthcheck%20docker-compose
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-uroot", "-pmysql-stock"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        ports:
+            - "3306:3306"
+        networks:
+            stock-dev-network: {}
+        volumes:
+            - "./mysql/my.cnf:/etc/mysql/my.cnf"
+            - "./data/mysql-stock/data:/var/lib/mysql"
+            - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+        environment:
+            MYSQL_ROOT_PASSWORD: mysql-stock
+            MYSQL_DATABASE: stock_data
+            TZ: Asia/Shanghai
+        command: [
+            '--character-set-server=utf8mb4',
+            '--collation-server=utf8mb4_general_ci',
+            '--max_connections=3000'
+        ]
+        restart: always

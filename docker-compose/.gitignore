@@ -1,0 +1,14 @@
+# C extensions
+*.so
+
+data
+.idea
+*.iml
+.DS_Store
+*.zip
+*.log
+*.pyc
+doc
+/bin
+pkg
+*.tmp

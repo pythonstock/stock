@@ -1,24 +1,38 @@
-### 说明，项目迁移到了Gitee 啦，最后一次修改，2023-06-02 执行存档
-
-项目迁移到这里了：此项目后续更新访问这里：
-
-https://gitee.com/pythonstock/stock
-
-github项目后续就Archives存档了，不再更新了！
-
-csdn的pythonstock专栏地址，相关资料都在这里有说明：
-
-https://blog.csdn.net/freewebsys/category_9285317.html
 
 
-### pythonstock V2 项目简介
-
+### pythonstock V3.0 项目简介，2025.02.28更新
 
 **特别说明：股市有风险投资需谨慎，本项目只能用于Python代码学习，股票分析，投资失败亏钱不负责，不算BUG。**
 
+**github/gitee是项目地址**
+
+github地址：
+https://github.com/pythonstock/stock
+
+gitee地址：
+https://gitee.com/pythonstock/stock
+
+**视频地址：**
+https://space.bilibili.com/52280367/lists/1923758?type=season
+
+**相关博客资料：**
+https://blog.csdn.net/freewebsys/category_9285317.html
+
+数据分析清洗使用pandas，numpy。
+http://pandas.pydata.org/
+
+数据存储到磁盘上，使用Mysql数据库。存储股票数据。
+https://pypi.python.org/pypi/mysqlclient
+
+web框架使用tornado
+http://www.tornadoweb.org/en/stable/
+
+tornado web系统
+http://docs.pythontab.com/tornado/introduction-to-tornado/
+
 ```
-项目地址：https://github.com/pythonstock/stock
-PythonStock V2 是基于Python的pandas，akshare，bokeh，tornado，stockstats，ta-lib等框架开发的全栈股票系统。
+
+PythonStock V3.0 是基于Python的pandas，akshare，bokeh，tornado，stockstats，ta-lib等框架开发的全栈股票系统。
 项目创建于2017年7月17日，每月不定期更新。
 1）可以直接使用docker直接本地部署运行，整个项目在docker hub上压缩后200MB，本地占用500MB磁盘空间。
 2）使用Docker解决了Python库安装问题，使用Mariadb（MySQL）存储数据。借助akshare抓取数据。
@@ -27,28 +41,31 @@ PythonStock V2 是基于Python的pandas，akshare，bokeh，tornado，stockstats
 5）使用tornado开发web系统，支持每日股票数据-东财，龙虎榜-个股上榜-新浪，数据中心-大宗交易行情等。
 6）数据展示系统，是通用数据展示系统，配置字典模板之后，页面自动加载数据，并完成数据展示，后续自己开发的指标数据可以加入进去。
 7）增加曲线数据分析，在查看股票中，可以直接跳转到东方财富页面查看相关信息，点击指标之后使用Bokeh将多达 17 个指标的数据绘图，进行图表展示。
-8) 2.0 最大的更新在于替换tushare库（因部分库不能使用），使用akshare进行数据抓取。
+8）2.0 最大的更新在于替换tushare库（因部分库不能使用），使用akshare进行数据抓取。
+9）3.0 主要做的是项目整合，前端使用vue开发了，后端使用API,使用docker-compose开发部署。
 
 基础库版本
 
-1，pandas使用【 1.3.5 】版本，升级了
-2，numpy使用【 1.21.5 】版本，升级了
-3，akshare使用【 1.3.50 】版本，升级了
-4，bokeh使用【 2.4.2 】版本，升级了
-5，stockstats使用【 0.3.2 】版本
+1，pandas使用【 2.2.3 】版本， 
+2，numpy使用【 2.2.1 】版本， 
+3，sqlalchemy使用【 2.0.36 】版本， 
+4，akshare使用【 1.15.59 】版本， 
+5，bokeh使用【 3.6.2 】版本， 
+6，stockstats使用【 0.3.2 】版本， 
 
 ```
 
-2.0 说明
- ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock2-001.png)
- ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock2-002.png)
 
- bokeh 绘图指标数据：
- 
-  ![image](https://raw.githubusercontent.com/pythonstock/stock/master/web/static/img/stock2-003.png)
- 
+版本3.0 说明
+
+
+ ![image](https://gitee.com/pythonstock/stock/raw/master/frontend/public/stock-001.png)
+ ![image](https://gitee.com/pythonstock/stock/raw/master/frontend/public/stock-002.png)
+ ![image](https://gitee.com/pythonstock/stock/raw/master/frontend/public/stock-003.png)
+
 
 然后根据3个指标进行股票数据计算：
+
 ```
 
 KDJ:
@@ -58,10 +75,6 @@ KDJ:
 RSI:
 1．当六日指标上升到达80时，表示股市已有超买现象，如果一旦继续上升，超过90以上时，则表示已到严重超买的警戒区，股价已形成头部，极可能在短期内反转回转。
 2．当六日强弱指标下降至20时，表示股市有超卖现象，如果一旦继续下降至10以下时则表示已到严重超卖区域，股价极可能有止跌回升的机会。
-
-CCI
-1、当CCI＞﹢100时，表明股价已经进入非常态区间——超买区间，股价的异动现象应多加关注。
-2、当CCI＜﹣100时，表明股价已经进入另一个非常态区间——超卖区间，投资者可以逢低吸纳股票。
 
 购买条件结果表：guess_indicators_lite_buy_daily
 购买条件结果表：guess_indicators_lite_sell_daily
@@ -84,72 +97,42 @@ CCI
 | 9, BOLL指标     | http://wiki.mbalib.com/wiki/BOLL   布林线指标(Bollinger Bands) |
 | 10, RSI指标     | http://wiki.mbalib.com/wiki/RSI    相对强弱指标（Relative Strength Index，简称RSI），也称相对强弱指数、相对力度指数 2）强弱指标保持高于50表示为强势市场，反之低于50表示为弱势市场。 （3）强弱指标多在70与30之间波动。当六日指标上升到达80时，表示股市已有超买现象，如果一旦继续上升，超过90以上时，则表示已到严重超买的警戒区，股价已形成头部，极可能在短期内反转回转。 |
 | 11, W%R指标     | http://wiki.mbalib.com/wiki/%E5%A8%81%E5%BB%89%E6%8C%87%E6%A0%87 威廉指数（Williams%Rate）该指数是利用摆动点来度量市场的超买超卖现象。 |
-| 12, CCI指标     | http://wiki.mbalib.com/wiki/%E9%A1%BA%E5%8A%BF%E6%8C%87%E6%A0%87 顺势指标又叫CCI指标，其英文全称为“Commodity Channel Index”， 是由美国股市分析家唐纳德·蓝伯特（Donald Lambert）所创造的，是一种重点研判股价偏离度的股市分析工具。 1、当CCI指标从下向上突破﹢100线而进入非常态区间时，表明股价脱离常态而进入异常波动阶段， 中短线应及时买入，如果有比较大的成交量配合，买入信号则更为可靠。 2、当CCI指标从上向下突破﹣100线而进入另一个非常态区间时，表明股价的盘整阶段已经结束， 将进入一个比较长的寻底过程，投资者应以持币观望为主。 CCI, default to 14 days |
-| 13, TR、ATR指标     | http://wiki.mbalib.com/wiki/%E5%9D%87%E5%B9%85%E6%8C%87%E6%A0%87   均幅指标（Average True Ranger,ATR）均幅指标（ATR）是取一定时间周期内的股价波动幅度的移动平均值，主要用于研判买卖时机。 |
+| 14, TR、ATR指标     | http://wiki.mbalib.com/wiki/%E5%9D%87%E5%B9%85%E6%8C%87%E6%A0%87   均幅指标（Average True Ranger,ATR）均幅指标（ATR）是取一定时间周期内的股价波动幅度的移动平均值，主要用于研判买卖时机。 |
 | 14, DMA指标     | http://wiki.mbalib.com/wiki/DMA   DMA指标（Different of Moving Average）又叫平行线差指标，是目前股市分析技术指标中的一种中短期指标，它常用于大盘指数和个股的研判。 DMA, difference of 10 and 50 moving average stock[‘dma’] |
 | 15, DMI，+DI，-DI，DX，ADX，ADXR指标    | http://wiki.mbalib.com/wiki/DMI    动向指数Directional Movement Index,DMI）   http://wiki.mbalib.com/wiki/ADX   平均趋向指标（Average Directional Indicator，简称ADX）   http://wiki.mbalib.com/wiki/%E5%B9%B3%E5%9D%87%E6%96%B9%E5%90%91%E6%8C%87%E6%95%B0%E8%AF%84%E4%BC%B0   平均方向指数评估（ADXR）实际是今日ADX与前面某一日的ADX的平均值。ADXR在高位与ADX同步下滑，可以增加对ADX已经调头的尽早确认。 ADXR是ADX的附属产品，只能发出一种辅助和肯定的讯号，并非入市的指标，而只需同时配合动向指标(DMI)的趋势才可作出买卖策略。 在应用时，应以ADX为主，ADXR为辅。 |
 | 16, TRIX，MATRIX指标     | http://wiki.mbalib.com/wiki/TRIX   TRIX指标又叫三重指数平滑移动平均指标（Triple Exponentially Smoothed Average） |
 | 17, VR，MAVR指标     | http://wiki.mbalib.com/wiki/%E6%88%90%E4%BA%A4%E9%87%8F%E6%AF%94%E7%8E%87   成交量比率（Volumn Ratio，VR）（简称VR），是一项通过分析股价上升日成交额（或成交量，下同）与股价下降日成交额比值， 从而掌握市场买卖气势的中期技术指标。 |
 
 
-### 使用方法（依赖docker）
 
-使用 mariadb 和 stock 两个镜像
 
-```
-mkdir -p /data/mariadb/data
-docker pull pythonstock/pythonstock:latest
-docker pull mariadb:latest
+### 项目部署放到docker-compose
 
-docker run --name mariadb -v /data/mariadb/data:/var/lib/mysql \
-    -e MYSQL_ROOT_PASSWORD=mariadb -p 3306:3306 -d mariadb:latest
 
-docker run -itd --link=mariadb --name stock  \
-    -v /data/notebooks:/data/notebooks \
-    -p 8888:8888 \
-    -p 9999:9999 \
-    pythonstock/pythonstock:latest
+```bash
+
+# 下载 docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh 
+
+# 
+curl -L "https://www.ghproxy.cn/https://github.com/docker/compose/releases/download/v2.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 ```
+  
 
-直接启动stock ，使用其他 mysql 数据库，需要配置变量方式：
+```bash
 
-```
-docker run -itd --name stock  \
-    -v /data/notebooks:/data/notebooks \
-    -p 8888:8888 \
-    -p 9999:9999 \
-    -e MYSQL_HOST=127.0.0.1 \
-    -e MYSQL_USER=root \
-    -e MYSQL_PWD=mariadb \
-    -e MYSQL_DB=stock_data \
-    pythonstock/pythonstock:latest
-```
-
-或者使用docker compose
-
-安装docker-compose
-https://www.runoob.com/docker/docker-compose.html
-
-```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-```
-
-```
+# 生产环境，编译前端部署：
 docker-compose up -d
-```
 
-要想修改文件进行调试，增加当前目录映射，加入到stock里面：
-```yaml
-        volumes:
-            - "./jobs:/data/stock/jobs"
-            - "./libs:/data/stock/libs"
-            - "./web:/data/stock/web"
+# 开发环境，node dev 方式部署：
+docker-compose -f dev-docker-compose.yml up -d
 ```
 
 进入镜像：
-```
+
+```bash
 docker exec -it stock bash 
 sh /data/stock/jobs/cron.daily/run_daily
 ```
@@ -160,25 +143,9 @@ sh /data/stock/jobs/cron.daily/run_daily
 
 ### 本地访问端口
 
-> http://localhost:9999 股票系统 
+> http://localhost:8080 股票系统前端地址 
+> http://localhost:9090 股票系统后端地址
 
-
-### 股票系统设计
-
-相关博客资料：
-https://blog.csdn.net/freewebsys/category_9285317.html
-
-数据分析清洗使用pandas，numpy。
-http://pandas.pydata.org/
-
-数据存储到磁盘上，使用Mysql数据库。存储股票数据。
-https://pypi.python.org/pypi/mysqlclient
-
-web框架使用tornado
-http://www.tornadoweb.org/en/stable/
-
-tornado web系统
-http://docs.pythontab.com/tornado/introduction-to-tornado/
 
 
 ### 架构设计
@@ -208,6 +175,50 @@ CREATE DATABASE IF NOT EXISTS `stock_data` CHARACTER SET utf8 COLLATE utf8_gener
 http://docs.sqlalchemy.org/en/latest/core/reflection.html
 
 ## 更新日志
+
+### 18 修改bug，前端使用编译nginx方式部署，修改数据库字段，解决定时任务BUG 2025-02-28
+
+存储数据格式为 double 方便进行排序，decimal 类型转换出问题。
+拆分生产部署，切换成nginx，前端进行编译构建。提高前端加载速度。
+nginx的html影射到./data/html目录，前端编译完成需要拷贝文件到html，等待完成即可。
+解决定时任务问题，需要设置权限，才可以。
+
+
+### 17 v3.0发布，前端分离，项目和部署整合到一起 2025-01-10
+
+修改接口展示空。修改数据库脚本。
+解决预测数据买和卖的脚本。
+进行缩减、计算相关添加操作。
+修改启动脚本、接口路径及配置。
+设置分页数据。增加联合主键判断。
+解决分页问题并执行查询语句。
+增加日期查询方法。
+进行数据搜索相关添加操作。
+添加配置。修改路由地址。
+解决端口映射问题及修改端口测试。
+拆分前后端，用 dockerfile 构建镜像并解决前端编译问题。
+修改开发者模式，解决本地开发启动问题。
+增加地址。增加前端开发者模式启动。
+增加每天数据跑批。进行猜工作相关添加操作。
+增加日志跑数据。升级增加展示。
+架构升级并使用 vue 的 ui 开发。
+增加 install docker 说明。
+添加 vue api。
+
+### 16 更新发布 2.1 版本进行镜像升级 2023-06-03
+
+使用新方式打包镜像，镜像大小从本地的 852MB 缩小到 597MB。
+为了支持更多 AKShare 特性，请尽快升级 Python 到 3.8 以上版本
+
+1，numpy从【 1.21.5 】升级到了【 1.21.6 】版本
+2，akshare从【 1.3.50 】升级到了【 1.10.5 】版本
+3，bokeh从【 2.4.2 】升级到了【 2.4.3 】版本
+
+根据 https://www.akshare.xyz/changelog.html 
+修改方法：
+
+1.7.99 替换 stock_sina_lhb_ggtj 成：stock_lhb_ggtj_sina
+
 
 ### 15 发布一个 2.0 的版本 - 2021-10-11
 
